@@ -18,8 +18,8 @@ describe("appReducer", () => {
 
       const result = AppReducer(initialAppState, action);
 
-      expect(result.level).toBeTruthy();
-      expect(result.level).toBe(Level.Medium);
+      expect(result.settings.level).toBeTruthy();
+      expect(result.settings.level).toBe(Level.Medium);
     });
   });
 });

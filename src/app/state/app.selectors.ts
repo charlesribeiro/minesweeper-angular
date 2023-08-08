@@ -5,5 +5,5 @@ import { userFeatureKey } from "./app.reducer";
 export const selectFeature = createFeatureSelector<IApp>(userFeatureKey);
 export const selectLevel = createSelector(
   selectFeature,
-  (appState: IApp) => appState.level,
+  (appState: IApp) => appState.settings.level,
 );

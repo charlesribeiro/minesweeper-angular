@@ -1,1 +1,8 @@
-<p>main-game works!</p>
+<table>
+    <tr *ngFor="let row of dataArray">
+      <td *ngFor="let item of row">
+        <app-cell [cell]="item"(rightClick)="rightClick(cell)" (leftClick)="leftClick(cell)"></app-cell>
+      </td>
+    </tr>
+</table>
+  

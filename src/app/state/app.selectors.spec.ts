@@ -7,7 +7,7 @@ describe("AppSelectors", () => {
   const initialState: IAppState = {
     AppState: {
       ...initialAppState,
-      level: Level.Hard,
+      settings: { ...initialAppState.settings, level: Level.Hard },
     },
   };
   const getAppState = (state: IAppState): IApp => state.AppState;
