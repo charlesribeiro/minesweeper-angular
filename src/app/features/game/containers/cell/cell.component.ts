@@ -29,6 +29,6 @@ export class CellComponent {
 
   @HostListener("click")
   clickOnMine() {
-    this.rightClick.emit(this.cell);
+    this.leftClick.emit(this.cell);
   }
 }
