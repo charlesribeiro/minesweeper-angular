@@ -17,7 +17,7 @@ export const reducer = createReducer(
   on(setGameLevel, (state, { level }) => ({
     ...state,
     level,
-  }))
+  })),
 );
 
 export function AppReducer(state: IApp | undefined, action: Action): IApp {
