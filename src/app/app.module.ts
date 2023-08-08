@@ -11,9 +11,10 @@ import { MainGameComponent } from "./features/game/components/main-game/main-gam
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { StoreModule } from "@ngrx/store";
 import { metaReducers, reducers } from "../app/state";
+import { CellComponent } from './features/game/containers/cell/cell.component';
 
 @NgModule({
-  declarations: [AppComponent, MainGameComponent],
+  declarations: [AppComponent, MainGameComponent, CellComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
