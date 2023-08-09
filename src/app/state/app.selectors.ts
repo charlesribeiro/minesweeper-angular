@@ -3,7 +3,20 @@ import { IApp } from "./app.interface";
 import { userFeatureKey } from "./app.reducer";
 
 export const selectFeature = createFeatureSelector<IApp>(userFeatureKey);
+
 export const selectLevel = createSelector(
   selectFeature,
   (appState: IApp) => appState.settings.level,
+);
+export const selectRealBoard = createSelector(
+  selectFeature,
+  (appState: IApp) => appState.realBoard.entities,
+);
+export const selectGridHeight = createSelector(
+  selectFeature,
+  (appState: IApp) => appState.settings.height,
+);
+export const selectGridWidth = createSelector(
+  selectFeature,
+  (appState: IApp) => appState.settings.width,
 );

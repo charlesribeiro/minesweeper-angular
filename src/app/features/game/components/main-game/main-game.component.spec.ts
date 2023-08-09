@@ -3,6 +3,7 @@ import { initialAppState as initialState } from "../../../../state/app.reducer";
 import { MainGameComponent } from "./main-game.component";
 import { provideMockStore } from "@ngrx/store/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { StorageService } from "../../../../services/storage.service";
 
 describe("MainGameComponent", () => {
   let component: MainGameComponent;
@@ -11,7 +12,7 @@ describe("MainGameComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MainGameComponent],
-      providers: [provideMockStore({ initialState })],
+      providers: [provideMockStore({ initialState }), StorageService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     fixture = TestBed.createComponent(MainGameComponent);

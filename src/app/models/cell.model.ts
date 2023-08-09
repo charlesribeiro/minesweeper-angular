@@ -13,6 +13,7 @@ export enum MinesInNeighborhood {
 }
 
 export enum MineStatus {
+  Pristine = "X",
   None = "0",
   Neighbor1 = "1",
   Neighbor2 = "2",

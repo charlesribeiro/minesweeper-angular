@@ -4,7 +4,9 @@ import { Component } from "@angular/core";
 import { IApp } from "src/app/state/app.interface";
 import { Level } from "../../../../models/level.model";
 import { Store } from "@ngrx/store";
-import { Cell, MineStatus } from "../../../../models/cell.model";
+import { Cell } from "../../../../models/cell.model";
+import { StorageService } from "../../../../services/storage.service";
+import { CreateLevelService } from "../../../../services/create-level.service";
 
 @Component({
   selector: "app-main-game",
@@ -12,38 +14,22 @@ import { Cell, MineStatus } from "../../../../models/cell.model";
   styleUrls: ["./main-game.component.sass"],
 })
 export class MainGameComponent {
-  constructor(private store: Store<IApp>) {
+  cells: Cell[][];
+
+  constructor(
+    private store: Store<IApp>,
+    private storage: StorageService,
+    private createLeve: CreateLevelService,
+  ) {
     this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Medium }));
+    this.createLeve.generate2DCellArray().subscribe((cells) => {
+      this.cells = cells;
+    });
   }
-
-  cell: Cell = {
-    clicked: false,
-    hasMine: true,
-    flagged: false,
-    minesInNeighborhood: 0,
-    yPos: 0,
-    xPos: 0,
-    status: MineStatus.Flagged,
-  };
-
-  cell2: Cell = {
-    clicked: false,
-    hasMine: true,
-    flagged: false,
-    minesInNeighborhood: 0,
-    yPos: 0,
-    xPos: 0,
-    status: MineStatus.None,
-  };
-
-  dataArray = [
-    [this.cell, this.cell, this.cell],
-    [this.cell2, this.cell2, this.cell],
-    [this.cell, this.cell, this.cell],
-  ];
 
   rightClick(cell: Cell): void {
     debugger;
+    this.storage.saveCache("1", ["bla"]);
   }
   leftClick(cell: Cell): void {
     debugger;

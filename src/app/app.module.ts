@@ -1,4 +1,3 @@
-/* eslint-disable sort-imports */
 import { AppComponent } from "./app.component";
 import { AppEffects } from "../app/state/app.effects";
 
@@ -11,7 +10,8 @@ import { MainGameComponent } from "./features/game/components/main-game/main-gam
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { StoreModule } from "@ngrx/store";
 import { metaReducers, reducers } from "../app/state";
-import { CellComponent } from './features/game/containers/cell/cell.component';
+import { CellComponent } from "./features/game/containers/cell/cell.component";
+import { StorageService } from "./services/storage.service";
 
 @NgModule({
   declarations: [AppComponent, MainGameComponent, CellComponent],
@@ -23,7 +23,7 @@ import { CellComponent } from './features/game/containers/cell/cell.component';
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [],
+  providers: [StorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
