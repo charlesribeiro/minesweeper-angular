@@ -1,9 +1,13 @@
 # Minesweeper
 
-This is a browser implementation of the classic game Minesweeper using Angular.
+This is a browser implementation of the classic game Minesweeper using Angular 16.
 
-This project uses Jest for unit testing.
+## Tecnnologies used
 
+* Angular 16
+* TailwindCSS with SASS
+* Redux (NgRx + RxJs)
+* Jest (jest-preset-angular)
 
 ## TL;DR
 
@@ -11,4 +15,4 @@ Make sure you have NPM and Yarn installed on your machine, install dependencies 
 
 ## Credits
 
-Thanks to eugeneloza that provided the assets here https://opengameart.org/content/minesweeper-tile-set
+Thanks to eugeneloza that provided the assets here https://opengameart.org/content/minesweeper-tile-set. Also, to the developers behind each of the imported GitHub Actions.
