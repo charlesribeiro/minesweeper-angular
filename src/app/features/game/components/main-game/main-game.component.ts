@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import * as fromAppActions from "../../../../state/app.actions";
 import * as fromAppSelectors from "../../../../state/app.selectors";
 import { Component, OnInit } from "@angular/core";
@@ -21,7 +20,7 @@ export class MainGameComponent implements OnInit {
     private store: Store<IApp>,
     private storage: StorageService,
   ) {
-    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Hard }));
+    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
     this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
   }
 
