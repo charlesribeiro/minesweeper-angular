@@ -7,6 +7,7 @@
     "build": "ng build",
     "test": "jest --watch",
     "test-coverage": "jest --collect-coverage",
+    "pretest": "rimraf dist",
     "lint": "ng lint",
     "lint:fix": "prettier --write src && ng lint --fix"
   },
@@ -58,7 +59,12 @@
     "preset": "jest-preset-angular",
     "setupFilesAfterEnv": [
       "<rootDir>/setup-jest.ts"
-    ]
+    ],
+
+  "testPathIgnorePatterns": [
+    "/node_modules/",
+    "/dist/"
+  ]
   },
   "husky": {
     "hooks": {
