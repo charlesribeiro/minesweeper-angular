@@ -26,7 +26,20 @@ jobs:
         run: yarn install
 
       - name: Run unit tests
-        run: yarn pretest && yarn test
+        run: yarn pretest && yarn test-coverage
+      
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/clover.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
 
       - name: Build
         run: yarn build
