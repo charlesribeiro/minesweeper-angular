@@ -1,15 +1,14 @@
-import { Board } from "../models/board.model";
+import { Cell } from "../models/cell.model";
 import { Level } from "../models/level.model";
 import { Settings } from "../models/settings.model";
 
-// import { CharData } from "../app/models/characterData.interface";
 export interface StoreList<T> {
-  entities: T[];
+  entities: T;
   loading: boolean;
   error: boolean;
 }
 
-export const storeListInitialState: StoreList<Board> = {
+export const storeListInitialState: StoreList<Cell[][]> = {
   entities: [],
   loading: false,
   error: false,

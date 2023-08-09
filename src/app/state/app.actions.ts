@@ -18,3 +18,14 @@ export const generate2DCellArrayFail = createAction(
   "generate2DCellArray fail action",
   props<{ message: string }>(),
 );
+
+export const toggleFlag = createAction("toggle flag", props<{ cell: Cell }>());
+
+export const setClick = createAction("set click", props<{ cell: Cell }>());
+
+export const setBoardSize = createAction(
+  "set board size action",
+  props<{ width: number; height: number }>(),
+);
+
+export const updateCell = createAction("update cell", props<{ cell: Cell }>());

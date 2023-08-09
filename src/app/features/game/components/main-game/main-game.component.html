@@ -1,5 +1,5 @@
-<table>
-    <tr *ngFor="let row of cells">
+<table class="table-auto">
+    <tr *ngFor="let row of (cells$ | async)">
       <td *ngFor="let item of row">
         <app-cell [cell]="item" (rightClick)="rightClick($event)" (leftClick)="leftClick($event)"></app-cell>
       </td>

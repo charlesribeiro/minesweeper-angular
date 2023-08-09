@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   HostListener,
@@ -11,6 +12,7 @@ import { Cell } from "src/app/models/cell.model";
   selector: "app-cell",
   templateUrl: "./cell.component.html",
   styleUrls: ["./cell.component.sass"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CellComponent {
   @Input() cell: Cell;

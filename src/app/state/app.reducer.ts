@@ -4,7 +4,12 @@ import {
   settingsInitialState,
   storeListInitialState,
 } from "../utils/store-utils";
-import { setGameLevel } from "./app.actions";
+import {
+  generate2DCellArraySuccess,
+  setBoardSize,
+  setGameLevel,
+  updateCell,
+} from "./app.actions";
 
 export const userFeatureKey = "AppState";
 
@@ -23,6 +28,33 @@ export const reducer = createReducer(
       level,
     },
   })),
+  on(setBoardSize, (state, { width, height }) => ({
+    ...state,
+    settings: { ...state.settings, width, height },
+  })),
+  on(generate2DCellArraySuccess, (state, { entities }) => ({
+    ...state,
+    realBoard: {
+      ...state.realBoard,
+      entities,
+    },
+    playerBoard: {
+      ...state.playerBoard,
+      entities,
+    },
+  })),
+  on(updateCell, (state, { cell }) => {
+    const updatedEntities = state.playerBoard.entities.map((row) => [...row]);
+    updatedEntities[cell.xPos][cell.yPos] = cell;
+
+    return {
+      ...state,
+      playerBoard: {
+        ...state.playerBoard,
+        entities: updatedEntities,
+      },
+    };
+  }),
 );
 
 export function AppReducer(state: IApp | undefined, action: Action): IApp {
