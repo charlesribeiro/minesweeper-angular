@@ -1,20 +1,37 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from "@angular/core/testing";
 
 import { CellComponent } from "./cell.component";
 import { mockCell } from "../../../../utils/mock-cell";
 import { By } from "@angular/platform-browser";
+import { MockAnimationDriver } from "@angular/animations/browser/testing";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AnimationDriver } from "@angular/animations/browser";
+import { DebugElement } from "@angular/core";
 
 describe("CellComponent", () => {
   let component: CellComponent;
   let fixture: ComponentFixture<CellComponent>;
+  let imgElement: DebugElement;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [BrowserAnimationsModule],
+      providers: [{ provide: AnimationDriver, useClass: MockAnimationDriver }],
+      declarations: [CellComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [CellComponent],
-    });
     fixture = TestBed.createComponent(CellComponent);
     component = fixture.componentInstance;
     component.cell = mockCell;
+    imgElement = fixture.debugElement.query(By.css("img"));
 
     fixture.detectChanges();
   });
@@ -24,7 +41,6 @@ describe("CellComponent", () => {
   });
 
   it("should render correct image path", () => {
-    const imgElement = fixture.debugElement.query(By.css("img"));
     expect(imgElement.nativeElement.getAttribute("src")).toEqual(
       "/assets/MINESWEEPER_M.png",
     );
@@ -45,4 +61,8 @@ describe("CellComponent", () => {
 
     expect(component.leftClick.emit).toHaveBeenCalledWith(mockCell);
   });
+
+  it("should apply fadeIn animation", fakeAsync(() => {
+    expect(imgElement.classes["ng-trigger-fadeIn"]).toBeTruthy();
+  }));
 });
