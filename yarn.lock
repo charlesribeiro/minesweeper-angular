@@ -192,9 +192,9 @@
     "@angular-eslint/bundled-angular-compiler" "16.1.0"
     "@typescript-eslint/utils" "5.62.0"
 
-"@angular/animations@^16.1.0":
+"@angular/animations@^16.1.8":
   version "16.1.8"
-  resolved "https://registry.npmjs.org/@angular/animations/-/animations-16.1.8.tgz"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-16.1.8.tgz#3c9a5e46c1719f6f56c6e1b5d4eb077e965986f7"
   integrity sha512-aIAf8EAZomgXMF6AP0wTPAc04Cvw+nL9nkEVwQNVxMByZpcbnnqHWHokLD8es8DzlwDT+EIZS4wZMBA4XUmPyA==
   dependencies:
     tslib "^2.3.0"
