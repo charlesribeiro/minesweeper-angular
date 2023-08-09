@@ -36,7 +36,7 @@ export class AppEffects {
         this.gameService.handleLeftClick(cell).pipe(
           map((cell) => fromAppActions.updateCell({ cell })),
           catchError(({ message }) =>
-            of(fromAppActions.generate2DCellArrayFail({ message })),
+            of(fromAppActions.clickCellFail({ message })),
           ),
         ),
       ),
@@ -49,7 +49,7 @@ export class AppEffects {
         this.gameService.handleRightClick(cell).pipe(
           map((cell) => fromAppActions.updateCell({ cell })),
           catchError(({ message }) =>
-            of(fromAppActions.generate2DCellArrayFail({ message })),
+            of(fromAppActions.clickCellFail({ message })),
           ),
         ),
       ),

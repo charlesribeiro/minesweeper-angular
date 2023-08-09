@@ -32,3 +32,8 @@ export const setBoardSize = createAction(
 );
 
 export const updateCell = createAction("update cell", props<{ cell: Cell }>());
+
+export const clickCellFail = createAction(
+  "click cell fail action",
+  props<{ message: string }>(),
+);

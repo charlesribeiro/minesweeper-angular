@@ -111,7 +111,6 @@ export class GameService {
     }
 
     if (totalMines == 0) {
-      //
     }
     return totalMines;
   }
