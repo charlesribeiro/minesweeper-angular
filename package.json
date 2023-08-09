@@ -8,7 +8,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --collect-coverage",
-    "pretest": "rimraf dist",
+    "test-json": "jest --coverage --coverageReporters json-summary",
+    "pretest": "rimraf dist && rimraf coverage",
     "lint": "ng lint",
     "lint:fix": "prettier --write src && ng lint --fix"
   },

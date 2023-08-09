@@ -1,0 +1,57 @@
+name: Angular Actions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+
+      - name: GitHub Action for Yarn
+        uses: Borales/actions-yarn@v4.2.0
+        with:
+          cmd: install
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run unit tests
+        run: yarn pretest && yarn test-json
+    
+      - name: Jest Coverage Comment
+        id: coverageComment
+        uses: MishaKav/jest-coverage-comment@main
+        with:
+          hide-comment: true
+          coverage-summary-path: coverage/coverage-summary.json
+
+      - name: Check the output coverage
+        run: |
+          echo "Coverage Percentage - ${{ steps.coverageComment.outputs.coverage }}"
+          echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
+          echo "Summary HTML - ${{ steps.coverageComment.outputs.summaryHtml }}"
+
+      - name: Create the badge
+        if: github.ref == 'refs/heads/main'
+        uses: schneegans/dynamic-badges-action@v1.6.0
+        with:
+         auth: ${{ secrets.JEST_COVERAGE_COMMENT }}
+         gistID: 5e90d640f8c212ab7bbac38f72323f80
+         filename: jest-coverage-comment__main.json
+         label: Coverage
+         message: ${{ steps.coverageComment.outputs.coverage }}%
+         color: ${{ steps.coverageComment.outputs.color }}
+         namedLogo: javascript
+      
+      - name: Build
+        run: yarn build
