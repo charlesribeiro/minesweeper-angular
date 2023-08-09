@@ -29,11 +29,24 @@ export class AppEffects {
       ),
     ),
   );
-  click$ = createEffect(() =>
+  leftclick$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fromAppActions.setClick),
+      ofType(fromAppActions.setLeftClick),
       mergeMap(({ cell }) =>
-        this.gameService.handleClick(cell).pipe(
+        this.gameService.handleLeftClick(cell).pipe(
+          map((cell) => fromAppActions.updateCell({ cell })),
+          catchError(({ message }) =>
+            of(fromAppActions.generate2DCellArrayFail({ message })),
+          ),
+        ),
+      ),
+    ),
+  );
+  rightClick$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromAppActions.setRightClick),
+      mergeMap(({ cell }) =>
+        this.gameService.handleRightClick(cell).pipe(
           map((cell) => fromAppActions.updateCell({ cell })),
           catchError(({ message }) =>
             of(fromAppActions.generate2DCellArrayFail({ message })),

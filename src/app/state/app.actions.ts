@@ -19,9 +19,12 @@ export const generate2DCellArrayFail = createAction(
   props<{ message: string }>(),
 );
 
-export const toggleFlag = createAction("toggle flag", props<{ cell: Cell }>());
+export const setRightClick = createAction(
+  "right click",
+  props<{ cell: Cell }>(),
+);
 
-export const setClick = createAction("set click", props<{ cell: Cell }>());
+export const setLeftClick = createAction("left click", props<{ cell: Cell }>());
 
 export const setBoardSize = createAction(
   "set board size action",

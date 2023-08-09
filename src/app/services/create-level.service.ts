@@ -31,7 +31,7 @@ export class CreateLevelService {
   private generateRandomCell(xPos: number, yPos: number): Cell {
     return {
       clicked: false,
-      hasMine: Math.random() < 0.1 * this.level,
+      hasMine: Math.random() < 0.05 * this.level,
       flagged: false,
       minesInNeighborhood: MinesInNeighborhood.None,
       xPos: xPos,

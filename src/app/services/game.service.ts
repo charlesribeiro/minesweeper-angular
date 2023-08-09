@@ -33,7 +33,11 @@ export class GameService {
       .subscribe((realCells: Cell[][]) => (this.realCells = realCells));
   }
 
-  handleClick(selectedCell: Cell): Observable<Cell> {
+  handleLeftClick(selectedCell: Cell): Observable<Cell> {
+    if (selectedCell.status === MineStatus.Flagged) {
+      return of(selectedCell);
+    }
+
     if (selectedCell.hasMine) {
       return of({ ...selectedCell, status: MineStatus.Mine });
     }
@@ -42,6 +46,17 @@ export class GameService {
       ...selectedCell,
       status: this.getStatus(selectedCell),
     });
+  }
+
+  handleRightClick(selectedCell: Cell): Observable<Cell> {
+    if (selectedCell.status === MineStatus.Pristine) {
+      return of({ ...selectedCell, status: MineStatus.Flagged });
+    }
+
+    if (selectedCell.status === MineStatus.Flagged) {
+      return of({ ...selectedCell, status: MineStatus.Pristine });
+    }
+    return of(selectedCell);
   }
 
   getMinesInNeighborhood(selectedCell: Cell): number {
@@ -95,6 +110,9 @@ export class GameService {
       totalMines++;
     }
 
+    if (totalMines == 0) {
+      //
+    }
     return totalMines;
   }
 
