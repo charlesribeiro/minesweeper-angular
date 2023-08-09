@@ -1,6 +1,6 @@
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from "./app.component";
 import { AppEffects } from "../app/state/app.effects";
-
 import { AppRoutingModule } from "./app-routing.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { EffectsModule } from "@ngrx/effects";
@@ -17,6 +17,7 @@ import { StorageService } from "./services/storage.service";
   declarations: [AppComponent, MainGameComponent, CellComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     EffectsModule.forRoot([AppEffects]),
     HttpClientModule,
