@@ -4,17 +4,19 @@ import { AppReducer, initialAppState, reducer } from "./app.reducer";
 import { Level } from "../models/level.model";
 import { mockBoard } from "../utils/mock-board";
 import { mockCell } from "../utils/mock-cell";
+import { GameStatus } from "../models/gameStatus.model";
 
 describe("appReducer", () => {
-  describe("getCharactersAll", () => {
+  describe("an unknown action", () => {
     it("should return to previous state", () => {
-      const action = {} as Action;
+      const action = {} as unknown as Action;
 
       const result = reducer(initialAppState, action);
 
       expect(result).toBe(initialAppState);
     });
-
+  });
+  describe("setGameLevel", () => {
     it("should set level properly", () => {
       const action = fromAppActions.setGameLevel({ level: Level.Medium });
 
@@ -22,6 +24,17 @@ describe("appReducer", () => {
 
       expect(result.settings.level).toBeTruthy();
       expect(result.settings.level).toBe(Level.Medium);
+    });
+  });
+
+  describe("startGame", () => {
+    it("should set game in progress flag", () => {
+      const action = fromAppActions.startGame();
+
+      const result = AppReducer(initialAppState, action);
+
+      expect(result.playerBoard.gameStatus).toBeTruthy();
+      expect(result.playerBoard.gameStatus).toBe(GameStatus.IN_PROGRESS);
     });
   });
 
@@ -75,6 +88,17 @@ describe("appReducer", () => {
       const newState = AppReducer(initialAppState, action);
 
       expect(newState.playerBoard.error).toBeTruthy();
+    });
+  });
+
+  describe("gameOver", () => {
+    it("should set game status as Game Over", () => {
+      const action = fromAppActions.gameOver();
+
+      const result = AppReducer(initialAppState, action);
+
+      expect(result.playerBoard.gameStatus).toBeTruthy();
+      expect(result.playerBoard.gameStatus).toBe(GameStatus.LOST);
     });
   });
 });

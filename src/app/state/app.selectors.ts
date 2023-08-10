@@ -16,6 +16,10 @@ export const selectPlayerBoard = createSelector(
   selectFeature,
   (appState: IApp) => appState?.playerBoard.entities,
 );
+export const selectGameStatus = createSelector(
+  selectFeature,
+  (appState: IApp) => appState?.playerBoard.gameStatus,
+);
 export const selectGridHeight = createSelector(
   selectFeature,
   (appState: IApp) => appState.settings.height,

@@ -1,3 +1,4 @@
+import { GameStatus } from "../models/gameStatus.model";
 import { Level } from "../models/level.model";
 import { PlayerBoard } from "../models/playerBoard.model";
 import { RealBoard } from "../models/realBoard.model";
@@ -11,7 +12,7 @@ export const realBoardInitialState: RealBoard = {
 
 export const playerBoardInitialState: PlayerBoard = {
   ...realBoardInitialState,
-  gameOver: false,
+  gameStatus: GameStatus.NOT_PLAYING,
 };
 
 export const settingsInitialState: Settings = {

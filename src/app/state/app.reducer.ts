@@ -12,7 +12,9 @@ import {
   setBoardSize,
   setGameLevel,
   updateCell,
+  startGame,
 } from "./app.actions";
+import { GameStatus } from "../models/gameStatus.model";
 
 export const userFeatureKey = "AppState";
 
@@ -46,6 +48,13 @@ export const reducer = createReducer(
       entities,
     },
   })),
+  on(startGame, (state) => ({
+    ...state,
+    playerBoard: {
+      ...state.playerBoard,
+      gameStatus: GameStatus.IN_PROGRESS,
+    },
+  })),
   on(updateCell, (state, { cell }) => {
     const updatedEntities = state.playerBoard.entities.map((row) => [...row]);
     updatedEntities[cell.xPos][cell.yPos] = cell;
@@ -69,7 +78,7 @@ export const reducer = createReducer(
     ...state,
     playerBoard: {
       ...state.playerBoard,
-      gameOver: true,
+      gameStatus: GameStatus.LOST,
     },
   })),
 );

@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import * as fromAppActions from "../state/app.actions";
 import { CreateLevelService } from "../services/create-level.service";
 import { GameService } from "../services/game.service";
-
 import { mergeMap, map, catchError, concatMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { Cell } from "../models/cell.model";
@@ -21,9 +20,7 @@ export class AppEffects {
       ofType(fromAppActions.startGame),
       mergeMap(() =>
         this.createLevelService.createMatrix().pipe(
-          map((entities) =>
-            fromAppActions.createMatrixSuccess({ entities }),
-          ),
+          map((entities) => fromAppActions.createMatrixSuccess({ entities })),
           catchError(({ message }) =>
             of(fromAppActions.createMatrixFail({ message })),
           ),

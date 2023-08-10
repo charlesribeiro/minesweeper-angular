@@ -1,3 +1,4 @@
+import { GameStatus } from "../models/gameStatus.model";
 import { Level } from "../models/level.model";
 import { IApp, IAppState } from "./app.interface";
 import { initialAppState } from "./app.reducer";
@@ -18,5 +19,12 @@ describe("AppSelectors", () => {
     );
 
     expect(result).toEqual(Level.Hard);
+  });
+  it("should select current game status", () => {
+    const result = fromAppSelectors.selectGameStatus.projector(
+      getAppState(initialState),
+    );
+
+    expect(result).toEqual(GameStatus.NOT_PLAYING);
   });
 });
