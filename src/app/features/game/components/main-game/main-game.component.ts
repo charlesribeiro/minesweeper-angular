@@ -1,51 +1,48 @@
-/* eslint-disable no-unused-vars */
 import * as fromAppActions from "../../../../state/app.actions";
-import { Component } from "@angular/core";
+import * as fromAppSelectors from "../../../../state/app.selectors";
+import { Component, OnInit } from "@angular/core";
 import { IApp } from "src/app/state/app.interface";
-import { Level } from "../../../../models/level.model";
 import { Store } from "@ngrx/store";
-import { Cell, MineStatus } from "../../../../models/cell.model";
+import { Cell } from "../../../../models/cell.model";
+import { StorageService } from "../../../../services/storage.service";
+import { Observable } from "rxjs";
+import { Level } from "../../../../models/level.model";
+import { GameStatus } from "../../../../models/gameStatus.model";
 
 @Component({
   selector: "app-main-game",
   templateUrl: "./main-game.component.html",
-  styleUrls: ["./main-game.component.sass"],
 })
-export class MainGameComponent {
-  constructor(private store: Store<IApp>) {
-    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Medium }));
+export class MainGameComponent implements OnInit {
+  cells$: Observable<Cell[][]>;
+  gameStatus$: Observable<GameStatus>;
+  noPristine$: Observable<boolean>;
+  flagsLeft$: Observable<number>;
+
+  readonly GAMEOVER = GameStatus.LOST;
+
+  constructor(
+    private store: Store<IApp>,
+    private storage: StorageService,
+  ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
+    this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
+    this.store.dispatch(fromAppActions.startGame());
+    this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
+    this.gameStatus$ = this.store.select(fromAppSelectors.selectGameStatus);
+    this.noPristine$ = this.store.select(
+      fromAppSelectors.selectPlayerBoardWithoutPristineCells,
+    );
+
+    this.flagsLeft$ = this.store.select(fromAppSelectors.selectFlagsLeft);
   }
-
-  cell: Cell = {
-    clicked: false,
-    hasMine: true,
-    flagged: false,
-    minesInNeighborhood: 0,
-    yPos: 0,
-    xPos: 0,
-    status: MineStatus.Flagged,
-  };
-
-  cell2: Cell = {
-    clicked: false,
-    hasMine: true,
-    flagged: false,
-    minesInNeighborhood: 0,
-    yPos: 0,
-    xPos: 0,
-    status: MineStatus.None,
-  };
-
-  dataArray = [
-    [this.cell, this.cell, this.cell],
-    [this.cell2, this.cell2, this.cell],
-    [this.cell, this.cell, this.cell],
-  ];
 
   rightClick(cell: Cell): void {
-    debugger;
+    this.store.dispatch(fromAppActions.setRightClick({ cell }));
   }
   leftClick(cell: Cell): void {
-    debugger;
+    this.store.dispatch(fromAppActions.setLeftClick({ cell }));
   }
 }

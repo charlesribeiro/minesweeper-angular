@@ -1,5 +1,6 @@
 import { trigger, transition, style, animate } from "@angular/animations";
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   HostListener,
@@ -11,7 +12,7 @@ import { Cell } from "src/app/models/cell.model";
 @Component({
   selector: "app-cell",
   templateUrl: "./cell.component.html",
-  styleUrls: ["./cell.component.sass"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger("fadeIn", [
       transition(":enter", [

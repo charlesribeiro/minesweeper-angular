@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { StoreModule } from "@ngrx/store";
 import { metaReducers, reducers } from "../app/state";
 import { CellComponent } from "./features/game/containers/cell/cell.component";
+import { StorageService } from "./services/storage.service";
 
 @NgModule({
   declarations: [AppComponent, MainGameComponent, CellComponent],
@@ -23,6 +24,7 @@ import { CellComponent } from "./features/game/containers/cell/cell.component";
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
+  providers: [StorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

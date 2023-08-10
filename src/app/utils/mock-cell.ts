@@ -1,11 +1,29 @@
-import { Cell, MineStatus, MinesInNeighborhood } from "../models/cell.model";
+import { Cell, MineStatus } from "../models/cell.model";
 
 export const mockCell: Cell = {
-  clicked: false,
+  hasMine: true,
+  xPos: 1,
+  yPos: 1,
+  status: MineStatus.Mine,
+};
+
+export const mockPristineCellWithoutMine: Cell = {
   hasMine: false,
-  minesInNeighborhood: MinesInNeighborhood.None,
-  flagged: false,
   xPos: 0,
   yPos: 0,
-  status: MineStatus.Mine,
+  status: MineStatus.Pristine,
+};
+
+export const mockCellWith1MineNeighbor: Cell = {
+  hasMine: false,
+  xPos: 0,
+  yPos: 0,
+  status: MineStatus.Neighbor1,
+};
+
+export const mockCellWithFlag: Cell = {
+  hasMine: false,
+  xPos: 0,
+  yPos: 0,
+  status: MineStatus.Flagged,
 };
