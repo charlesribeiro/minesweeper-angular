@@ -28,7 +28,6 @@ export class MainGameComponent implements OnInit {
   }
 
   rightClick(cell: Cell): void {
-    // this.storage.saveCache("1", ["bla"]);
     this.store.dispatch(fromAppActions.setRightClick({ cell }));
   }
   leftClick(cell: Cell): void {

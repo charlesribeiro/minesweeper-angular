@@ -35,9 +35,9 @@ describe("appReducer", () => {
     });
   });
 
-  describe("generate2DCellArraySuccess", () => {
+  describe("createMatrixSuccess", () => {
     it("should update the realBoard and playerBoard entities", () => {
-      const action = fromAppActions.generate2DCellArraySuccess({
+      const action = fromAppActions.createMatrixSuccess({
         entities: mockBoard,
       });
       const newState = AppReducer(initialAppState, action);

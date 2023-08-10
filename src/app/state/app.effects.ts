@@ -20,12 +20,12 @@ export class AppEffects {
     this.actions$.pipe(
       ofType(fromAppActions.startGame),
       mergeMap(() =>
-        this.createLevelService.generate2DCellArray().pipe(
+        this.createLevelService.createMatrix().pipe(
           map((entities) =>
-            fromAppActions.generate2DCellArraySuccess({ entities }),
+            fromAppActions.createMatrixSuccess({ entities }),
           ),
           catchError(({ message }) =>
-            of(fromAppActions.generate2DCellArrayFail({ message })),
+            of(fromAppActions.createMatrixFail({ message })),
           ),
         ),
       ),

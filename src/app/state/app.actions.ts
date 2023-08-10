@@ -3,39 +3,45 @@ import { Level } from "../models/level.model";
 import { Cell } from "../models/cell.model";
 
 export const setGameLevel = createAction(
-  "set game level",
+  "[Game] set game level",
   props<{ level: Level }>(),
 );
 
-export const startGame = createAction("start game");
+export const startGame = createAction("[Game] start game");
 
-export const generate2DCellArraySuccess = createAction(
-  "generate2DCellArray success",
+export const createMatrixSuccess = createAction(
+  "[Game] create matrix success",
   props<{ entities: Cell[][] }>(),
 );
 
-export const generate2DCellArrayFail = createAction(
-  "generate2DCellArray fail action",
+export const createMatrixFail = createAction(
+  "[Game] create matrix fail action",
   props<{ message: string }>(),
 );
 
 export const setRightClick = createAction(
-  "right click",
+  "[Game] right click",
   props<{ cell: Cell }>(),
 );
 
-export const setLeftClick = createAction("left click", props<{ cell: Cell }>());
+export const setLeftClick = createAction(
+  "[Game] left click",
+  props<{ cell: Cell }>(),
+);
 
 export const setBoardSize = createAction(
-  "set board size action",
+  "[Game] set board size action",
   props<{ width: number; height: number }>(),
 );
 
-export const updateCell = createAction("update cell", props<{ cell: Cell }>());
+export const updateCell = createAction(
+  "[Game] update cell",
+  props<{ cell: Cell }>(),
+);
 
 export const clickCellFail = createAction(
-  "click cell fail action",
+  "[Game] click cell fail action",
   props<{ message: string }>(),
 );
 
-export const gameOver = createAction("game over");
+export const gameOver = createAction("[Game] game over");

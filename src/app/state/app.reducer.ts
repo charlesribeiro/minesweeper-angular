@@ -8,7 +8,7 @@ import {
 import {
   clickCellFail,
   gameOver,
-  generate2DCellArraySuccess,
+  createMatrixSuccess,
   setBoardSize,
   setGameLevel,
   updateCell,
@@ -35,7 +35,7 @@ export const reducer = createReducer(
     ...state,
     settings: { ...state.settings, width, height },
   })),
-  on(generate2DCellArraySuccess, (state, { entities }) => ({
+  on(createMatrixSuccess, (state, { entities }) => ({
     ...state,
     realBoard: {
       ...state.realBoard,

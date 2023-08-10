@@ -38,7 +38,7 @@ export class CreateLevelService {
     };
   }
 
-  generate2DCellArray(): Observable<Cell[][]> {
+  createMatrix(): Observable<Cell[][]> {
     const randomBoard: Cell[][] = [];
 
     for (let i = 0; i < this.height; i++) {

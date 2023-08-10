@@ -41,14 +41,14 @@ describe("AppEffects", () => {
   });
 
   describe("startGame$", () => {
-    it("should dispatch generate2DCellArraySuccess when successful", () => {
+    it("should dispatch createMatrixSuccess when successful", () => {
       jest
-        .spyOn(createLevelService, "generate2DCellArray")
+        .spyOn(createLevelService, "createMatrix")
         .mockReturnValue(of(mockBoard));
 
       actions$ = hot("-a", { a: fromAppActions.startGame() });
       const expected = cold("-b", {
-        b: fromAppActions.generate2DCellArraySuccess({
+        b: fromAppActions.createMatrixSuccess({
           entities: mockBoard,
         }),
       });
@@ -56,14 +56,14 @@ describe("AppEffects", () => {
       expect(effects.startGame$).toBeObservable(expected);
     });
 
-    it("should dispatch generate2DCellArrayFail when there is an error", () => {
+    it("should dispatch createMatrixFail when there is an error", () => {
       jest
-        .spyOn(createLevelService, "generate2DCellArray")
+        .spyOn(createLevelService, "createMatrix")
         .mockReturnValue(throwError(new Error("Error")));
 
       actions$ = hot("-a", { a: fromAppActions.startGame() });
       const expected = cold("-b", {
-        b: fromAppActions.generate2DCellArrayFail({ message: "Error" }),
+        b: fromAppActions.createMatrixFail({ message: "Error" }),
       });
 
       expect(effects.startGame$).toBeObservable(expected);
