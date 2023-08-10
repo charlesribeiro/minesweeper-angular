@@ -7,7 +7,7 @@ import { provideMockActions } from "@ngrx/effects/testing";
 import { provideMockStore } from "@ngrx/store/testing";
 import { TestBed } from "@angular/core/testing";
 import { CreateLevelService } from "../services/create-level.service";
-import { GameService } from "../services/game.service";
+import { ClickHandlerService } from "../services/click-handler.service";
 import * as fromAppActions from "../state/app.actions";
 import { hot, cold } from "jasmine-marbles";
 import { mockBoard } from "../utils/mock-board";
@@ -21,7 +21,7 @@ describe("AppEffects", () => {
   let actions$: Observable<Action>;
   let effects: AppEffects;
   let createLevelService: CreateLevelService;
-  let gameService: GameService;
+  let gameService: ClickHandlerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,7 +37,7 @@ describe("AppEffects", () => {
   beforeEach(() => {
     effects = TestBed.inject<AppEffects>(AppEffects);
     createLevelService = TestBed.inject(CreateLevelService);
-    gameService = TestBed.inject(GameService);
+    gameService = TestBed.inject(ClickHandlerService);
   });
 
   it("should be created", () => {
@@ -76,7 +76,9 @@ describe("AppEffects", () => {
 
   describe("leftclick$", () => {
     it("should update cell when successful and set game over when clicked cell has mine", () => {
-      jest.spyOn(gameService, "handleLeftClick").mockReturnValue(of(mockCell));
+      jest
+        .spyOn(gameService, "handleLeftClick")
+        .mockReturnValue(of([mockCell]));
 
       actions$ = hot("-a", {
         a: fromAppActions.setLeftClick({ cell: mockCell }),
@@ -93,7 +95,7 @@ describe("AppEffects", () => {
     it("should update cell when successful and not set game over when clicked cell has no mine", () => {
       jest
         .spyOn(gameService, "handleLeftClick")
-        .mockReturnValue(of(mockPristineCellWithoutMine));
+        .mockReturnValue(of([mockPristineCellWithoutMine]));
 
       actions$ = hot("-a", {
         a: fromAppActions.setLeftClick({ cell: mockPristineCellWithoutMine }),

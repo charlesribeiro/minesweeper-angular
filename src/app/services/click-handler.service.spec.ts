@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 
-import { GameService } from "./game.service";
+import { ClickHandlerService } from "./click-handler.service";
 import { initialAppState as initialState } from "../state/app.reducer";
 import { provideMockStore } from "@ngrx/store/testing";
 import { Cell, MineStatus } from "../models/cell.model";
@@ -10,14 +10,14 @@ import {
   mock3x3BoardWith8Mines,
 } from "../utils/mock-board";
 
-describe("GameService", () => {
-  let service: GameService;
+describe("ClickHandlerService", () => {
+  let service: ClickHandlerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [GameService, provideMockStore({ initialState })],
+      providers: [ClickHandlerService, provideMockStore({ initialState })],
     });
-    service = TestBed.inject(GameService);
+    service = TestBed.inject(ClickHandlerService);
   });
 
   it("should be created", () => {
@@ -32,7 +32,8 @@ describe("GameService", () => {
       };
 
       service.handleLeftClick(unchangedCell).subscribe((cell) => {
-        expect(cell).toEqual(unchangedCell);
+        expect(cell.length).toEqual(1);
+        expect(cell).toEqual([unchangedCell]);
         done();
       });
     });
@@ -46,7 +47,8 @@ describe("GameService", () => {
       const expectedCell = { ...mineCell, status: MineStatus.Mine };
 
       service.handleLeftClick(mineCell).subscribe((cell) => {
-        expect(cell).toEqual(expectedCell);
+        expect(cell.length).toEqual(1);
+        expect(cell).toEqual([expectedCell]);
         done();
       });
     });
@@ -92,22 +94,16 @@ describe("GameService", () => {
     it("should return 0 when no neighboring cells have mines", () => {
       service.isCellValid = jest.fn().mockReturnValue(true);
       service.realCells = mock3x3BoardWith0Mines;
-      const result = service.getMinesInNeighborhood({
-        ...mockCell,
-        xPos: 1,
-        yPos: 1,
-      });
+      const result = service.getMinesInNeighborhood([1, 1]);
+
       expect(result).toBe(0);
     });
 
     it("should return 8 when all neighboring cells have mines", () => {
       service.isCellValid = jest.fn().mockReturnValue(true);
       service.realCells = mock3x3BoardWith8Mines;
-      const result = service.getMinesInNeighborhood({
-        ...mockCell,
-        xPos: 1,
-        yPos: 1,
-      });
+      const result = service.getMinesInNeighborhood([1, 1]);
+
       expect(result).toBe(8);
     });
   });
@@ -134,6 +130,25 @@ describe("GameService", () => {
       expect(service.isCellValid(5, 9)).toBeFalsy();
       expect(service.isCellValid(9, 9)).toBeFalsy();
       expect(service.isCellValid(10, 10)).toBeFalsy();
+    });
+  });
+
+  describe("deepSearchFirst", () => {
+    beforeEach(() => {
+      service.realCells = mock3x3BoardWith0Mines;
+      service.revealedCells = [mockCell];
+    });
+
+    it("should recurse on cells with MineStatus.None", () => {
+      service.deepSearchFirst(mockCell);
+      expect(service.revealedCells.length).toBe(2);
+    });
+
+    it("should not revisit already visited cells", () => {
+      service.deepSearchFirst(mockCell);
+      const initialVisitLength = service.revealedCells.length;
+      service.deepSearchFirst(mockCell);
+      expect(service.revealedCells.length).toEqual(initialVisitLength);
     });
   });
 });

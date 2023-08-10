@@ -1,10 +1,14 @@
-<div *ngIf="(gameStatus$ | async)===GAMEOVER">Game Over</div>
-<div>Flags left: {{(flagsLeft$ | async)}}</div>
+<div *ngIf="(gameStatus$ | async) === GAMEOVER">Game Over</div>
+<div>Flags left: {{ flagsLeft$ | async }}</div>
 
 <table class="table-auto">
-    <tr *ngFor="let row of (cells$ | async)">
-      <td *ngFor="let item of row">
-        <app-cell [cell]="item" (rightClick)="rightClick($event)" (leftClick)="leftClick($event)"></app-cell>
-      </td>
-    </tr>
+  <tr *ngFor="let row of cells$ | async">
+    <td *ngFor="let item of row">
+      <app-cell
+        [cell]="item"
+        (rightClick)="rightClick($event)"
+        (leftClick)="leftClick($event)"
+      ></app-cell>
+    </td>
+  </tr>
 </table>

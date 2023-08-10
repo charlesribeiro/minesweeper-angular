@@ -2,8 +2,8 @@ import { Cell, MineStatus } from "../models/cell.model";
 
 export const mockCell: Cell = {
   hasMine: true,
-  xPos: 0,
-  yPos: 0,
+  xPos: 1,
+  yPos: 1,
   status: MineStatus.Mine,
 };
 

@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Injectable } from "@angular/core";
 import * as fromAppActions from "../state/app.actions";
 import { CreateLevelService } from "../services/create-level.service";
-import { GameService } from "../services/game.service";
+import { ClickHandlerService } from "../services/click-handler.service";
 import {
   mergeMap,
   map,
@@ -22,7 +22,7 @@ export class AppEffects {
     private store: Store<IApp>,
     private actions$: Actions,
     private createLevelService: CreateLevelService,
-    private gameService: GameService,
+    private gameService: ClickHandlerService,
   ) {}
   startGame$ = createEffect(() =>
     this.actions$.pipe(
@@ -42,9 +42,12 @@ export class AppEffects {
       ofType(fromAppActions.setLeftClick),
       mergeMap(({ cell }) =>
         this.gameService.handleLeftClick(cell).pipe(
-          concatMap((cell: Cell) => {
+          concatMap((cells: Cell[]) => {
             const actions: Action[] = [];
-            actions.push(fromAppActions.updateCell({ cell }));
+
+            cells.forEach((cell) => {
+              actions.push(fromAppActions.updateCell({ cell }));
+            });
 
             if (cell.hasMine) {
               actions.push(fromAppActions.gameOver());
