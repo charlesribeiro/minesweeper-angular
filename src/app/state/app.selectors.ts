@@ -14,7 +14,7 @@ export const selectRealBoard = createSelector(
 );
 export const selectPlayerBoard = createSelector(
   selectFeature,
-  (appState: IApp) => appState.playerBoard.entities,
+  (appState: IApp) => appState?.playerBoard.entities,
 );
 export const selectGridHeight = createSelector(
   selectFeature,
