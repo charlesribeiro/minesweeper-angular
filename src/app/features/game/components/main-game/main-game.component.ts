@@ -5,7 +5,7 @@ import { IApp } from "src/app/state/app.interface";
 import { Store } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
 import { StorageService } from "../../../../services/storage.service";
-import { Observable } from "rxjs";
+import { Observable, combineLatest, map } from "rxjs";
 import { Level } from "../../../../models/level.model";
 import { GameStatus } from "../../../../models/gameStatus.model";
 
@@ -16,10 +16,10 @@ import { GameStatus } from "../../../../models/gameStatus.model";
 export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
   gameStatus$: Observable<GameStatus>;
-  noPristine$: Observable<boolean>;
   flagsLeft$: Observable<number>;
 
   readonly GAMEOVER = GameStatus.LOST;
+  readonly WON = GameStatus.WON;
 
   constructor(
     private store: Store<IApp>,
@@ -32,11 +32,13 @@ export class MainGameComponent implements OnInit {
     this.store.dispatch(fromAppActions.startGame());
     this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
     this.gameStatus$ = this.store.select(fromAppSelectors.selectGameStatus);
-    this.noPristine$ = this.store.select(
-      fromAppSelectors.selectPlayerBoardWithoutPristineCells,
-    );
 
-    this.flagsLeft$ = this.store.select(fromAppSelectors.selectFlagsLeft);
+    this.flagsLeft$ = combineLatest([
+      this.store.select(fromAppSelectors.selectCountOfCellsWithMines),
+      this.store.select(fromAppSelectors.selectCountOfFlaggedCells),
+    ]).pipe(
+      map(([totalMines, flagsAlreadyUsed]) => totalMines - flagsAlreadyUsed),
+    );
   }
 
   rightClick(cell: Cell): void {

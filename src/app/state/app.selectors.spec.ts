@@ -3,6 +3,7 @@ import { Level } from "../models/level.model";
 import {
   mock3x3BoardGameInProgress,
   mock3x3BoardGameWon,
+  mock3x3BoardWith8Mines,
 } from "../utils/mock-board";
 import { IApp, IAppState } from "./app.interface";
 import { initialAppState } from "./app.reducer";
@@ -19,7 +20,7 @@ describe("AppSelectors", () => {
   const getAppState = (state: IAppState): IApp => state.AppState;
 
   it("should select current game level", () => {
-    const result = fromAppSelectors.selectLevel.projector(
+    const result = fromAppSelectors.selectSettingsLevel.projector(
       getAppState(initialState),
     );
 
@@ -67,6 +68,31 @@ describe("AppSelectors", () => {
       fromAppSelectors.selectPlayerBoardWithoutPristineCells.projector(
         mockState,
       );
-    expect(result).toEqual(false); // contains pristine cells in the mock data
+    expect(result).toEqual(false);
+  });
+  it("should return the count of flagged cells", () => {
+    const mockState: IApp = {
+      ...initialAppState,
+      playerBoard: {
+        ...initialAppState.playerBoard,
+        entities: mock3x3BoardGameInProgress,
+      },
+    };
+    const result =
+      fromAppSelectors.selectCountOfFlaggedCells.projector(mockState);
+    expect(result).toEqual(1);
+  });
+
+  it("should return the count of cells with mines", () => {
+    const mockState: IApp = {
+      ...initialAppState,
+      playerBoard: {
+        ...initialAppState.playerBoard,
+        entities: mock3x3BoardWith8Mines,
+      },
+    };
+    const result =
+      fromAppSelectors.selectCountOfCellsWithMines.projector(mockState);
+    expect(result).toEqual(8);
   });
 });

@@ -2,8 +2,8 @@ import { TestBed } from "@angular/core/testing";
 import { CreateLevelService } from "./create-level.service";
 import { provideMockStore } from "@ngrx/store/testing";
 import { initialAppState as initialState } from "../state/app.reducer";
-import { MineStatus } from "../models/cell.model";
-import { Level } from "../models/level.model";
+import { mockCell } from "../utils/mock-cell";
+import { Cell } from "../models/cell.model";
 
 describe("CreateLevelService", () => {
   let service: CreateLevelService;
@@ -48,36 +48,34 @@ describe("CreateLevelService", () => {
     });
   });
 
-  describe("generateRandomCell", () => {
-    it("should generate a cell with given xPos and yPos", () => {
-      const cell = service.generateRandomCell(1, 2);
-      expect(cell.xPos).toBe(1);
-      expect(cell.yPos).toBe(2);
-      expect(cell.status).toBe(MineStatus.Pristine);
+  describe("setCoordinates", () => {
+    it("should set the correct coordinates for a cell", () => {
+      const result = service.setCoordinates({ ...mockCell }, 2, 3);
+      expect(result.xPos).toEqual(2);
+      expect(result.yPos).toEqual(3);
     });
+  });
 
-    it("should generate a cell with a mine based on controlled randomness", () => {
-      const originalRandom = Math.random;
-      Math.random = jest.fn().mockReturnValue(0);
-      service.level = Level.Easy;
-
-      const cell = service.generateRandomCell(1, 2);
-
-      expect(cell.hasMine).toBe(true);
-
-      Math.random = originalRandom;
+  describe("fisherYatesShuffle", () => {
+    it("should shuffle an array of cells", () => {
+      const cells: Cell[] = [mockCell, mockCell, mockCell];
+      const shuffledCells = service.fisherYatesShuffle([...cells]);
+      expect(shuffledCells.length).toEqual(cells.length);
     });
+  });
 
-    it("should generate a cell without a mine based on controlled randomness", () => {
-      const originalRandom = Math.random;
-      Math.random = jest.fn().mockReturnValue(1);
-      service.level = Level.Easy;
+  describe("generateArrayOfMineCells", () => {
+    beforeEach(() => {
+      service.height = 2;
+      service.width = 2;
+      service.totalMines = 2;
+    });
+    it("should generate an array of mine cells", () => {
+      const cells = service.generateArrayOfMineCells([]);
+      expect(cells.length).toEqual(service.height * service.width);
 
-      const cell = service.generateRandomCell(1, 2);
-
-      expect(cell.hasMine).toBe(false);
-
-      Math.random = originalRandom;
+      const mineCells = cells.filter((cell) => cell.hasMine);
+      expect(mineCells.length).toEqual(service.totalMines);
     });
   });
 });

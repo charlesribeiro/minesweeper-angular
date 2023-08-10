@@ -51,6 +51,8 @@ export class AppEffects {
 
             if (cell.hasMine) {
               actions.push(fromAppActions.gameOver());
+            } else {
+              actions.push(fromAppActions.checkForWin());
             }
 
             return of(...actions);
@@ -65,18 +67,13 @@ export class AppEffects {
   rightClick$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromAppActions.setRightClick),
-      withLatestFrom(this.store.pipe(select(fromAppSelectors.selectFlagsLeft))),
-      mergeMap(([{ cell }, flagsLeft]) =>
+      mergeMap(({ cell }) =>
         this.gameService.handleRightClick(cell).pipe(
           concatMap((cell: Cell) => {
             const actions: Action[] = [];
             actions.push(fromAppActions.updateCell({ cell }));
 
-            if (cell.status === MineStatus.Flagged) {
-              actions.push(fromAppActions.decreaseFlagLeftCount());
-            } else {
-              actions.push(fromAppActions.increaseFlagLeftCount());
-            }
+            actions.push(fromAppActions.checkForWin());
 
             return of(...actions);
           }),
@@ -85,6 +82,24 @@ export class AppEffects {
           ),
         ),
       ),
+    ),
+  );
+  checkForWin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromAppActions.checkForWin),
+      withLatestFrom(
+        this.store.pipe(select(fromAppSelectors.selectCountOfFlaggedCells)),
+        this.store.pipe(select(fromAppSelectors.selectCountOfCellsWithMines)),
+        this.store.pipe(
+          select(fromAppSelectors.selectPlayerBoardWithoutPristineCells),
+        ),
+      ),
+      mergeMap(([, flaggedCells, cellsWithMines, allCellsAreDecided]) => {
+        if (flaggedCells === cellsWithMines && allCellsAreDecided) {
+          return of(fromAppActions.wonGame());
+        }
+        return of(fromAppActions.continueGame());
+      }),
     ),
   );
 }

@@ -20,5 +20,5 @@ export const settingsInitialState: Settings = {
   level: Level.Easy,
   width: 9,
   height: 9,
-  totalMines: 10,
+  totalMines: 3,
 };

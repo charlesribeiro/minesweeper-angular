@@ -4,11 +4,13 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { initialAppState as initialState } from "../state/app.reducer";
 import { Observable, of, throwError } from "rxjs";
 import { provideMockActions } from "@ngrx/effects/testing";
-import { provideMockStore } from "@ngrx/store/testing";
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { TestBed } from "@angular/core/testing";
 import { CreateLevelService } from "../services/create-level.service";
 import { ClickHandlerService } from "../services/click-handler.service";
 import * as fromAppActions from "../state/app.actions";
+import * as fromAppSelectors from "../state/app.selectors";
+
 import { hot, cold } from "jasmine-marbles";
 import { mockBoard } from "../utils/mock-board";
 import {
@@ -16,12 +18,14 @@ import {
   mockCellWithFlag,
   mockPristineCellWithoutMine,
 } from "../utils/mock-cell";
+import { IApp } from "./app.interface";
 
 describe("AppEffects", () => {
   let actions$: Observable<Action>;
   let effects: AppEffects;
   let createLevelService: CreateLevelService;
   let gameService: ClickHandlerService;
+  let store: MockStore<IApp>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,6 +41,7 @@ describe("AppEffects", () => {
   beforeEach(() => {
     effects = TestBed.inject<AppEffects>(AppEffects);
     createLevelService = TestBed.inject(CreateLevelService);
+    store = TestBed.inject(MockStore);
     gameService = TestBed.inject(ClickHandlerService);
   });
 
@@ -100,10 +105,11 @@ describe("AppEffects", () => {
       actions$ = hot("-a", {
         a: fromAppActions.setLeftClick({ cell: mockPristineCellWithoutMine }),
       });
-      const expected = cold("-b", {
+      const expected = cold("-(bc)", {
         b: fromAppActions.updateCell({
           cell: mockPristineCellWithoutMine,
         }),
+        c: fromAppActions.checkForWin(),
       });
       expect(effects.leftclick$).toBeObservable(expected);
     });
@@ -134,7 +140,7 @@ describe("AppEffects", () => {
         b: fromAppActions.updateCell({
           cell: mockCell,
         }),
-        c: fromAppActions.increaseFlagLeftCount(),
+        c: fromAppActions.checkForWin(),
       });
       expect(effects.rightClick$).toBeObservable(expected);
     });
@@ -151,7 +157,7 @@ describe("AppEffects", () => {
         b: fromAppActions.updateCell({
           cell: mockCellWithFlag,
         }),
-        c: fromAppActions.decreaseFlagLeftCount(),
+        c: fromAppActions.checkForWin(),
       });
       expect(effects.rightClick$).toBeObservable(expected);
     });
@@ -168,6 +174,37 @@ describe("AppEffects", () => {
         b: fromAppActions.clickCellFail({ message: "Error" }),
       });
       expect(effects.rightClick$).toBeObservable(expected);
+    });
+  });
+  describe("checkForWin$", () => {
+    it("should dispatch wonGame action when win condition is met", () => {
+      actions$ = hot("-a", { a: fromAppActions.checkForWin() });
+
+      store.overrideSelector(fromAppSelectors.selectCountOfFlaggedCells, 5);
+      store.overrideSelector(fromAppSelectors.selectCountOfCellsWithMines, 5);
+      store.overrideSelector(
+        fromAppSelectors.selectPlayerBoardWithoutPristineCells,
+        true,
+      );
+
+      const expected = cold("-b", { b: fromAppActions.wonGame() });
+
+      expect(effects.checkForWin$).toBeObservable(expected);
+    });
+
+    it("should dispatch continueGame action when win condition is not met", () => {
+      actions$ = hot("-a", { a: fromAppActions.checkForWin() });
+
+      store.overrideSelector(fromAppSelectors.selectCountOfFlaggedCells, 5);
+      store.overrideSelector(fromAppSelectors.selectCountOfCellsWithMines, 4);
+      store.overrideSelector(
+        fromAppSelectors.selectPlayerBoardWithoutPristineCells,
+        true,
+      );
+
+      const expected = cold("-b", { b: fromAppActions.continueGame() });
+
+      expect(effects.checkForWin$).toBeObservable(expected);
     });
   });
 });

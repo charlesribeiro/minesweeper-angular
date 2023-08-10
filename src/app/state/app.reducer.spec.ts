@@ -102,41 +102,25 @@ describe("appReducer", () => {
     });
   });
 
-  describe("decreaseFlagLeftCount", () => {
-    it("should decrease the flagsLeft count by 1", () => {
-      const initialFlagsLeft = 5;
-      const initialState = {
-        ...initialAppState,
-        playerBoard: {
-          ...initialAppState.playerBoard,
-          flagsLeft: initialFlagsLeft,
-        },
-      };
+  describe("continueGame", () => {
+    it("should set game status as in progress", () => {
+      const action = fromAppActions.continueGame();
 
-      const action = fromAppActions.decreaseFlagLeftCount();
+      const result = AppReducer(initialAppState, action);
 
-      const result = AppReducer(initialState, action);
-
-      expect(result.playerBoard.flagsLeft).toEqual(initialFlagsLeft - 1);
+      expect(result.playerBoard.gameStatus).toBeTruthy();
+      expect(result.playerBoard.gameStatus).toBe(GameStatus.IN_PROGRESS);
     });
   });
 
-  describe("increaseFlagLeftCount", () => {
-    it("should increase the flagsLeft count by 1", () => {
-      const initialFlagsLeft = 5;
-      const initialState = {
-        ...initialAppState,
-        playerBoard: {
-          ...initialAppState.playerBoard,
-          flagsLeft: initialFlagsLeft,
-        },
-      };
+  describe("wonGame", () => {
+    it("should set game status as in WON", () => {
+      const action = fromAppActions.wonGame();
 
-      const action = fromAppActions.increaseFlagLeftCount();
+      const result = AppReducer(initialAppState, action);
 
-      const result = AppReducer(initialState, action);
-
-      expect(result.playerBoard.flagsLeft).toEqual(initialFlagsLeft + 1);
+      expect(result.playerBoard.gameStatus).toBeTruthy();
+      expect(result.playerBoard.gameStatus).toBe(GameStatus.WON);
     });
   });
 });
