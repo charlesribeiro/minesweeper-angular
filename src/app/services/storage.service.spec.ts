@@ -17,4 +17,16 @@ describe("StorageService", () => {
   it("should be created", () => {
     expect(service).toBeTruthy();
   });
+
+  describe("saveCache", () => {
+    it('should save value to localStorage with provided key prefixed by "minesweeper "', () => {
+      const key = "testKey";
+      const value = ["testValue1", "testValue3"];
+
+      service.saveCache(key, value);
+
+      const storedValue = localStorage.getItem("minesweeper " + key);
+      expect(storedValue).toEqual(JSON.stringify(value));
+    });
+  });
 });
