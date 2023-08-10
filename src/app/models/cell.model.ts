@@ -1,15 +1,8 @@
 export interface Cell {
-  clicked: boolean;
   hasMine: boolean;
-  flagged: boolean;
-  minesInNeighborhood: MinesInNeighborhood;
   xPos: number;
   yPos: number;
   status: MineStatus;
-}
-
-export enum MinesInNeighborhood {
-  None = 0,
 }
 
 export enum MineStatus {

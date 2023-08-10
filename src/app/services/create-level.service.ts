@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Injectable } from "@angular/core";
-import { Cell, MineStatus, MinesInNeighborhood } from "../models/cell.model";
+import { Cell, MineStatus } from "../models/cell.model";
 import * as fromAppSelectors from "../state/app.selectors";
 import { Level } from "../models/level.model";
 import { Observable, of } from "rxjs";
@@ -31,10 +31,7 @@ export class CreateLevelService {
 
   private generateRandomCell(xPos: number, yPos: number): Cell {
     return {
-      clicked: false,
       hasMine: Math.random() < 0.05 * this.level,
-      flagged: false,
-      minesInNeighborhood: MinesInNeighborhood.None,
       xPos: xPos,
       yPos: yPos,
       status: MineStatus.Pristine,
