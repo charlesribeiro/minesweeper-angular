@@ -29,7 +29,7 @@ export class CreateLevelService {
       .subscribe((width: number) => (this.width = width));
   }
 
-  private generateRandomCell(xPos: number, yPos: number): Cell {
+  generateRandomCell(xPos: number, yPos: number): Cell {
     return {
       hasMine: Math.random() < 0.05 * this.level,
       xPos: xPos,

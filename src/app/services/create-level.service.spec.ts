@@ -3,6 +3,8 @@ import { TestBed } from "@angular/core/testing";
 import { CreateLevelService } from "./create-level.service";
 import { provideMockStore } from "@ngrx/store/testing";
 import { initialAppState as initialState } from "../state/app.reducer";
+import { MineStatus } from "../models/cell.model";
+import { Level } from "../models/level.model";
 
 describe("CreateLevelService", () => {
   let service: CreateLevelService;
@@ -44,6 +46,41 @@ describe("CreateLevelService", () => {
         });
         done();
       });
+    });
+  });
+
+  describe("generateRandomCell", () => {
+    it("should generate a cell with given xPos and yPos", () => {
+      const cell = service.generateRandomCell(1, 2);
+      expect(cell.xPos).toBe(1);
+      expect(cell.yPos).toBe(2);
+      expect(cell.status).toBe(MineStatus.Pristine);
+    });
+
+    it("should generate a cell with a mine based on controlled randomness", () => {
+      const originalRandom = Math.random;
+      Math.random = jest.fn().mockReturnValue(0); // This will always pass the condition for hasMine
+      service.level = Level.Easy; // To make sure that the condition is satisfied
+
+      const cell = service.generateRandomCell(1, 2);
+
+      expect(cell.hasMine).toBe(true);
+
+      // Reset Math.random to its original state after the test
+      Math.random = originalRandom;
+    });
+
+    it("should generate a cell without a mine based on controlled randomness", () => {
+      const originalRandom = Math.random;
+      Math.random = jest.fn().mockReturnValue(1); // This will never pass the condition for hasMine
+      service.level = Level.Easy; // To make sure that the condition is not satisfied
+
+      const cell = service.generateRandomCell(1, 2);
+
+      expect(cell.hasMine).toBe(false);
+
+      // Reset Math.random to its original state after the test
+      Math.random = originalRandom;
     });
   });
 });
