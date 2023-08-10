@@ -11,7 +11,6 @@ import { Level } from "../../../../models/level.model";
 @Component({
   selector: "app-main-game",
   templateUrl: "./main-game.component.html",
-  styleUrls: ["./main-game.component.sass"],
 })
 export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
@@ -19,14 +18,13 @@ export class MainGameComponent implements OnInit {
   constructor(
     private store: Store<IApp>,
     private storage: StorageService,
-  ) {
-    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
-    this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
     this.store.dispatch(fromAppActions.setBoardSize({ width: 30, height: 20 }));
     this.store.dispatch(fromAppActions.startGame());
+    this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
   }
 
   rightClick(cell: Cell): void {

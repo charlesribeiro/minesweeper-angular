@@ -7,6 +7,7 @@ import { StorageService } from "../../../../services/storage.service";
 import { mockCell } from "../../../../utils/mock-cell";
 import * as fromAppActions from "../../../../state/app.actions";
 import { IApp } from "../../../../state/app.interface";
+import { mockBoard } from "../../../../utils/mock-board";
 
 describe("MainGameComponent", () => {
   let component: MainGameComponent;
@@ -25,6 +26,13 @@ describe("MainGameComponent", () => {
     fixture = TestBed.createComponent(MainGameComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
+    store.setState({
+      ...initialState,
+      playerBoard: {
+        ...initialState.playerBoard,
+        entities: mockBoard,
+      },
+    });
     fixture.detectChanges();
   });
 

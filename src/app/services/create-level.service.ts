@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Injectable } from "@angular/core";
 import { Cell, MineStatus, MinesInNeighborhood } from "../models/cell.model";
 import * as fromAppSelectors from "../state/app.selectors";
