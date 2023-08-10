@@ -5,9 +5,13 @@ import { Cell, MineStatus } from "../models/cell.model";
 
 export const selectFeature = createFeatureSelector<IApp>(userFeatureKey);
 
-export const selectLevel = createSelector(
+export const selectSettingsLevel = createSelector(
   selectFeature,
   (appState: IApp) => appState.settings.level,
+);
+export const selectSettingsTotalMines = createSelector(
+  selectFeature,
+  (appState: IApp) => appState.settings.totalMines,
 );
 export const selectRealBoard = createSelector(
   selectFeature,

@@ -20,7 +20,7 @@ describe("AppSelectors", () => {
   const getAppState = (state: IAppState): IApp => state.AppState;
 
   it("should select current game level", () => {
-    const result = fromAppSelectors.selectLevel.projector(
+    const result = fromAppSelectors.selectSettingsLevel.projector(
       getAppState(initialState),
     );
 

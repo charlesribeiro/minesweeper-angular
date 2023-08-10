@@ -15,9 +15,11 @@ export class CreateLevelService {
   width: number;
   height: number;
 
+  totalMines: number;
+
   constructor(private readonly store: Store<IApp>) {
     this.store
-      .select(fromAppSelectors.selectLevel)
+      .select(fromAppSelectors.selectSettingsLevel)
       .subscribe((level: Level) => (this.level = level));
 
     this.store
@@ -27,27 +29,64 @@ export class CreateLevelService {
     this.store
       .select(fromAppSelectors.selectGridWidth)
       .subscribe((width: number) => (this.width = width));
+
+    this.store
+      .select(fromAppSelectors.selectSettingsTotalMines)
+      .subscribe((totalMines: Level) => (this.totalMines = totalMines));
   }
 
-  generateRandomCell(xPos: number, yPos: number): Cell {
+  generateRandomCell(hasMine: boolean = false): Cell {
     return {
-      hasMine: Math.random() < 0.05 * this.level,
-      xPos: xPos,
-      yPos: yPos,
+      hasMine: hasMine,
+      xPos: 0,
+      yPos: 0,
       status: MineStatus.Pristine,
     };
   }
 
-  createMatrix(): Observable<Cell[][]> {
-    const randomBoard: Cell[][] = [];
+  setCoordinates(cell: Cell, xPos: number, yPos: number): Cell {
+    cell.xPos = xPos;
+    cell.yPos = yPos;
+    return cell;
+  }
 
+  createMatrix(): Observable<Cell[][]> {
+    const cells: Cell[] = [];
+
+    this.generateArrayOfMineCells(cells);
+    this.fisherYatesShuffle(cells);
+
+    return of(this.generateBoard(cells));
+  }
+
+  fisherYatesShuffle(cells: Cell[]): Cell[] {
+    for (let i = this.height * this.width - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cells[i], cells[j]] = [cells[j], cells[i]];
+    }
+    return cells;
+  }
+
+  generateArrayOfMineCells(cells: Cell[]): Cell[] {
+    for (let i = 0; i < this.height * this.width; i++) {
+      const hasMine = i < this.totalMines;
+      cells.push(this.generateRandomCell(hasMine));
+    }
+    return cells;
+  }
+
+  generateBoard(cells: Cell[]): Cell[][] {
+    const randomBoard: Cell[][] = [];
     for (let i = 0; i < this.height; i++) {
       randomBoard[i] = [];
       for (let j = 0; j < this.width; j++) {
-        randomBoard[i][j] = this.generateRandomCell(i, j);
+        randomBoard[i][j] = this.setCoordinates(
+          cells[i * this.width + j],
+          i,
+          j,
+        );
       }
     }
-
-    return of(randomBoard);
+    return randomBoard;
   }
 }

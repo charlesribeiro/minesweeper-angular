@@ -16,6 +16,7 @@ export class ClickHandlerService {
 
   width: number;
   height: number;
+
   realCells: Cell[][];
 
   revealedCells: Cell[];
@@ -23,7 +24,7 @@ export class ClickHandlerService {
 
   constructor(private readonly store: Store<IApp>) {
     this.store
-      .select(fromAppSelectors.selectLevel)
+      .select(fromAppSelectors.selectSettingsLevel)
       .subscribe((level: Level) => (this.level = level));
 
     this.store
