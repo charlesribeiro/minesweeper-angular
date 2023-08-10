@@ -62,10 +62,19 @@ describe("appReducer", () => {
         },
       };
 
-      const action = fromAppActions.updateCell({ cell: mockCell });
+      const action = fromAppActions.updateCell({ cell: specifiedCell });
       const newState = AppReducer(initialStateWithEntities, action);
 
-      expect(newState.playerBoard.entities[0][1]).toEqual(mockCell);
+      expect(newState.playerBoard.entities[0][1]).toEqual(specifiedCell);
+    });
+  });
+
+  describe("clickCellFail", () => {
+    it("should set error flag on store", () => {
+      const action = fromAppActions.clickCellFail({ message: "error" });
+      const newState = AppReducer(initialAppState, action);
+
+      expect(newState.playerBoard.error).toBeTruthy();
     });
   });
 });

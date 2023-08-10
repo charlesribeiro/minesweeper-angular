@@ -44,7 +44,7 @@ export class GameService {
 
     return of({
       ...selectedCell,
-      status: this.getStatus(selectedCell),
+      status: this.getMinesInNeighborhood(selectedCell),
     });
   }
 
@@ -60,84 +60,30 @@ export class GameService {
   }
 
   getMinesInNeighborhood(selectedCell: Cell): number {
-    let totalMines = 0;
-    if (
-      this.isCellValid(selectedCell.xPos - 1, selectedCell.yPos) &&
-      this.realCells[selectedCell.xPos - 1][selectedCell.yPos].hasMine
-    ) {
-      totalMines++;
-    }
-    if (
-      this.isCellValid(selectedCell.xPos + 1, selectedCell.yPos) &&
-      this.realCells[selectedCell.xPos + 1][selectedCell.yPos].hasMine
-    ) {
-      totalMines++;
-    }
-    if (
-      this.isCellValid(selectedCell.xPos, selectedCell.yPos + 1) &&
-      this.realCells[selectedCell.xPos][selectedCell.yPos + 1].hasMine
-    ) {
-      totalMines++;
-    }
-    if (
-      this.isCellValid(selectedCell.xPos, selectedCell.yPos - 1) &&
-      this.realCells[selectedCell.xPos][selectedCell.yPos - 1].hasMine
-    ) {
-      totalMines++;
-    }
-    if (
-      this.isCellValid(selectedCell.xPos - 1, selectedCell.yPos + 1) &&
-      this.realCells[selectedCell.xPos - 1][selectedCell.yPos + 1].hasMine
-    ) {
-      totalMines++;
-    }
-    if (
-      this.isCellValid(selectedCell.xPos - 1, selectedCell.yPos - 1) &&
-      this.realCells[selectedCell.xPos - 1][selectedCell.yPos - 1].hasMine
-    ) {
-      totalMines++;
-    }
-    if (
-      this.isCellValid(selectedCell.xPos + 1, selectedCell.yPos + 1) &&
-      this.realCells[selectedCell.xPos + 1][selectedCell.yPos + 1].hasMine
-    ) {
-      totalMines++;
-    }
-    if (
-      this.isCellValid(selectedCell.xPos + 1, selectedCell.yPos - 1) &&
-      this.realCells[selectedCell.xPos + 1][selectedCell.yPos - 1].hasMine
-    ) {
-      totalMines++;
-    }
+    const neighboringOffsets = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+      [-1, 1],
+      [-1, -1],
+      [1, 1],
+      [1, -1],
+    ];
 
-    if (totalMines == 0) {
-    }
-    return totalMines;
+    return neighboringOffsets.reduce((totalMines, [xOffset, yOffset]) => {
+      const newX = selectedCell.xPos + xOffset;
+      const newY = selectedCell.yPos + yOffset;
+
+      if (this.isCellValid(newX, newY) && this.realCells[newX][newY].hasMine) {
+        return totalMines + 1;
+      }
+
+      return totalMines;
+    }, 0);
   }
 
   isCellValid(row: number, column: number) {
     return row >= 0 && row < this.height && column >= 0 && column < this.width;
-  }
-
-  getStatus(selectedCell: Cell): MineStatus {
-    switch (this.getMinesInNeighborhood(selectedCell)) {
-      case 1:
-        return MineStatus.Neighbor1;
-      case 2:
-        return MineStatus.Neighbor2;
-      case 3:
-        return MineStatus.Neighbor3;
-      case 4:
-        return MineStatus.Neighbor4;
-      case 5:
-        return MineStatus.Neighbor5;
-      case 6:
-        return MineStatus.Neighbor6;
-      case 7:
-        return MineStatus.Neighbor7;
-      case 8:
-        return MineStatus.Neighbor8;
-    }
-    return MineStatus.None;
   }
 }

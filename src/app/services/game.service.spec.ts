@@ -5,6 +5,10 @@ import { initialAppState as initialState } from "../state/app.reducer";
 import { provideMockStore } from "@ngrx/store/testing";
 import { Cell, MineStatus } from "../models/cell.model";
 import { mockCell } from "../utils/mock-cell";
+import {
+  mock3x3BoardWith0Mines,
+  mock3x3BoardWith8Mines,
+} from "../utils/mock-board";
 
 describe("GameService", () => {
   let service: GameService;
@@ -68,7 +72,6 @@ describe("GameService", () => {
         ...mockCell,
         status: MineStatus.Flagged,
       };
-
       const expectedCell = { ...flaggedCell, status: MineStatus.Pristine };
 
       service.handleRightClick(flaggedCell).subscribe((cell) => {
@@ -82,6 +85,30 @@ describe("GameService", () => {
         expect(cell).toEqual(mockCell);
         done();
       });
+    });
+  });
+
+  describe("getMinesInNeighborhood", () => {
+    it("should return 0 when no neighboring cells have mines", () => {
+      service.isCellValid = jest.fn().mockReturnValue(true);
+      service.realCells = mock3x3BoardWith0Mines;
+      const result = service.getMinesInNeighborhood({
+        ...mockCell,
+        xPos: 1,
+        yPos: 1,
+      });
+      expect(result).toBe(0);
+    });
+
+    it("should return 8 when all neighboring cells have mines", () => {
+      service.isCellValid = jest.fn().mockReturnValue(true);
+      service.realCells = mock3x3BoardWith8Mines;
+      const result = service.getMinesInNeighborhood({
+        ...mockCell,
+        xPos: 1,
+        yPos: 1,
+      });
+      expect(result).toBe(8);
     });
   });
 

@@ -5,6 +5,7 @@ import {
   storeListInitialState,
 } from "../utils/store-utils";
 import {
+  clickCellFail,
   generate2DCellArraySuccess,
   setBoardSize,
   setGameLevel,
@@ -55,6 +56,13 @@ export const reducer = createReducer(
       },
     };
   }),
+  on(clickCellFail, (state) => ({
+    ...state,
+    playerBoard: {
+      ...state.playerBoard,
+      error: true,
+    },
+  })),
 );
 
 export function AppReducer(state: IApp | undefined, action: Action): IApp {
