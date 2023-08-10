@@ -1,10 +1,10 @@
-import { StoreList } from "../utils/store-utils";
 import { Settings } from "../models/settings.model";
-import { Cell } from "../models/cell.model";
+import { PlayerBoard } from "../models/playerBoard.model";
+import { RealBoard } from "../models/realBoard.model";
 
 export interface IApp {
-  playerBoard: StoreList<Cell[][]>;
-  realBoard: StoreList<Cell[][]>;
+  playerBoard: PlayerBoard;
+  realBoard: RealBoard;
   settings: Settings;
 }
 

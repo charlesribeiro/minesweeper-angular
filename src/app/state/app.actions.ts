@@ -37,3 +37,5 @@ export const clickCellFail = createAction(
   "click cell fail action",
   props<{ message: string }>(),
 );
+
+export const gameOver = createAction("game over");

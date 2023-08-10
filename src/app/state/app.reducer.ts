@@ -1,11 +1,13 @@
 import { Action, createReducer, on } from "@ngrx/store";
 import { IApp } from "./app.interface";
 import {
+  playerBoardInitialState,
+  realBoardInitialState,
   settingsInitialState,
-  storeListInitialState,
 } from "../utils/store-utils";
 import {
   clickCellFail,
+  gameOver,
   generate2DCellArraySuccess,
   setBoardSize,
   setGameLevel,
@@ -15,8 +17,8 @@ import {
 export const userFeatureKey = "AppState";
 
 export const initialAppState: IApp = {
-  playerBoard: storeListInitialState,
-  realBoard: storeListInitialState,
+  playerBoard: playerBoardInitialState,
+  realBoard: realBoardInitialState,
   settings: settingsInitialState,
 };
 
@@ -61,6 +63,13 @@ export const reducer = createReducer(
     playerBoard: {
       ...state.playerBoard,
       error: true,
+    },
+  })),
+  on(gameOver, (state) => ({
+    ...state,
+    playerBoard: {
+      ...state.playerBoard,
+      gameOver: true,
     },
   })),
 );

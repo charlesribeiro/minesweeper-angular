@@ -11,7 +11,7 @@ import { GameService } from "../services/game.service";
 import * as fromAppActions from "../state/app.actions";
 import { hot, cold } from "jasmine-marbles";
 import { mockBoard } from "../utils/mock-board";
-import { mockCell } from "../utils/mock-cell";
+import { mockCell, mockCellWithoutMine } from "../utils/mock-cell";
 
 describe("AppEffects", () => {
   let actions$: Observable<Action>;
@@ -71,15 +71,32 @@ describe("AppEffects", () => {
   });
 
   describe("leftclick$", () => {
-    it("should update cell when successful ", () => {
+    it("should update cell when successful and set game over when clicked cell has mine", () => {
       jest.spyOn(gameService, "handleLeftClick").mockReturnValue(of(mockCell));
 
       actions$ = hot("-a", {
         a: fromAppActions.setLeftClick({ cell: mockCell }),
       });
-      const expected = cold("-b", {
+      const expected = cold("-(bc)", {
         b: fromAppActions.updateCell({
           cell: mockCell,
+        }),
+        c: fromAppActions.gameOver(),
+      });
+      expect(effects.leftclick$).toBeObservable(expected);
+    });
+
+    it("should update cell when successful and not set game over when clicked cell has no mine", () => {
+      jest
+        .spyOn(gameService, "handleLeftClick")
+        .mockReturnValue(of(mockCellWithoutMine));
+
+      actions$ = hot("-a", {
+        a: fromAppActions.setLeftClick({ cell: mockCellWithoutMine }),
+      });
+      const expected = cold("-b", {
+        b: fromAppActions.updateCell({
+          cell: mockCellWithoutMine,
         }),
       });
       expect(effects.leftclick$).toBeObservable(expected);

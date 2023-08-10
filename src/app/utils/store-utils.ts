@@ -1,17 +1,17 @@
-import { Cell } from "../models/cell.model";
 import { Level } from "../models/level.model";
+import { PlayerBoard } from "../models/playerBoard.model";
+import { RealBoard } from "../models/realBoard.model";
 import { Settings } from "../models/settings.model";
 
-export interface StoreList<T> {
-  entities: T;
-  loading: boolean;
-  error: boolean;
-}
-
-export const storeListInitialState: StoreList<Cell[][]> = {
+export const realBoardInitialState: RealBoard = {
   entities: [],
   loading: false,
   error: false,
+};
+
+export const playerBoardInitialState: PlayerBoard = {
+  ...realBoardInitialState,
+  gameOver: false,
 };
 
 export const settingsInitialState: Settings = {

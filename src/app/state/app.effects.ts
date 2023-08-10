@@ -4,8 +4,10 @@ import * as fromAppActions from "../state/app.actions";
 import { CreateLevelService } from "../services/create-level.service";
 import { GameService } from "../services/game.service";
 
-import { mergeMap, map, catchError } from "rxjs/operators";
+import { mergeMap, map, catchError, concatMap } from "rxjs/operators";
 import { of } from "rxjs";
+import { Cell } from "../models/cell.model";
+import { Action } from "@ngrx/store";
 
 @Injectable()
 export class AppEffects {
@@ -34,7 +36,16 @@ export class AppEffects {
       ofType(fromAppActions.setLeftClick),
       mergeMap(({ cell }) =>
         this.gameService.handleLeftClick(cell).pipe(
-          map((cell) => fromAppActions.updateCell({ cell })),
+          concatMap((cell: Cell) => {
+            const actions: Action[] = [];
+            actions.push(fromAppActions.updateCell({ cell }));
+
+            if (cell.hasMine) {
+              actions.push(fromAppActions.gameOver());
+            }
+
+            return of(...actions);
+          }),
           catchError(({ message }) =>
             of(fromAppActions.clickCellFail({ message })),
           ),
