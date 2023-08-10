@@ -45,3 +45,11 @@ export const clickCellFail = createAction(
 );
 
 export const gameOver = createAction("[Game] game over");
+
+export const increaseFlagLeftCount = createAction(
+  "[Game] increase flag left count",
+);
+
+export const decreaseFlagLeftCount = createAction(
+  "[Game] decrease flag left count",
+);

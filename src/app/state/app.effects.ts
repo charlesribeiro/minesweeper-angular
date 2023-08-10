@@ -3,14 +3,23 @@ import { Injectable } from "@angular/core";
 import * as fromAppActions from "../state/app.actions";
 import { CreateLevelService } from "../services/create-level.service";
 import { GameService } from "../services/game.service";
-import { mergeMap, map, catchError, concatMap } from "rxjs/operators";
+import {
+  mergeMap,
+  map,
+  catchError,
+  concatMap,
+  withLatestFrom,
+} from "rxjs/operators";
 import { of } from "rxjs";
-import { Cell } from "../models/cell.model";
-import { Action } from "@ngrx/store";
+import { Cell, MineStatus } from "../models/cell.model";
+import { Action, Store, select } from "@ngrx/store";
+import { IApp } from "./app.interface";
+import * as fromAppSelectors from "../state/app.selectors";
 
 @Injectable()
 export class AppEffects {
   constructor(
+    private store: Store<IApp>,
     private actions$: Actions,
     private createLevelService: CreateLevelService,
     private gameService: GameService,
@@ -53,9 +62,21 @@ export class AppEffects {
   rightClick$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromAppActions.setRightClick),
-      mergeMap(({ cell }) =>
+      withLatestFrom(this.store.pipe(select(fromAppSelectors.selectFlagsLeft))),
+      mergeMap(([{ cell }, flagsLeft]) =>
         this.gameService.handleRightClick(cell).pipe(
-          map((cell) => fromAppActions.updateCell({ cell })),
+          concatMap((cell: Cell) => {
+            const actions: Action[] = [];
+            actions.push(fromAppActions.updateCell({ cell }));
+
+            if (cell.status === MineStatus.Flagged) {
+              actions.push(fromAppActions.decreaseFlagLeftCount());
+            } else {
+              actions.push(fromAppActions.increaseFlagLeftCount());
+            }
+
+            return of(...actions);
+          }),
           catchError(({ message }) =>
             of(fromAppActions.clickCellFail({ message })),
           ),

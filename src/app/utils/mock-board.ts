@@ -1,5 +1,10 @@
 import { Cell } from "../models/cell.model";
-import { mockCell, mockCellWithoutMine } from "./mock-cell";
+import {
+  mockCell,
+  mockCellWith1MineNeighbor,
+  mockCellWithFlag,
+  mockPristineCellWithoutMine,
+} from "./mock-cell";
 
 export const mockBoard: Cell[][] = [
   [mockCell, mockCell],
@@ -8,12 +13,52 @@ export const mockBoard: Cell[][] = [
 
 export const mock3x3BoardWith8Mines: Cell[][] = [
   [mockCell, mockCell, mockCell],
-  [mockCell, mockCellWithoutMine, mockCell],
+  [mockCell, mockPristineCellWithoutMine, mockCell],
   [mockCell, mockCell, mockCell],
 ];
 
 export const mock3x3BoardWith0Mines: Cell[][] = [
-  [mockCellWithoutMine, mockCellWithoutMine, mockCellWithoutMine],
-  [mockCellWithoutMine, mockCellWithoutMine, mockCellWithoutMine],
-  [mockCellWithoutMine, mockCellWithoutMine, mockCellWithoutMine],
+  [
+    mockPristineCellWithoutMine,
+    mockPristineCellWithoutMine,
+    mockPristineCellWithoutMine,
+  ],
+  [
+    mockPristineCellWithoutMine,
+    mockPristineCellWithoutMine,
+    mockPristineCellWithoutMine,
+  ],
+  [
+    mockPristineCellWithoutMine,
+    mockPristineCellWithoutMine,
+    mockPristineCellWithoutMine,
+  ],
+];
+
+export const mock3x3BoardGameWon: Cell[][] = [
+  [
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+  ],
+  [mockCellWith1MineNeighbor, mockCellWithFlag, mockCellWith1MineNeighbor],
+  [
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+  ],
+];
+
+export const mock3x3BoardGameInProgress: Cell[][] = [
+  [
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+  ],
+  [mockCellWith1MineNeighbor, mockCellWithFlag, mockPristineCellWithoutMine],
+  [
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+    mockCellWith1MineNeighbor,
+  ],
 ];

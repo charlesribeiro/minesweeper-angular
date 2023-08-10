@@ -7,9 +7,23 @@ export const mockCell: Cell = {
   status: MineStatus.Mine,
 };
 
-export const mockCellWithoutMine: Cell = {
+export const mockPristineCellWithoutMine: Cell = {
   hasMine: false,
   xPos: 0,
   yPos: 0,
   status: MineStatus.Pristine,
+};
+
+export const mockCellWith1MineNeighbor: Cell = {
+  hasMine: false,
+  xPos: 0,
+  yPos: 0,
+  status: MineStatus.Neighbor1,
+};
+
+export const mockCellWithFlag: Cell = {
+  hasMine: false,
+  xPos: 0,
+  yPos: 0,
+  status: MineStatus.Flagged,
 };

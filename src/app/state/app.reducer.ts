@@ -13,6 +13,8 @@ import {
   setGameLevel,
   updateCell,
   startGame,
+  decreaseFlagLeftCount,
+  increaseFlagLeftCount,
 } from "./app.actions";
 import { GameStatus } from "../models/gameStatus.model";
 
@@ -53,6 +55,7 @@ export const reducer = createReducer(
     playerBoard: {
       ...state.playerBoard,
       gameStatus: GameStatus.IN_PROGRESS,
+      flagsLeft: state.settings.totalMines,
     },
   })),
   on(updateCell, (state, { cell }) => {
@@ -79,6 +82,20 @@ export const reducer = createReducer(
     playerBoard: {
       ...state.playerBoard,
       gameStatus: GameStatus.LOST,
+    },
+  })),
+  on(decreaseFlagLeftCount, (state) => ({
+    ...state,
+    playerBoard: {
+      ...state.playerBoard,
+      flagsLeft: state.playerBoard.flagsLeft - 1,
+    },
+  })),
+  on(increaseFlagLeftCount, (state) => ({
+    ...state,
+    playerBoard: {
+      ...state.playerBoard,
+      flagsLeft: state.playerBoard.flagsLeft + 1,
     },
   })),
 );

@@ -13,6 +13,7 @@ export const realBoardInitialState: RealBoard = {
 export const playerBoardInitialState: PlayerBoard = {
   ...realBoardInitialState,
   gameStatus: GameStatus.NOT_PLAYING,
+  flagsLeft: Infinity,
 };
 
 export const settingsInitialState: Settings = {

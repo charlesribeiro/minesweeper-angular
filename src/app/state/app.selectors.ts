@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { IApp } from "./app.interface";
 import { userFeatureKey } from "./app.reducer";
+import { MineStatus } from "../models/cell.model";
 
 export const selectFeature = createFeatureSelector<IApp>(userFeatureKey);
 
@@ -27,4 +28,18 @@ export const selectGridHeight = createSelector(
 export const selectGridWidth = createSelector(
   selectFeature,
   (appState: IApp) => appState.settings.width,
+);
+export const selectFlagsLeft = createSelector(
+  selectFeature,
+  (appState: IApp) => appState?.playerBoard.flagsLeft,
+);
+export const selectPlayerBoardWithoutPristineCells = createSelector(
+  selectFeature,
+  (appState: IApp) => {
+    const entities = appState?.playerBoard.entities;
+
+    return entities?.every((row) =>
+      row.every((cell) => cell.status !== MineStatus.Pristine),
+    );
+  },
 );

@@ -101,4 +101,42 @@ describe("appReducer", () => {
       expect(result.playerBoard.gameStatus).toBe(GameStatus.LOST);
     });
   });
+
+  describe("decreaseFlagLeftCount", () => {
+    it("should decrease the flagsLeft count by 1", () => {
+      const initialFlagsLeft = 5;
+      const initialState = {
+        ...initialAppState,
+        playerBoard: {
+          ...initialAppState.playerBoard,
+          flagsLeft: initialFlagsLeft,
+        },
+      };
+
+      const action = fromAppActions.decreaseFlagLeftCount();
+
+      const result = AppReducer(initialState, action);
+
+      expect(result.playerBoard.flagsLeft).toEqual(initialFlagsLeft - 1);
+    });
+  });
+
+  describe("increaseFlagLeftCount", () => {
+    it("should increase the flagsLeft count by 1", () => {
+      const initialFlagsLeft = 5;
+      const initialState = {
+        ...initialAppState,
+        playerBoard: {
+          ...initialAppState.playerBoard,
+          flagsLeft: initialFlagsLeft,
+        },
+      };
+
+      const action = fromAppActions.increaseFlagLeftCount();
+
+      const result = AppReducer(initialState, action);
+
+      expect(result.playerBoard.flagsLeft).toEqual(initialFlagsLeft + 1);
+    });
+  });
 });

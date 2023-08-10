@@ -11,7 +11,11 @@ import { GameService } from "../services/game.service";
 import * as fromAppActions from "../state/app.actions";
 import { hot, cold } from "jasmine-marbles";
 import { mockBoard } from "../utils/mock-board";
-import { mockCell, mockCellWithoutMine } from "../utils/mock-cell";
+import {
+  mockCell,
+  mockCellWithFlag,
+  mockPristineCellWithoutMine,
+} from "../utils/mock-cell";
 
 describe("AppEffects", () => {
   let actions$: Observable<Action>;
@@ -89,14 +93,14 @@ describe("AppEffects", () => {
     it("should update cell when successful and not set game over when clicked cell has no mine", () => {
       jest
         .spyOn(gameService, "handleLeftClick")
-        .mockReturnValue(of(mockCellWithoutMine));
+        .mockReturnValue(of(mockPristineCellWithoutMine));
 
       actions$ = hot("-a", {
-        a: fromAppActions.setLeftClick({ cell: mockCellWithoutMine }),
+        a: fromAppActions.setLeftClick({ cell: mockPristineCellWithoutMine }),
       });
       const expected = cold("-b", {
         b: fromAppActions.updateCell({
-          cell: mockCellWithoutMine,
+          cell: mockPristineCellWithoutMine,
         }),
       });
       expect(effects.leftclick$).toBeObservable(expected);
@@ -118,16 +122,34 @@ describe("AppEffects", () => {
   });
 
   describe("rightclick$", () => {
-    it("should update cell when successful", () => {
+    it("should update cell when successful and increase flag count", () => {
       jest.spyOn(gameService, "handleRightClick").mockReturnValue(of(mockCell));
 
       actions$ = hot("-a", {
         a: fromAppActions.setRightClick({ cell: mockCell }),
       });
-      const expected = cold("-b", {
+      const expected = cold("-(bc)", {
         b: fromAppActions.updateCell({
           cell: mockCell,
         }),
+        c: fromAppActions.increaseFlagLeftCount(),
+      });
+      expect(effects.rightClick$).toBeObservable(expected);
+    });
+
+    it("should update cell when successful and increase flag count", () => {
+      jest
+        .spyOn(gameService, "handleRightClick")
+        .mockReturnValue(of(mockCellWithFlag));
+
+      actions$ = hot("-a", {
+        a: fromAppActions.setRightClick({ cell: mockCellWithFlag }),
+      });
+      const expected = cold("-(bc)", {
+        b: fromAppActions.updateCell({
+          cell: mockCellWithFlag,
+        }),
+        c: fromAppActions.decreaseFlagLeftCount(),
       });
       expect(effects.rightClick$).toBeObservable(expected);
     });
