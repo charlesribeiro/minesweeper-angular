@@ -1,7 +1,7 @@
 <div *ngIf="(gameStatus$ | async) === GAMEOVER">Game Over</div>
 <div *ngIf="(gameStatus$ | async) === WON">You won</div>
 
-<div>Flags left on game: {{  flagsLeft$ | async }}</div>
+<div>{{  flagsLeft$ | async }}</div>
 
 
 <table class="table-auto">
