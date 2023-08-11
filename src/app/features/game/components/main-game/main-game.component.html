@@ -2,16 +2,14 @@
 <div *ngIf="(gameStatus$ | async) === GAMESTATUS.WON">You won</div>
 
 <ng-container *ngIf="(gameStatus$ | async) !== GAMESTATUS.NOT_PLAYING">
-  <app-seven-segment-display [value]="flagsLeft"></app-seven-segment-display>
+  <div class="flex">
+    <app-seven-segment-display [value]="flagsLeft"></app-seven-segment-display>
+  </div>
 
   <table class="table-auto">
     <tr *ngFor="let row of cells$ | async">
       <td *ngFor="let item of row">
-        <app-cell
-          [cell]="item"
-          (rightClick)="rightClick($event)"
-          (leftClick)="leftClick($event)"
-        ></app-cell>
+        <app-cell [cell]="item" (rightClick)="rightClick($event)" (leftClick)="leftClick($event)"></app-cell>
       </td>
     </tr>
   </table>
