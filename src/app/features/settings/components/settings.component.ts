@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 import { Settings } from "src/app/models/settings.model";
 import * as fromAppSelectors from "../../../state/app.selectors";
 import * as fromAppActions from "../../../state/app.actions";
-import { Level } from "src/app/models/level.model";
+import { Level } from "../../../models/level.model";
 
 @Component({
   selector: "app-settings",
@@ -21,54 +21,35 @@ export class SettingsComponent implements OnInit {
     private fb: FormBuilder,
   ) {}
   ngOnInit(): void {
-    this.store.select(fromAppSelectors.selectSettings).subscribe((settings) => {
-      this.form = this.fb.group({
-        n: [
-          settings.height,
-          [
-            Validators.required,
-            Validators.minLength(1),
-            Validators.maxLength(2),
-          ],
-        ],
-        m: [
-          settings.width,
-          [
-            Validators.required,
-            Validators.minLength(1),
-            Validators.minLength(2),
-          ],
-        ],
-        totalMines: [
-          settings.width,
-          [Validators.required, Validators.minLength(0)],
-        ],
-      });
-      console.log(settings);
+    this.store
+      .select(fromAppSelectors.selectSettings)
+      .subscribe((settings) => this.setForm(settings));
+  }
+
+  setForm(settings: Settings): void {
+    this.form = this.fb.group({
+      n: [
+        settings.height,
+        [Validators.required, Validators.minLength(1), Validators.maxLength(2)],
+      ],
+      m: [
+        settings.width,
+        [Validators.required, Validators.minLength(1), Validators.minLength(2)],
+      ],
+      totalMines: [
+        settings.width,
+        [Validators.required, Validators.minLength(0)],
+      ],
     });
   }
 
-  // form = this.fb.group({
-  //   n: [
-  //     9,
-  //     {
-  //       validators: [Validators.required, Validators.minLength(0)],
-  //     },
-  //   ],
-  //   m: [9, [Validators.required, Validators.minLength(0)]],
-  // });
-
-  buildForm() {}
-
   saveForm(): void {
-    console.log(this.form.controls["totalMines"].value);
-    let settings: Settings = {
+    const settings: Settings = {
       level: Level.Easy,
       width: this.form.controls["m"].value,
       height: this.form.controls["n"].value,
       totalMines: this.form.controls["totalMines"].value,
     };
-    debugger;
 
     this.store.dispatch(fromAppActions.setSettings({ settings }));
   }

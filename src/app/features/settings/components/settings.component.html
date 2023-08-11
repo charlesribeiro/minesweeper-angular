@@ -1,6 +1,6 @@
 <div class="grid h-screen place-items-center">
     Setup your game
-    <form [formGroup]="form">
+    <form *ngIf="form" [formGroup]="form">
         Dimensions (NxM)
         <div class="flex">
             <div class="mb-2">
