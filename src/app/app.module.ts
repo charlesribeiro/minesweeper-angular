@@ -12,9 +12,15 @@ import { StoreModule } from "@ngrx/store";
 import { metaReducers, reducers } from "../app/state";
 import { CellComponent } from "./features/game/containers/cell/cell.component";
 import { StorageService } from "./services/storage.service";
+import { RemainingFlagsComponent } from "./features/game/containers/remaining-flags/remaining-flags.component";
 
 @NgModule({
-  declarations: [AppComponent, MainGameComponent, CellComponent],
+  declarations: [
+    AppComponent,
+    MainGameComponent,
+    CellComponent,
+    RemainingFlagsComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

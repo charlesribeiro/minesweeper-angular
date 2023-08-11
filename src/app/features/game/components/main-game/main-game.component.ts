@@ -2,13 +2,14 @@ import * as fromAppActions from "../../../../state/app.actions";
 import * as fromAppSelectors from "../../../../state/app.selectors";
 import { Component, OnInit } from "@angular/core";
 import { IApp } from "src/app/state/app.interface";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
 import { StorageService } from "../../../../services/storage.service";
-import { Observable, combineLatest, map } from "rxjs";
+import { Observable, combineLatest, filter, map } from "rxjs";
 import { Level } from "../../../../models/level.model";
 import { GameStatus } from "../../../../models/gameStatus.model";
-
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+@UntilDestroy()
 @Component({
   selector: "app-main-game",
   templateUrl: "./main-game.component.html",
@@ -19,8 +20,9 @@ export class MainGameComponent implements OnInit {
   gameStatus$: Observable<GameStatus>;
   flagsLeft$: Observable<number>;
 
-  readonly GAMEOVER = GameStatus.LOST;
-  readonly WON = GameStatus.WON;
+  flagsLeft: number;
+
+  readonly GAMESTATUS = GameStatus;
 
   constructor(
     private store: Store<IApp>,
@@ -34,12 +36,18 @@ export class MainGameComponent implements OnInit {
     this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
     this.gameStatus$ = this.store.select(fromAppSelectors.selectGameStatus);
 
-    this.flagsLeft$ = combineLatest([
-      this.store.select(fromAppSelectors.selectCountOfCellsWithMines),
-      this.store.select(fromAppSelectors.selectCountOfFlaggedCells),
-    ]).pipe(
-      map(([totalMines, flagsAlreadyUsed]) => totalMines - flagsAlreadyUsed),
-    );
+    combineLatest([
+      this.store.pipe(select(fromAppSelectors.selectCountOfCellsWithMines)),
+      this.store.pipe(select(fromAppSelectors.selectCountOfFlaggedCells)),
+    ])
+      .pipe(
+        untilDestroyed(this),
+        filter(([totalMines]) => !!totalMines),
+      )
+      .subscribe(([totalMines, flagsAlreadyUsed]) => {
+        debugger;
+        this.flagsLeft = totalMines - flagsAlreadyUsed;
+      });
   }
 
   rightClick(cell: Cell): void {
