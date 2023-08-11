@@ -12,6 +12,7 @@ import { GameStatus } from "../../../../models/gameStatus.model";
 @Component({
   selector: "app-main-game",
   templateUrl: "./main-game.component.html",
+  styleUrls: ["./main-game.component.sass"],
 })
 export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
