@@ -15,7 +15,7 @@ Make sure you have NPM and Yarn installed on your machine, install dependencies 
 
 ## Credits
 
-Thanks to eugeneloza that provided the assets here https://opengameart.org/content/minesweeper-tile-set. Also, to the developers behind each of the imported GitHub Actions.
+Thanks to eugeneloza that provided the assets here https://opengameart.org/content/minesweeper-tile-set. Also, to the developers behind each of the imported GitHub Actions. This project uses the DSEG7(https://github.com/keshikan/DSEG) font.
 
 ## Code coverage
 
