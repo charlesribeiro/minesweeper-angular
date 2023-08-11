@@ -12,14 +12,14 @@ import { StoreModule } from "@ngrx/store";
 import { metaReducers, reducers } from "../app/state";
 import { CellComponent } from "./features/game/containers/cell/cell.component";
 import { StorageService } from "./services/storage.service";
-import { RemainingFlagsComponent } from "./features/game/containers/remaining-flags/remaining-flags.component";
+import { SevenSegmentDisplayComponent } from "./features/game/containers/seven-segment/seven-segment-display.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     MainGameComponent,
     CellComponent,
-    RemainingFlagsComponent,
+    SevenSegmentDisplayComponent,
   ],
   imports: [
     BrowserModule,

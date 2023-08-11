@@ -5,7 +5,7 @@ import { IApp } from "src/app/state/app.interface";
 import { Store, select } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
 import { StorageService } from "../../../../services/storage.service";
-import { Observable, combineLatest, filter, map } from "rxjs";
+import { Observable, combineLatest, filter } from "rxjs";
 import { Level } from "../../../../models/level.model";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -18,7 +18,6 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
   gameStatus$: Observable<GameStatus>;
-  flagsLeft$: Observable<number>;
 
   flagsLeft: number;
 
@@ -44,10 +43,10 @@ export class MainGameComponent implements OnInit {
         untilDestroyed(this),
         filter(([totalMines]) => !!totalMines),
       )
-      .subscribe(([totalMines, flagsAlreadyUsed]) => {
-        debugger;
-        this.flagsLeft = totalMines - flagsAlreadyUsed;
-      });
+      .subscribe(
+        ([totalMines, flagsAlreadyUsed]) =>
+          (this.flagsLeft = totalMines - flagsAlreadyUsed),
+      );
   }
 
   rightClick(cell: Cell): void {
