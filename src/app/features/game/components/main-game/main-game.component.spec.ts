@@ -3,7 +3,6 @@ import { initialAppState as initialState } from "../../../../state/app.reducer";
 import { MainGameComponent } from "./main-game.component";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { StorageService } from "../../../../services/storage.service";
 import { mockCell } from "../../../../utils/mock-cell";
 import * as fromAppActions from "../../../../state/app.actions";
 import { IApp } from "../../../../state/app.interface";
@@ -17,7 +16,7 @@ describe("MainGameComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MainGameComponent],
-      providers: [provideMockStore({ initialState }), StorageService],
+      providers: [provideMockStore({ initialState })],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));

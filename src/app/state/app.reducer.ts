@@ -15,6 +15,7 @@ import {
   startGame,
   wonGame,
   continueGame,
+  setSettings,
 } from "./app.actions";
 import { GameStatus } from "../models/gameStatus.model";
 
@@ -97,6 +98,10 @@ export const reducer = createReducer(
       ...state.playerBoard,
       gameStatus: GameStatus.WON,
     },
+  })),
+  on(setSettings, (state, { settings }) => ({
+    ...state,
+    settings,
   })),
 );
 
