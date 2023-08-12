@@ -17,7 +17,7 @@ import { Cell } from "src/app/models/cell.model";
     trigger("fadeIn", [
       transition(":enter", [
         style({ opacity: 0 }),
-        animate("500ms", style({ opacity: 1 })),
+        animate("200ms", style({ opacity: 1 })),
       ]),
     ]),
   ],

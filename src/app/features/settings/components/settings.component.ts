@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
     private store: Store<IApp>,
     private fb: FormBuilder,
   ) {}
+
   ngOnInit(): void {
     this.store
       .select(fromAppSelectors.selectSettings)

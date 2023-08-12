@@ -46,4 +46,8 @@ export class TimerService {
   toggleTimer(): void {
     this.timerState$.next(this.isTimerRunning);
   }
+
+  endTimer(): void {
+    this.timerState$.next(true);
+  }
 }

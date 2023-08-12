@@ -19,12 +19,14 @@ import {
   mockPristineCellWithoutMine,
 } from "../utils/mock-cell";
 import { IApp } from "./app.interface";
+import { TimerService } from "../services/timer.service";
 
 describe("AppEffects", () => {
   let actions$: Observable<Action>;
   let effects: AppEffects;
   let createLevelService: CreateLevelService;
   let gameService: ClickHandlerService;
+  let timerService: TimerService;
   let store: MockStore<IApp>;
 
   beforeEach(() => {
@@ -32,6 +34,7 @@ describe("AppEffects", () => {
       imports: [HttpClientTestingModule],
       providers: [
         AppEffects,
+        TimerService,
         provideMockActions(() => actions$),
         provideMockStore({ initialState }),
       ],
@@ -43,6 +46,7 @@ describe("AppEffects", () => {
     createLevelService = TestBed.inject(CreateLevelService);
     store = TestBed.inject(MockStore);
     gameService = TestBed.inject(ClickHandlerService);
+    timerService = TestBed.inject(TimerService);
   });
 
   it("should be created", () => {
@@ -178,6 +182,7 @@ describe("AppEffects", () => {
   });
   describe("checkForWin$", () => {
     it("should dispatch wonGame action when win condition is met", () => {
+      jest.spyOn(timerService, "toggleTimer");
       actions$ = hot("-a", { a: fromAppActions.checkForWin() });
 
       store.overrideSelector(fromAppSelectors.selectCountOfFlaggedCells, 5);
