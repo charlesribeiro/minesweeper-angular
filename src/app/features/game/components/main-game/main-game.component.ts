@@ -9,6 +9,7 @@ import { Observable, combineLatest, filter } from "rxjs";
 import { Level } from "../../../../models/level.model";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { TimerService } from "../../../../services/timer.service";
 @UntilDestroy()
 @Component({
   selector: "app-main-game",
@@ -18,6 +19,8 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
   gameStatus$: Observable<GameStatus>;
+  flagsLeft$: Observable<number>;
+  timer$: Observable<number>;
 
   flagsLeft: number;
 
@@ -26,9 +29,11 @@ export class MainGameComponent implements OnInit {
   constructor(
     private store: Store<IApp>,
     private storage: StorageService,
+    private timer: TimerService,
   ) {}
 
   ngOnInit(): void {
+    this.timer.startTimer(0);
     this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
     this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());

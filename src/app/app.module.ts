@@ -13,6 +13,7 @@ import { metaReducers, reducers } from "../app/state";
 import { CellComponent } from "./features/game/containers/cell/cell.component";
 import { StorageService } from "./services/storage.service";
 import { SevenSegmentDisplayComponent } from "./features/game/containers/seven-segment/seven-segment-display.component";
+import { TimerService } from "./services/timer.service";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { SevenSegmentDisplayComponent } from "./features/game/containers/seven-s
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [StorageService],
+  providers: [StorageService, TimerService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -8,6 +8,7 @@ import { mockCell } from "../../../../utils/mock-cell";
 import * as fromAppActions from "../../../../state/app.actions";
 import { IApp } from "../../../../state/app.interface";
 import { mockBoard } from "../../../../utils/mock-board";
+import { TimerService } from "../../../../services/timer.service";
 
 describe("MainGameComponent", () => {
   let component: MainGameComponent;
@@ -17,7 +18,11 @@ describe("MainGameComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MainGameComponent],
-      providers: [provideMockStore({ initialState }), StorageService],
+      providers: [
+        provideMockStore({ initialState }),
+        StorageService,
+        TimerService,
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));
