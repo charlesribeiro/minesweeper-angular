@@ -41,7 +41,6 @@ Another really useful algorithm used in this project is the Fisher–Yates shuff
 It ensures the creation of truly randomized grids, so each game you generate in this game is unique!
 (https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
 
-
 ## Code coverage
 
 This project aims to have a high unit test coverage. Current coverage rate: 
@@ -49,4 +48,4 @@ This project aims to have a high unit test coverage. Current coverage rate:
 
 ## Credits
 
-Thanks to eugeneloza that provided the assets here https://opengameart.org/content/minesweeper-tile-set. Also, to the developers behind each of the imported GitHub Actions.
+Thanks to eugeneloza that provided the assets here https://opengameart.org/content/minesweeper-tile-set. Also, to the developers behind each of the imported GitHub Actions. This project uses the DSEG7(https://github.com/keshikan/DSEG) font.
