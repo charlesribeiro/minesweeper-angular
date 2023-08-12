@@ -6,6 +6,9 @@ import { Store } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
 import { Observable, combineLatest, map } from "rxjs";
 import { GameStatus } from "../../../../models/gameStatus.model";
+import { TimerService } from "../../../../services/timer.service";
+import { Level } from "../../../../models/level.model";
+import { StorageService } from "../../../../services/storage.service";
 
 @Component({
   selector: "app-main-game",
@@ -16,13 +19,21 @@ export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
   gameStatus$: Observable<GameStatus>;
   flagsLeft$: Observable<number>;
+  timer$: Observable<number>;
 
   readonly GAMEOVER = GameStatus.LOST;
   readonly WON = GameStatus.WON;
 
-  constructor(private store: Store<IApp>) {}
+  constructor(
+    private store: Store<IApp>,
+    private storage: StorageService,
+    private timer: TimerService,
+  ) {}
 
   ngOnInit(): void {
+    this.timer.startTimer(0);
+    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
+    this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());
     this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
     this.gameStatus$ = this.store.select(fromAppSelectors.selectGameStatus);
@@ -33,6 +44,8 @@ export class MainGameComponent implements OnInit {
     ]).pipe(
       map(([totalMines, flagsAlreadyUsed]) => totalMines - flagsAlreadyUsed),
     );
+
+    this.timer$ = this.timer.currentTimer$;
   }
 
   rightClick(cell: Cell): void {
