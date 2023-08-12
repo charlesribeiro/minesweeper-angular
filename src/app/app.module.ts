@@ -15,6 +15,7 @@ import { StorageService } from "./services/storage.service";
 import { SettingsComponent } from "./features/settings/components/settings.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HeaderComponent } from "./features/shared/header/header.component";
+import { TimerService } from "./services/timer.service";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { HeaderComponent } from "./features/shared/header/header.component";
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [StorageService],
+  providers: [StorageService, TimerService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
