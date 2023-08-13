@@ -3,15 +3,17 @@ import { Injectable } from "@angular/core";
 import * as fromAppActions from "../state/app.actions";
 import { CreateLevelService } from "../services/create-level.service";
 import { ClickHandlerService } from "../services/click-handler.service";
+import { TimerService } from "../services/timer.service";
 import {
   mergeMap,
   map,
   catchError,
   concatMap,
   withLatestFrom,
+  tap,
 } from "rxjs/operators";
 import { of } from "rxjs";
-import { Cell, MineStatus } from "../models/cell.model";
+import { Cell } from "../models/cell.model";
 import { Action, Store, select } from "@ngrx/store";
 import { IApp } from "./app.interface";
 import * as fromAppSelectors from "../state/app.selectors";
@@ -23,13 +25,15 @@ export class AppEffects {
     private actions$: Actions,
     private createLevelService: CreateLevelService,
     private gameService: ClickHandlerService,
+    private timerService: TimerService,
   ) {}
   startGame$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fromAppActions.startGame),
+      ofType(fromAppActions.startGame, fromAppActions.resetGame),
       mergeMap(() =>
         this.createLevelService.createMatrix().pipe(
           map((entities) => fromAppActions.createMatrixSuccess({ entities })),
+          tap(() => this.timerService.startTimer(0)),
           catchError(({ message }) =>
             of(fromAppActions.createMatrixFail({ message })),
           ),
@@ -50,6 +54,7 @@ export class AppEffects {
             });
 
             if (cell.hasMine) {
+              this.timerService.endTimer();
               actions.push(fromAppActions.gameOver());
             } else {
               actions.push(fromAppActions.checkForWin());
@@ -96,6 +101,7 @@ export class AppEffects {
       ),
       mergeMap(([, flaggedCells, cellsWithMines, allCellsAreDecided]) => {
         if (flaggedCells === cellsWithMines && allCellsAreDecided) {
+          this.timerService.endTimer();
           return of(fromAppActions.wonGame());
         }
         return of(fromAppActions.continueGame());

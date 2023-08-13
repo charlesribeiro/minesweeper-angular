@@ -5,6 +5,7 @@ import { Level } from "../models/level.model";
 import { mockBoard } from "../utils/mock-board";
 import { mockCell } from "../utils/mock-cell";
 import { GameStatus } from "../models/gameStatus.model";
+import { mockSettings } from "../utils/mock-settings";
 
 describe("appReducer", () => {
   describe("an unknown action", () => {
@@ -121,6 +122,18 @@ describe("appReducer", () => {
 
       expect(result.playerBoard.gameStatus).toBeTruthy();
       expect(result.playerBoard.gameStatus).toBe(GameStatus.WON);
+    });
+  });
+
+  describe("setSettings", () => {
+    it("should set game settings", () => {
+      const settings = mockSettings;
+      const action = fromAppActions.setSettings({ settings });
+
+      const result = AppReducer(initialAppState, action);
+
+      expect(result.settings).toBeTruthy();
+      expect(result.settings).toBe(settings);
     });
   });
 });

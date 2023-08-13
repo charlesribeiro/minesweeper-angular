@@ -45,7 +45,7 @@ describe("CellComponent", () => {
     );
   });
 
-  it("should emit rightClick event on right-click", () => {
+  it("should emit rightClick event on right-click and prevent default action of context menu", () => {
     jest.spyOn(component.rightClick, "emit");
     component.rightClick.emit = jest.fn();
     component.addFlagAndPreventDefaultContextMenu();
@@ -64,4 +64,36 @@ describe("CellComponent", () => {
   it("should apply fadeIn animation", fakeAsync(() => {
     expect(imgElement.classes["ng-trigger-fadeIn"]).toBeTruthy();
   }));
+
+  it('should emit leftClick event when "F" key is pressed', () => {
+    jest.spyOn(component.leftClick, "emit");
+    const event = new KeyboardEvent("keydown", {
+      keyCode: component.keyF,
+    });
+    component.navigateWithKeyboard(event);
+
+    expect(component.leftClick.emit).toHaveBeenCalledWith(component.cell);
+  });
+
+  it('should emit rightClick event when "M" key is pressed', () => {
+    jest.spyOn(component.rightClick, "emit");
+    const event = new KeyboardEvent("keydown", {
+      keyCode: component.keyM,
+    });
+    component.navigateWithKeyboard(event);
+
+    expect(component.rightClick.emit).toHaveBeenCalledWith(component.cell);
+  });
+
+  it("should not emit any event when any other key is pressed", () => {
+    jest.spyOn(component.leftClick, "emit");
+    jest.spyOn(component.rightClick, "emit");
+    const event = new KeyboardEvent("keydown", {
+      keyCode: 99,
+    });
+    component.navigateWithKeyboard(event);
+
+    expect(component.leftClick.emit).not.toHaveBeenCalled();
+    expect(component.rightClick.emit).not.toHaveBeenCalled();
+  });
 });

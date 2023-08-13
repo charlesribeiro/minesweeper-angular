@@ -5,6 +5,10 @@ import { Cell, MineStatus } from "../models/cell.model";
 
 export const selectFeature = createFeatureSelector<IApp>(userFeatureKey);
 
+export const selectSettings = createSelector(
+  selectFeature,
+  (appState: IApp) => appState.settings,
+);
 export const selectSettingsLevel = createSelector(
   selectFeature,
   (appState: IApp) => appState.settings.level,

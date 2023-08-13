@@ -18,4 +18,31 @@ describe("ResetButtonComponent", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
+
+  describe("icon getter", () => {
+    it("should return 😎 when gameStatus is WON", () => {
+      component.gameStatus = component.GAMESTATUS.WON;
+      expect(component.icon).toBe("😎");
+    });
+
+    it("should return 😵 when gameStatus is LOST", () => {
+      component.gameStatus = component.GAMESTATUS.LOST;
+      expect(component.icon).toBe("😵");
+    });
+
+    it("should return 🙂 when gameStatus is any other value", () => {
+      component.gameStatus = component.GAMESTATUS.IN_PROGRESS;
+      expect(component.icon).toBe("🙂");
+    });
+  });
+
+  describe("resetAndPreventDefault", () => {
+    it("should emit rightClick event on right-click and prevent default button action of navigation", () => {
+      jest.spyOn(component.rightClick, "emit");
+      component.rightClick.emit = jest.fn();
+      component.resetAndPreventDefault();
+
+      expect(component.rightClick.emit).toHaveBeenCalled();
+    });
+  });
 });

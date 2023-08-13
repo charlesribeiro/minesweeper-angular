@@ -5,8 +5,7 @@ import { IApp } from "src/app/state/app.interface";
 import { Store, select } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
 import { StorageService } from "../../../../services/storage.service";
-import { Observable, combineLatest, filter } from "rxjs";
-import { Level } from "../../../../models/level.model";
+import { combineLatest, filter } from "rxjs";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { TimerService } from "../../../../services/timer.service";
@@ -18,14 +17,13 @@ import { TimerService } from "../../../../services/timer.service";
   styleUrls: ["./main-game.component.sass"],
 })
 export class MainGameComponent implements OnInit {
-  cells$: Observable<Cell[][]>;
-  flagsLeft$: Observable<number>;
-  timeElapsed: number = 0;
+  cells: Cell[][];
+  timeElapsed: number;
   gameStatus: GameStatus;
 
   flagsLeft: number;
 
-  readonly GAMESTATUS = GameStatus;
+  readonly NOT_PLAYING = GameStatus.NOT_PLAYING;
 
   constructor(
     private store: Store<IApp>,
@@ -34,17 +32,18 @@ export class MainGameComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.timer.startTimer(0);
-    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
-    this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());
-    this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
 
+    this.store
+      .select(fromAppSelectors.selectPlayerBoard)
+      .subscribe((cells) => (this.cells = cells));
     this.store
       .select(fromAppSelectors.selectGameStatus)
       .subscribe((gameStatus) => (this.gameStatus = gameStatus));
 
-    this.timer.currentTimer$.subscribe((time) => (this.timeElapsed = time));
+    this.timer.currentTimer$
+      .pipe(untilDestroyed(this))
+      .subscribe((timeElapsed) => (this.timeElapsed = timeElapsed));
 
     combineLatest([
       this.store.pipe(select(fromAppSelectors.selectCountOfCellsWithMines)),
@@ -66,7 +65,7 @@ export class MainGameComponent implements OnInit {
   leftClick(cell: Cell): void {
     this.store.dispatch(fromAppActions.setLeftClick({ cell }));
   }
-  reset() {
-    debugger;
+  reset(): void {
+    this.store.dispatch(fromAppActions.resetGame());
   }
 }

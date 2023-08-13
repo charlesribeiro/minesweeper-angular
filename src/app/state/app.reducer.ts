@@ -15,6 +15,8 @@ import {
   startGame,
   wonGame,
   continueGame,
+  setSettings,
+  resetGame,
 } from "./app.actions";
 import { GameStatus } from "../models/gameStatus.model";
 
@@ -48,6 +50,14 @@ export const reducer = createReducer(
     playerBoard: {
       ...state.playerBoard,
       entities,
+    },
+  })),
+  on(resetGame, (state) => ({
+    ...state,
+    playerBoard: {
+      ...state.playerBoard,
+      gameStatus: GameStatus.IN_PROGRESS,
+      flagsLeft: state.settings.totalMines,
     },
   })),
   on(startGame, (state) => ({
@@ -97,6 +107,10 @@ export const reducer = createReducer(
       ...state.playerBoard,
       gameStatus: GameStatus.WON,
     },
+  })),
+  on(setSettings, (state, { settings }) => ({
+    ...state,
+    settings,
   })),
 );
 

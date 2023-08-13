@@ -17,7 +17,7 @@ import { Cell } from "src/app/models/cell.model";
     trigger("fadeIn", [
       transition(":enter", [
         style({ opacity: 0 }),
-        animate("500ms", style({ opacity: 1 })),
+        animate("200ms", style({ opacity: 1 })),
       ]),
     ]),
   ],
@@ -27,18 +27,30 @@ export class CellComponent {
   @Output() rightClick = new EventEmitter<Cell>();
   @Output() leftClick = new EventEmitter<Cell>();
 
+  readonly keyM = 70;
+  readonly keyF = 77;
+
   get imagePath(): string {
     return `/assets/images/MINESWEEPER_${this.cell.status}.png`;
   }
 
   @HostListener("contextmenu")
-  addFlagAndPreventDefaultContextMenu() {
+  addFlagAndPreventDefaultContextMenu(): boolean {
     this.rightClick.emit(this.cell);
     return false;
   }
 
   @HostListener("click")
-  clickOnMine() {
+  clickOnMine(): void {
     this.leftClick.emit(this.cell);
+  }
+
+  @HostListener("keydown", ["$event"])
+  navigateWithKeyboard(event: KeyboardEvent): void {
+    if (event.keyCode === this.keyF) {
+      this.leftClick.emit(this.cell);
+    } else if (event.keyCode === this.keyM) {
+      this.rightClick.emit(this.cell);
+    }
   }
 }
