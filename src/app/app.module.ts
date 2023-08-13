@@ -16,6 +16,7 @@ import { HeaderComponent } from "./features/shared/header/header.component";
 import { TimerService } from "./services/timer.service";
 import { SaveAndLoadComponent } from "./features/save-and-load/components/save-and-load/save-and-load.component";
 import { GameModule } from "./features/game/game.module";
+import { SharedModule } from "./features/shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { GameModule } from "./features/game/game.module";
     SaveAndLoadComponent,
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

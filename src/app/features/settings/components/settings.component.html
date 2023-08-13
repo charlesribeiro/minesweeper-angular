@@ -1,31 +1,52 @@
 <div class="grid h-screen place-items-center">
-  <form [formGroup]="form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <form
+    [formGroup]="form"
+    class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+  >
     <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="width">Width:</label>
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="width"
+        >Width:</label
+      >
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        type="number" id="width" formControlName="width">
+        type="number"
+        id="width"
+        formControlName="width"
+      />
     </div>
 
     <div>
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="height">Height:</label>
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="height"
+        >Height:</label
+      >
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        type="number" id="height" formControlName="height">
+        type="number"
+        id="height"
+        formControlName="height"
+      />
     </div>
 
     <div>
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="totalMines">Total Mines:</label>
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="totalMines"
+        >Total Mines:</label
+      >
       <input
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        type="number" id="totalMines" formControlName="totalMines">
+        type="number"
+        id="totalMines"
+        formControlName="totalMines"
+      />
     </div>
 
     <div class="py-8">
-      <button *ngIf="this.form.valid"
+      <button
+        *ngIf="this.form.valid"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
-        type="button" (click)="saveForm()"
-        >Save Settings
+        type="button"
+        (click)="saveForm()"
+      >
+        Save Settings
       </button>
     </div>
   </form>

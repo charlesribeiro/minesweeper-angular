@@ -20,6 +20,8 @@ export class MainGameComponent implements OnInit {
   cells: Cell[][];
   timeElapsed: number;
   gameStatus: GameStatus;
+  loading = false;
+  error = false;
 
   flagsLeft: number;
 
@@ -36,9 +38,22 @@ export class MainGameComponent implements OnInit {
 
     this.store
       .select(fromAppSelectors.selectPlayerBoard)
+      .pipe(untilDestroyed(this))
       .subscribe((cells) => (this.cells = cells));
+
+    this.store
+      .select(fromAppSelectors.selectGameError)
+      .pipe(untilDestroyed(this))
+      .subscribe((error) => (this.error = error));
+
+    this.store
+      .select(fromAppSelectors.selectGameLoading)
+      .pipe(untilDestroyed(this))
+      .subscribe((loading) => (this.loading = loading));
+
     this.store
       .select(fromAppSelectors.selectGameStatus)
+      .pipe(untilDestroyed(this))
       .subscribe((gameStatus) => (this.gameStatus = gameStatus));
 
     this.timer.currentTimer$
