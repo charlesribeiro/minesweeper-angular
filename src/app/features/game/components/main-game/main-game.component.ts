@@ -33,6 +33,7 @@ export class MainGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fromAppActions.startGame());
+
     this.store
       .select(fromAppSelectors.selectPlayerBoard)
       .subscribe((cells) => (this.cells = cells));
