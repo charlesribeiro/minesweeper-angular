@@ -1,5 +1,5 @@
 <ng-container *ngIf="gameStatus !== GAMESTATUS.NOT_PLAYING">
-  <div>
+  <form>
     <div class="flex justify-between items-center mb-2">
       <app-seven-segment-display [value]="flagsLeft" class="order-1"></app-seven-segment-display>
       <app-reset-button (rightClick)="reset()" [gameStatus]="gameStatus" class="order-2"></app-reset-button>
@@ -12,5 +12,5 @@
         </td>
       </tr>
     </table>
-  </div>
+  </form>
 </ng-container>

@@ -17,5 +17,16 @@ import { GameStatus } from "../../../../models/gameStatus.model";
 export class ResetButtonComponent {
   @Output() rightClick = new EventEmitter<Cell>();
   @Input() gameStatus: GameStatus;
-  readonly GAMEOVER = GameStatus.LOST;
+  readonly GAMESTATUS = GameStatus;
+
+  get icon(): string {
+    switch (this.gameStatus) {
+      case this.GAMESTATUS.WON:
+        return "😎";
+      case this.GAMESTATUS.LOST:
+        return "😵";
+      default:
+        return "🙂";
+    }
+  }
 }

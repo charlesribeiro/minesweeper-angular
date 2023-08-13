@@ -27,6 +27,9 @@ export class CellComponent {
   @Output() rightClick = new EventEmitter<Cell>();
   @Output() leftClick = new EventEmitter<Cell>();
 
+  readonly keyM = 70;
+  readonly keyF = 77;
+
   get imagePath(): string {
     return `/assets/images/MINESWEEPER_${this.cell.status}.png`;
   }
@@ -40,5 +43,14 @@ export class CellComponent {
   @HostListener("click")
   clickOnMine() {
     this.leftClick.emit(this.cell);
+  }
+
+  @HostListener("keydown", ["$event"])
+  clickOnF(event: KeyboardEvent) {
+    if (event.keyCode === this.keyF) {
+      this.leftClick.emit(this.cell);
+    } else if (event.keyCode === this.keyM) {
+      this.rightClick.emit(this.cell);
+    }
   }
 }
