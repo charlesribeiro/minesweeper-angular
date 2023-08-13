@@ -1,6 +1,4 @@
 <ng-container *ngIf="gameStatus !== GAMESTATUS.NOT_PLAYING">
-  <div *ngIf="gameStatus === GAMESTATUS.LOST">Game Over</div>
-  <div *ngIf="gameStatus === GAMESTATUS.WON">You won</div>
   <div>
     <div class="flex justify-between items-center mb-2">
       <app-seven-segment-display [value]="flagsLeft" class="order-1"></app-seven-segment-display>

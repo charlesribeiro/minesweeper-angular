@@ -18,6 +18,7 @@ import { HeaderComponent } from "./features/shared/header/header.component";
 import { TimerService } from "./services/timer.service";
 import { SevenSegmentDisplayComponent } from "./features/game/containers/seven-segment/seven-segment-display.component";
 import { ResetButtonComponent } from "./features/game/containers/reset-button/reset-button.component";
+import { SaveAndLoadComponent } from "./features/save-and-load/components/save-and-load/save-and-load.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ResetButtonComponent } from "./features/game/containers/reset-button/re
     CellComponent,
     SevenSegmentDisplayComponent,
     ResetButtonComponent,
+    SaveAndLoadComponent,
   ],
   imports: [
     BrowserModule,
