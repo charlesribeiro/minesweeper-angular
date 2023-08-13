@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HeaderComponent } from "./features/shared/header/header.component";
 import { TimerService } from "./services/timer.service";
 import { SaveAndLoadComponent } from "./features/save-and-load/components/save-and-load/save-and-load.component";
-import { GameModule } from "./features/game/game/game.module";
+import { GameModule } from "./features/game/game.module";
 
 @NgModule({
   declarations: [

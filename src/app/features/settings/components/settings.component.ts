@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { IApp } from "../../../state/app.interface";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
 import { Settings } from "src/app/models/settings.model";
 import * as fromAppSelectors from "../../../state/app.selectors";
@@ -33,9 +33,12 @@ export class SettingsComponent implements OnInit {
 
   initForm(settings: Settings): void {
     this.form = this.fb.group({
-      width: [settings.width],
-      height: [settings.height],
-      totalMines: [settings.totalMines],
+      width: [settings.width, [Validators.required, Validators.min(9)]],
+      height: [settings.height, [Validators.required, Validators.min(9)]],
+      totalMines: [
+        settings.totalMines,
+        [Validators.required, Validators.min(3)],
+      ],
     });
   }
 

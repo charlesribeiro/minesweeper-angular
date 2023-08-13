@@ -22,9 +22,10 @@
     </div>
 
     <div class="py-8">
-      <button
+      <button *ngIf="this.form.valid"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
-        type="button" (click)="saveForm()">Save Settings
+        type="button" (click)="saveForm()"
+        >Save Settings
       </button>
     </div>
   </form>
