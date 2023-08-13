@@ -7,7 +7,9 @@ import { Store } from "@ngrx/store";
 import { IApp } from "../state/app.interface";
 import { neighborOffsets } from "../utils/neighbor-offsets";
 import { CellPosition } from "../models/cellPosition.model";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Injectable({
   providedIn: "root",
 })
@@ -25,18 +27,22 @@ export class ClickHandlerService {
   constructor(private readonly store: Store<IApp>) {
     this.store
       .select(fromAppSelectors.selectSettingsLevel)
+      .pipe(untilDestroyed(this))
       .subscribe((level: Level) => (this.level = level));
 
     this.store
       .select(fromAppSelectors.selectGridHeight)
+      .pipe(untilDestroyed(this))
       .subscribe((height: number) => (this.height = height));
 
     this.store
       .select(fromAppSelectors.selectGridWidth)
+      .pipe(untilDestroyed(this))
       .subscribe((width: number) => (this.width = width));
 
     this.store
       .select(fromAppSelectors.selectRealBoard)
+      .pipe(untilDestroyed(this))
       .subscribe((realCells: Cell[][]) => (this.realCells = realCells));
   }
 
@@ -50,6 +56,7 @@ export class ClickHandlerService {
     }
 
     this.revealedCells = [];
+    this.visitedCells = new Set<string>();
 
     this.deepSearchFirst(selectedCell);
 

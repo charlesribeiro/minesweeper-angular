@@ -29,7 +29,7 @@ export class AppEffects {
   ) {}
   startGame$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fromAppActions.startGame),
+      ofType(fromAppActions.startGame, fromAppActions.resetGame),
       mergeMap(() =>
         this.createLevelService.createMatrix().pipe(
           map((entities) => fromAppActions.createMatrixSuccess({ entities })),

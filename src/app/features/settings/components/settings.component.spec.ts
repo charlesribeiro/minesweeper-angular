@@ -28,8 +28,6 @@ describe("SettingsComponent", () => {
     fixture = TestBed.createComponent(SettingsComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-
-    component = fixture.componentInstance;
     store.overrideSelector(fromAppSelectors.selectSettings, mockSettings);
 
     fixture.detectChanges();
