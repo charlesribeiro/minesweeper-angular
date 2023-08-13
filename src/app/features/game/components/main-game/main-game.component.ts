@@ -5,7 +5,7 @@ import { IApp } from "src/app/state/app.interface";
 import { Store, select } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
 import { StorageService } from "../../../../services/storage.service";
-import { Observable, combineLatest, filter } from "rxjs";
+import { combineLatest, filter } from "rxjs";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { TimerService } from "../../../../services/timer.service";
@@ -18,14 +18,13 @@ import { Level } from "../../../../models/level.model";
   styleUrls: ["./main-game.component.sass"],
 })
 export class MainGameComponent implements OnInit {
-  cells$: Observable<Cell[][]>;
-  flagsLeft$: Observable<number>;
-  timeElapsed: number = 0;
+  cells: Cell[][];
+  timeElapsed: number;
   gameStatus: GameStatus;
 
   flagsLeft: number;
 
-  readonly GAMESTATUS = GameStatus;
+  readonly NOT_PLAYING = GameStatus.NOT_PLAYING;
 
   constructor(
     private store: Store<IApp>,
@@ -38,8 +37,9 @@ export class MainGameComponent implements OnInit {
     this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
     this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());
-    this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
-
+    this.store
+      .select(fromAppSelectors.selectPlayerBoard)
+      .subscribe((cells) => (this.cells = cells));
     this.store
       .select(fromAppSelectors.selectGameStatus)
       .subscribe((gameStatus) => (this.gameStatus = gameStatus));

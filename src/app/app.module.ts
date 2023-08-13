@@ -19,6 +19,7 @@ import { TimerService } from "./services/timer.service";
 import { SevenSegmentDisplayComponent } from "./features/game/containers/seven-segment/seven-segment-display.component";
 import { ResetButtonComponent } from "./features/game/containers/reset-button/reset-button.component";
 import { SaveAndLoadComponent } from "./features/save-and-load/components/save-and-load/save-and-load.component";
+import { BoardComponent } from "./features/game/containers/board/board.component";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { SaveAndLoadComponent } from "./features/save-and-load/components/save-a
     SevenSegmentDisplayComponent,
     ResetButtonComponent,
     SaveAndLoadComponent,
+    BoardComponent,
   ],
   imports: [
     BrowserModule,
