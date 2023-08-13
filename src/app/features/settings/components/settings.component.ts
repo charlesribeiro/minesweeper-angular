@@ -13,6 +13,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 @Component({
   selector: "app-settings",
   templateUrl: "./settings.component.html",
+  styleUrls: ["./settings.component.html"],
 })
 export class SettingsComponent implements OnInit {
   form: FormGroup;
