@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from "@angular/core";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { Cell } from "../../../../models/cell.model";
 
@@ -6,6 +12,7 @@ import { Cell } from "../../../../models/cell.model";
   selector: "app-board",
   templateUrl: "./board.component.html",
   styleUrls: ["./board.component.sass"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardComponent {
   @Input() cells: Cell[][];

@@ -33,7 +33,7 @@ export class MainGameComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.timer.startTimer(0);
+    // this.timer.startTimer(0);
     this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
     this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());
