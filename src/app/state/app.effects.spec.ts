@@ -220,19 +220,16 @@ describe("AppEffects", () => {
 
   describe("setSettings$", () => {
     it('should navigate to "game" when setSettings action is dispatched', () => {
-      // Spy on the router's navigate method to check if it gets called
-      const navigateSpy = jest.spyOn(router, "navigate");
+      jest.spyOn(router, "navigate");
 
-      // Simulate the setSettings action being dispatched
       actions$ = hot("-a", {
         a: fromAppActions.setSettings({
           settings: mockSettings,
         }),
       });
 
-      // Let the effect run and ensure it calls the navigate method with the correct arguments
       effects.setSettings$.subscribe(() => {
-        expect(navigateSpy).toHaveBeenCalledWith(["game"]);
+        expect(router.navigate).toHaveBeenCalledWith(["game"]);
       });
     });
   });
