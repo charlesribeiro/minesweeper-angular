@@ -20,6 +20,9 @@ import {
 } from "../utils/mock-cell";
 import { IApp } from "./app.interface";
 import { TimerService } from "../services/timer.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Router } from "@angular/router";
+import { mockSettings } from "../utils/mock-settings";
 
 describe("AppEffects", () => {
   let actions$: Observable<Action>;
@@ -28,10 +31,11 @@ describe("AppEffects", () => {
   let gameService: ClickHandlerService;
   let timerService: TimerService;
   let store: MockStore<IApp>;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [
         AppEffects,
         TimerService,
@@ -47,6 +51,7 @@ describe("AppEffects", () => {
     store = TestBed.inject(MockStore);
     gameService = TestBed.inject(ClickHandlerService);
     timerService = TestBed.inject(TimerService);
+    router = TestBed.inject(Router);
   });
 
   it("should be created", () => {
@@ -211,5 +216,28 @@ describe("AppEffects", () => {
 
       expect(effects.checkForWin$).toBeObservable(expected);
     });
+  });
+
+  describe("setSettings$", () => {
+    it('should navigate to "game" when setSettings action is dispatched', () => {
+      // Spy on the router's navigate method to check if it gets called
+      const navigateSpy = jest.spyOn(router, "navigate");
+
+      // Simulate the setSettings action being dispatched
+      actions$ = hot("-a", {
+        a: fromAppActions.setSettings({
+          settings: mockSettings,
+        }),
+      });
+
+      // Let the effect run and ensure it calls the navigate method with the correct arguments
+      effects.setSettings$.subscribe(() => {
+        expect(navigateSpy).toHaveBeenCalledWith(["game"]);
+      });
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });

@@ -66,4 +66,13 @@ describe("MainGameComponent", () => {
       );
     });
   });
+
+  describe("reset", () => {
+    it("should dispatch the resetGame action", () => {
+      jest.spyOn(store, "dispatch");
+      component.reset();
+
+      expect(store.dispatch).toHaveBeenCalledWith(fromAppActions.resetGame());
+    });
+  });
 });
