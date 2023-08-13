@@ -35,18 +35,18 @@ export class CellComponent {
   }
 
   @HostListener("contextmenu")
-  addFlagAndPreventDefaultContextMenu() {
+  addFlagAndPreventDefaultContextMenu(): boolean {
     this.rightClick.emit(this.cell);
     return false;
   }
 
   @HostListener("click")
-  clickOnMine() {
+  clickOnMine(): void {
     this.leftClick.emit(this.cell);
   }
 
   @HostListener("keydown", ["$event"])
-  clickOnF(event: KeyboardEvent) {
+  navigateWithKeyboard(event: KeyboardEvent): void {
     if (event.keyCode === this.keyF) {
       this.leftClick.emit(this.cell);
     } else if (event.keyCode === this.keyM) {

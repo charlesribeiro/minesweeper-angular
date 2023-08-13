@@ -29,4 +29,9 @@ export class ResetButtonComponent {
         return "🙂";
     }
   }
+
+  resetAndPreventDefault(): boolean {
+    this.rightClick.emit();
+    return false;
+  }
 }

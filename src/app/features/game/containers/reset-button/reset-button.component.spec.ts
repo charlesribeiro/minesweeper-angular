@@ -35,4 +35,14 @@ describe("ResetButtonComponent", () => {
       expect(component.icon).toBe("🙂");
     });
   });
+
+  describe("resetAndPreventDefault", () => {
+    it("should emit rightClick event on right-click and prevent default button action of navigation", () => {
+      jest.spyOn(component.rightClick, "emit");
+      component.rightClick.emit = jest.fn();
+      component.resetAndPreventDefault();
+
+      expect(component.rightClick.emit).toHaveBeenCalled();
+    });
+  });
 });

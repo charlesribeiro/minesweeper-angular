@@ -42,7 +42,6 @@ export class TimerService {
   }
 
   startTimer(initialTime: number): void {
-    debugger;
     this.currentTime = (initialTime ?? 0) + 1;
     this.timerState$.next(false);
   }

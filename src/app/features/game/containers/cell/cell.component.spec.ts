@@ -45,7 +45,7 @@ describe("CellComponent", () => {
     );
   });
 
-  it("should emit rightClick event on right-click", () => {
+  it("should emit rightClick event on right-click and prevent default action of context menu", () => {
     jest.spyOn(component.rightClick, "emit");
     component.rightClick.emit = jest.fn();
     component.addFlagAndPreventDefaultContextMenu();
@@ -70,7 +70,7 @@ describe("CellComponent", () => {
     const event = new KeyboardEvent("keydown", {
       keyCode: component.keyF,
     });
-    component.clickOnF(event);
+    component.navigateWithKeyboard(event);
 
     expect(component.leftClick.emit).toHaveBeenCalledWith(component.cell);
   });
@@ -80,7 +80,7 @@ describe("CellComponent", () => {
     const event = new KeyboardEvent("keydown", {
       keyCode: component.keyM,
     });
-    component.clickOnF(event);
+    component.navigateWithKeyboard(event);
 
     expect(component.rightClick.emit).toHaveBeenCalledWith(component.cell);
   });
@@ -91,7 +91,7 @@ describe("CellComponent", () => {
     const event = new KeyboardEvent("keydown", {
       keyCode: 99,
     });
-    component.clickOnF(event);
+    component.navigateWithKeyboard(event);
 
     expect(component.leftClick.emit).not.toHaveBeenCalled();
     expect(component.rightClick.emit).not.toHaveBeenCalled();
