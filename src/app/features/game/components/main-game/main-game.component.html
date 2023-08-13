@@ -1,16 +1,27 @@
-<ng-container *ngIf="gameStatus !== GAMESTATUS.NOT_PLAYING">
+<div *ngIf="gameStatus !== GAMESTATUS.NOT_PLAYING">
   <form>
     <div class="flex justify-between items-center mb-2">
       <app-seven-segment-display [value]="flagsLeft" class="order-1"></app-seven-segment-display>
       <app-reset-button (rightClick)="reset()" [gameStatus]="gameStatus" class="order-2"></app-reset-button>
       <app-seven-segment-display id="timer" [value]="timeElapsed" class="order-3"></app-seven-segment-display>
     </div>
-    <table class="table-auto">
-      <tr *ngFor="let row of cells$ | async">
-        <td *ngFor="let item of row">
-          <app-cell [cell]="item" (rightClick)="rightClick($event)" (leftClick)="leftClick($event)"></app-cell>
-        </td>
-      </tr>
-    </table>
+
+    <div class="relative">
+      <table class="table-auto">
+        <tr *ngFor="let row of cells$ | async">
+          <td *ngFor="let item of row">
+            <app-cell [cell]="item" (rightClick)="rightClick($event)" (leftClick)="leftClick($event)"></app-cell>
+          </td>
+        </tr>
+      </table>
+      <div *ngIf="gameStatus === GAMESTATUS.WON" class="absolute top-0 left-0 w-full h-full flex items-center justify-center overlay">
+        <span class="text-white text-2xl font-bold">YOU WON!!</span>
+      </div>
+      
+      <div *ngIf="gameStatus === GAMESTATUS.LOST" class="absolute top-0 left-0 w-full h-full flex items-center justify-center overlay">
+        <span class="text-white text-2xl font-bold">YOU LOSE!!</span>
+      </div>
+    </div>
   </form>
-</ng-container>
+</div>
+
