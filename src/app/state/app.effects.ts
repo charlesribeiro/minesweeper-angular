@@ -17,6 +17,7 @@ import { Cell } from "../models/cell.model";
 import { Action, Store, select } from "@ngrx/store";
 import { IApp } from "./app.interface";
 import * as fromAppSelectors from "../state/app.selectors";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AppEffects {
@@ -26,6 +27,7 @@ export class AppEffects {
     private createLevelService: CreateLevelService,
     private gameService: ClickHandlerService,
     private timerService: TimerService,
+    private router: Router,
   ) {}
   startGame$ = createEffect(() =>
     this.actions$.pipe(
@@ -107,5 +109,14 @@ export class AppEffects {
         return of(fromAppActions.continueGame());
       }),
     ),
+  );
+
+  setSettings$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(fromAppActions.setSettings),
+        tap(() => this.router.navigate(["game"])),
+      ),
+    { dispatch: false },
   );
 }

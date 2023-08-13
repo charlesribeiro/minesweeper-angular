@@ -5,6 +5,7 @@ import {
   mock3x3BoardGameWon,
   mock3x3BoardWith8Mines,
 } from "../utils/mock-board";
+import { mockSettings } from "../utils/mock-settings";
 import { IApp, IAppState } from "./app.interface";
 import { initialAppState } from "./app.reducer";
 import * as fromAppSelectors from "./app.selectors";
@@ -13,18 +14,25 @@ describe("AppSelectors", () => {
   const initialState: IAppState = {
     AppState: {
       ...initialAppState,
-      settings: { ...initialAppState.settings, level: Level.Hard },
+      settings: mockSettings,
       playerBoard: { ...initialAppState.playerBoard, flagsLeft: 8 },
     },
   };
   const getAppState = (state: IAppState): IApp => state.AppState;
 
+  it("should select current settings", () => {
+    const result = fromAppSelectors.selectSettings.projector(
+      getAppState(initialState),
+    );
+
+    expect(result).toEqual(mockSettings);
+  });
   it("should select current game level", () => {
     const result = fromAppSelectors.selectSettingsLevel.projector(
       getAppState(initialState),
     );
 
-    expect(result).toEqual(Level.Hard);
+    expect(result).toEqual(Level.Easy);
   });
   it("should select current game status", () => {
     const result = fromAppSelectors.selectGameStatus.projector(
@@ -33,6 +41,33 @@ describe("AppSelectors", () => {
 
     expect(result).toEqual(GameStatus.NOT_PLAYING);
   });
+
+  it("should select current game loading", () => {
+    const mockState: IApp = {
+      ...initialAppState,
+      playerBoard: {
+        ...initialAppState.playerBoard,
+        loading: true,
+      },
+    };
+
+    const result = fromAppSelectors.selectGameLoading.projector(mockState);
+    expect(result).toEqual(true);
+  });
+
+  it("should select current game error", () => {
+    const mockState: IApp = {
+      ...initialAppState,
+      playerBoard: {
+        ...initialAppState.playerBoard,
+        error: true,
+      },
+    };
+
+    const result = fromAppSelectors.selectGameError.projector(mockState);
+    expect(result).toEqual(true);
+  });
+
   it("should select total mines", () => {
     const result = fromAppSelectors.selectFlagsLeft.projector(
       getAppState(initialState),

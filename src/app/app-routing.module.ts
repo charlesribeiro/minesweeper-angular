@@ -5,8 +5,8 @@ import { SettingsComponent } from "./features/settings/components/settings.compo
 import { SaveAndLoadComponent } from "./features/save-and-load/components/save-and-load/save-and-load.component";
 
 const routes: Routes = [
-  { path: "game", redirectTo: "", pathMatch: "full" },
-  { path: "", component: MainGameComponent },
+  { path: "", redirectTo: "settings", pathMatch: "full" },
+  { path: "game", component: MainGameComponent },
   { path: "settings", component: SettingsComponent },
   { path: "save-load", component: SaveAndLoadComponent },
 ];

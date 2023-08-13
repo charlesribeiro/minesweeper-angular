@@ -46,10 +46,14 @@ export const reducer = createReducer(
     realBoard: {
       ...state.realBoard,
       entities,
+      error: false,
+      loading: false,
     },
     playerBoard: {
       ...state.playerBoard,
       entities,
+      error: false,
+      loading: false,
     },
   })),
   on(resetGame, (state) => ({
@@ -58,6 +62,8 @@ export const reducer = createReducer(
       ...state.playerBoard,
       gameStatus: GameStatus.IN_PROGRESS,
       flagsLeft: state.settings.totalMines,
+      loading: true,
+      error: false,
     },
   })),
   on(startGame, (state) => ({
@@ -66,6 +72,8 @@ export const reducer = createReducer(
       ...state.playerBoard,
       gameStatus: GameStatus.IN_PROGRESS,
       flagsLeft: state.settings.totalMines,
+      loading: true,
+      error: false,
     },
   })),
   on(updateCell, (state, { cell }) => {

@@ -5,6 +5,7 @@ import { ResetButtonComponent } from "./containers/reset-button/reset-button.com
 import { SevenSegmentDisplayComponent } from "./containers/seven-segment/seven-segment-display.component";
 import { MainGameComponent } from "./components/main-game/main-game.component";
 import { BoardComponent } from "./containers/board/board.component";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { BoardComponent } from "./containers/board/board.component";
     MainGameComponent,
     BoardComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, SharedModule],
   exports: [
     CellComponent,
     SevenSegmentDisplayComponent,

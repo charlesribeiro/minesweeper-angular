@@ -1,5 +1,7 @@
 <div *ngIf="gameStatus !== NOT_PLAYING">
-  <form>
+  <app-loader *ngIf="loading"></app-loader>
+  <app-error *ngIf="error"></app-error>
+  <form *ngIf="!error && !loading">
     <div class="flex justify-between items-center mb-2">
       <app-seven-segment-display
         [value]="flagsLeft"

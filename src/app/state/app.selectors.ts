@@ -41,6 +41,14 @@ export const selectFlagsLeft = createSelector(
   selectFeature,
   (appState: IApp) => appState?.playerBoard.flagsLeft,
 );
+export const selectGameLoading = createSelector(
+  selectFeature,
+  (appState: IApp) => appState?.playerBoard.loading,
+);
+export const selectGameError = createSelector(
+  selectFeature,
+  (appState: IApp) => appState?.playerBoard.error,
+);
 
 export const selectPlayerBoardWithoutPristineCells = createSelector(
   selectFeature,
