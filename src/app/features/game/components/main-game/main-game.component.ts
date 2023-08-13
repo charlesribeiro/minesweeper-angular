@@ -10,6 +10,7 @@ import { Level } from "../../../../models/level.model";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { TimerService } from "../../../../services/timer.service";
+
 @UntilDestroy()
 @Component({
   selector: "app-main-game",
@@ -20,7 +21,7 @@ export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
   gameStatus$: Observable<GameStatus>;
   flagsLeft$: Observable<number>;
-  timer$: Observable<number>;
+  timeElapsed: number = 0;
 
   flagsLeft: number;
 
@@ -39,6 +40,7 @@ export class MainGameComponent implements OnInit {
     this.store.dispatch(fromAppActions.startGame());
     this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
     this.gameStatus$ = this.store.select(fromAppSelectors.selectGameStatus);
+    this.timer.currentTimer$.subscribe((time) => (this.timeElapsed = time));
 
     combineLatest([
       this.store.pipe(select(fromAppSelectors.selectCountOfCellsWithMines)),

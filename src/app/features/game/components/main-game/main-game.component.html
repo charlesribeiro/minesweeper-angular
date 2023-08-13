@@ -4,17 +4,19 @@
 <ng-container *ngIf="(gameStatus$ | async) !== GAMESTATUS.NOT_PLAYING">
   <div class="flex">
     <app-seven-segment-display [value]="flagsLeft"></app-seven-segment-display>
+    <app-seven-segment-display
+      [value]="timeElapsed"
+    ></app-seven-segment-display>
   </div>
-
-{{ timer$ | async }}
-<table class="table-auto">
-  <tr *ngFor="let row of cells$ | async">
-    <td *ngFor="let item of row">
-      <app-cell
-        [cell]="item"
-        (rightClick)="rightClick($event)"
-        (leftClick)="leftClick($event)"
-      ></app-cell>
-    </td>
-  </tr>
-</table>
+  <table class="table-auto">
+    <tr *ngFor="let row of cells$ | async">
+      <td *ngFor="let item of row">
+        <app-cell
+          [cell]="item"
+          (rightClick)="rightClick($event)"
+          (leftClick)="leftClick($event)"
+        ></app-cell>
+      </td>
+    </tr>
+  </table>
+</ng-container>

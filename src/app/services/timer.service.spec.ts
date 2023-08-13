@@ -7,9 +7,7 @@ describe("TimerService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        TimerService,
-      ],
+      providers: [TimerService],
     });
 
     service = TestBed.inject(TimerService);
