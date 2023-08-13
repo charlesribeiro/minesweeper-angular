@@ -16,6 +16,8 @@ import { SettingsComponent } from "./features/settings/components/settings.compo
 import { ReactiveFormsModule } from "@angular/forms";
 import { HeaderComponent } from "./features/shared/header/header.component";
 import { TimerService } from "./services/timer.service";
+import { SevenSegmentDisplayComponent } from "./features/game/containers/seven-segment/seven-segment-display.component";
+import { ResetButtonComponent } from "./features/game/containers/reset-button/reset-button.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +26,10 @@ import { TimerService } from "./services/timer.service";
     MainGameComponent,
     CellComponent,
     SettingsComponent,
+    MainGameComponent,
+    CellComponent,
+    SevenSegmentDisplayComponent,
+    ResetButtonComponent,
   ],
   imports: [
     BrowserModule,

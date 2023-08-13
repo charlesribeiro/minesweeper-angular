@@ -28,7 +28,7 @@ export class CellComponent {
   @Output() leftClick = new EventEmitter<Cell>();
 
   get imagePath(): string {
-    return `/assets/MINESWEEPER_${this.cell.status}.png`;
+    return `/assets/images/MINESWEEPER_${this.cell.status}.png`;
   }
 
   @HostListener("contextmenu")

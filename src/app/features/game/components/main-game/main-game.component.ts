@@ -2,14 +2,16 @@ import * as fromAppActions from "../../../../state/app.actions";
 import * as fromAppSelectors from "../../../../state/app.selectors";
 import { Component, OnInit } from "@angular/core";
 import { IApp } from "src/app/state/app.interface";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
-import { Observable, combineLatest, map } from "rxjs";
+import { StorageService } from "../../../../services/storage.service";
+import { Observable, combineLatest, filter } from "rxjs";
 import { GameStatus } from "../../../../models/gameStatus.model";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { TimerService } from "../../../../services/timer.service";
 import { Level } from "../../../../models/level.model";
-import { StorageService } from "../../../../services/storage.service";
 
+@UntilDestroy()
 @Component({
   selector: "app-main-game",
   templateUrl: "./main-game.component.html",
@@ -17,12 +19,13 @@ import { StorageService } from "../../../../services/storage.service";
 })
 export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
-  gameStatus$: Observable<GameStatus>;
   flagsLeft$: Observable<number>;
-  timer$: Observable<number>;
+  timeElapsed: number = 0;
+  gameStatus: GameStatus;
 
-  readonly GAMEOVER = GameStatus.LOST;
-  readonly WON = GameStatus.WON;
+  flagsLeft: number;
+
+  readonly GAMESTATUS = GameStatus;
 
   constructor(
     private store: Store<IApp>,
@@ -36,16 +39,25 @@ export class MainGameComponent implements OnInit {
     this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());
     this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
-    this.gameStatus$ = this.store.select(fromAppSelectors.selectGameStatus);
 
-    this.flagsLeft$ = combineLatest([
-      this.store.select(fromAppSelectors.selectCountOfCellsWithMines),
-      this.store.select(fromAppSelectors.selectCountOfFlaggedCells),
-    ]).pipe(
-      map(([totalMines, flagsAlreadyUsed]) => totalMines - flagsAlreadyUsed),
-    );
+    this.store
+      .select(fromAppSelectors.selectGameStatus)
+      .subscribe((gameStatus) => (this.gameStatus = gameStatus));
 
-    this.timer$ = this.timer.currentTimer$;
+    this.timer.currentTimer$.subscribe((time) => (this.timeElapsed = time));
+
+    combineLatest([
+      this.store.pipe(select(fromAppSelectors.selectCountOfCellsWithMines)),
+      this.store.pipe(select(fromAppSelectors.selectCountOfFlaggedCells)),
+    ])
+      .pipe(
+        untilDestroyed(this),
+        filter(([totalMines]) => !!totalMines),
+      )
+      .subscribe(
+        ([totalMines, flagsAlreadyUsed]) =>
+          (this.flagsLeft = totalMines - flagsAlreadyUsed),
+      );
   }
 
   rightClick(cell: Cell): void {
@@ -53,5 +65,8 @@ export class MainGameComponent implements OnInit {
   }
   leftClick(cell: Cell): void {
     this.store.dispatch(fromAppActions.setLeftClick({ cell }));
+  }
+  reset() {
+    debugger;
   }
 }

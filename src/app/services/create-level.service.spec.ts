@@ -4,6 +4,7 @@ import { provideMockStore } from "@ngrx/store/testing";
 import { initialAppState as initialState } from "../state/app.reducer";
 import { mockCell } from "../utils/mock-cell";
 import { Cell } from "../models/cell.model";
+import { fisherYatesShuffle } from "../utils/fisher-yates-shuffle";
 
 describe("CreateLevelService", () => {
   let service: CreateLevelService;
@@ -59,7 +60,11 @@ describe("CreateLevelService", () => {
   describe("fisherYatesShuffle", () => {
     it("should shuffle an array of cells", () => {
       const cells: Cell[] = [mockCell, mockCell, mockCell];
-      const shuffledCells = service.fisherYatesShuffle([...cells]);
+      const shuffledCells = fisherYatesShuffle(
+        [...cells],
+        service.height,
+        service.width,
+      );
       expect(shuffledCells.length).toEqual(cells.length);
     });
   });

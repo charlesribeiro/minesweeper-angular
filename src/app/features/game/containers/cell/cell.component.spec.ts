@@ -2,7 +2,6 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  tick,
   waitForAsync,
 } from "@angular/core/testing";
 
@@ -42,7 +41,7 @@ describe("CellComponent", () => {
 
   it("should render correct image path", () => {
     expect(imgElement.nativeElement.getAttribute("src")).toEqual(
-      "/assets/MINESWEEPER_M.png",
+      "/assets/images/MINESWEEPER_M.png",
     );
   });
 

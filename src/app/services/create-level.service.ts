@@ -6,6 +6,7 @@ import { Level } from "../models/level.model";
 import { Observable, of } from "rxjs";
 import { IApp } from "../state/app.interface";
 import { Store } from "@ngrx/store";
+import { fisherYatesShuffle } from "../utils/fisher-yates-shuffle";
 
 @Injectable({
   providedIn: "root",
@@ -54,17 +55,9 @@ export class CreateLevelService {
     const cells: Cell[] = [];
 
     this.generateArrayOfMineCells(cells);
-    this.fisherYatesShuffle(cells);
+    fisherYatesShuffle(cells, this.height, this.width);
 
     return of(this.generateBoard(cells));
-  }
-
-  fisherYatesShuffle(cells: Cell[]): Cell[] {
-    for (let i = this.height * this.width - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [cells[i], cells[j]] = [cells[j], cells[i]];
-    }
-    return cells;
   }
 
   generateArrayOfMineCells(cells: Cell[]): Cell[] {
