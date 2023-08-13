@@ -15,6 +15,8 @@ export class SevenSegmentDisplayComponent implements OnChanges {
   @Input() value: number;
   display: string;
 
+  readonly errorMessage = "EEE";
+
   ngOnChanges() {
     this.formatNumber();
   }
@@ -23,7 +25,7 @@ export class SevenSegmentDisplayComponent implements OnChanges {
     if (this.value >= 0 && this.value < 1000) {
       this.display = this.value.toString().padStart(3, "0");
     } else {
-      this.display = "EEE";
+      this.display = this.errorMessage;
     }
   }
 }

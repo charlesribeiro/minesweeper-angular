@@ -19,9 +19,9 @@ import { TimerService } from "../../../../services/timer.service";
 })
 export class MainGameComponent implements OnInit {
   cells$: Observable<Cell[][]>;
-  gameStatus$: Observable<GameStatus>;
   flagsLeft$: Observable<number>;
   timeElapsed: number = 0;
+  gameStatus: GameStatus;
 
   flagsLeft: number;
 
@@ -39,7 +39,11 @@ export class MainGameComponent implements OnInit {
     this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());
     this.cells$ = this.store.select(fromAppSelectors.selectPlayerBoard);
-    this.gameStatus$ = this.store.select(fromAppSelectors.selectGameStatus);
+
+    this.store
+      .select(fromAppSelectors.selectGameStatus)
+      .subscribe((gameStatus) => (this.gameStatus = gameStatus));
+
     this.timer.currentTimer$.subscribe((time) => (this.timeElapsed = time));
 
     combineLatest([
@@ -61,5 +65,8 @@ export class MainGameComponent implements OnInit {
   }
   leftClick(cell: Cell): void {
     this.store.dispatch(fromAppActions.setLeftClick({ cell }));
+  }
+  reset() {
+    debugger;
   }
 }

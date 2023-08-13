@@ -14,6 +14,7 @@ import { CellComponent } from "./features/game/containers/cell/cell.component";
 import { StorageService } from "./services/storage.service";
 import { SevenSegmentDisplayComponent } from "./features/game/containers/seven-segment/seven-segment-display.component";
 import { TimerService } from "./services/timer.service";
+import { ResetButtonComponent } from './features/game/containers/reset-button/reset-button.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TimerService } from "./services/timer.service";
     MainGameComponent,
     CellComponent,
     SevenSegmentDisplayComponent,
+    ResetButtonComponent,
   ],
   imports: [
     BrowserModule,
