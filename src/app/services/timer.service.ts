@@ -3,6 +3,9 @@ import { BehaviorSubject, EMPTY, interval, Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
+@Injectable({
+  providedIn: "root",
+})
 @UntilDestroy()
 @Injectable()
 export class TimerService {
@@ -39,6 +42,7 @@ export class TimerService {
   }
 
   startTimer(initialTime: number): void {
+    debugger;
     this.currentTime = (initialTime ?? 0) + 1;
     this.timerState$.next(false);
   }

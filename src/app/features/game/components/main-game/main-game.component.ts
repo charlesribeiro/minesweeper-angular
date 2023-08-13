@@ -9,7 +9,6 @@ import { combineLatest, filter } from "rxjs";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { TimerService } from "../../../../services/timer.service";
-import { Level } from "../../../../models/level.model";
 
 @UntilDestroy()
 @Component({
@@ -33,9 +32,6 @@ export class MainGameComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.timer.startTimer(0);
-    this.store.dispatch(fromAppActions.setGameLevel({ level: Level.Easy }));
-    this.store.dispatch(fromAppActions.setBoardSize({ width: 5, height: 5 }));
     this.store.dispatch(fromAppActions.startGame());
     this.store
       .select(fromAppSelectors.selectPlayerBoard)
@@ -44,7 +40,9 @@ export class MainGameComponent implements OnInit {
       .select(fromAppSelectors.selectGameStatus)
       .subscribe((gameStatus) => (this.gameStatus = gameStatus));
 
-    this.timer.currentTimer$.subscribe((time) => (this.timeElapsed = time));
+    this.timer.currentTimer$
+      .pipe(untilDestroyed(this))
+      .subscribe((timeElapsed) => (this.timeElapsed = timeElapsed));
 
     combineLatest([
       this.store.pipe(select(fromAppSelectors.selectCountOfCellsWithMines)),
@@ -66,7 +64,7 @@ export class MainGameComponent implements OnInit {
   leftClick(cell: Cell): void {
     this.store.dispatch(fromAppActions.setLeftClick({ cell }));
   }
-  reset() {
-    debugger;
+  reset(): void {
+    this.store.dispatch(fromAppActions.resetGame());
   }
 }

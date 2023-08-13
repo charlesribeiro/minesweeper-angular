@@ -10,6 +10,7 @@ import {
   catchError,
   concatMap,
   withLatestFrom,
+  tap,
 } from "rxjs/operators";
 import { of } from "rxjs";
 import { Cell } from "../models/cell.model";
@@ -32,6 +33,7 @@ export class AppEffects {
       mergeMap(() =>
         this.createLevelService.createMatrix().pipe(
           map((entities) => fromAppActions.createMatrixSuccess({ entities })),
+          tap(() => this.timerService.startTimer(0)),
           catchError(({ message }) =>
             of(fromAppActions.createMatrixFail({ message })),
           ),

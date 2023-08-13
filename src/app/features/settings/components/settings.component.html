@@ -1,25 +1,30 @@
 <div class="grid h-screen place-items-center">
-    Setup your game
-    <form *ngIf="form" [formGroup]="form">
-        Dimensions (NxM)
-        <div class="flex">
-            <div class="mb-2">
-                <label for="n" class="form-label">Heigth:</label>
-                <input type="text" class="form-control" id="n" formControlName="n" />
-            </div>
-            <div class="mb-2">x</div>
-            <div class="mb-2">
-                <label for="n" class="form-label">Length:</label>
-                <input type="text" class="form-control" id="m" formControlName="m" />
-            </div>
-        </div>
-        <div class="flex">
-            <label for="totalMines" class="form-label">Total mines:</label>
+  Setup your game
+  <form *ngIf="form" [formGroup]="form">
+    Dimensions (NxM)
+    <div class="flex">
+      <div class="mb-2">
+        <label for="n" class="form-label">Heigth:</label>
+        <input type="text" class="form-control" id="n" formControlName="n" />
+      </div>
+      <div class="mb-2">x</div>
+      <div class="mb-2">
+        <label for="n" class="form-label">Length:</label>
+        <input type="text" class="form-control" id="m" formControlName="m" />
+      </div>
+    </div>
+    <div class="flex">
+      <label for="totalMines" class="form-label">Total mines:</label>
 
-            <div class="mb-2">
-                <input type="text" class="form-control" id="totalMines" formControlName="totalMines" />
-            </div>
-        </div>
-    </form>
-    <button (click)="saveForm()">Save Button</button>
+      <div class="mb-2">
+        <input
+          type="text"
+          class="form-control"
+          id="totalMines"
+          formControlName="totalMines"
+        />
+      </div>
+    </div>
+  </form>
+  <button (click)="saveForm()">Save Button</button>
 </div>
