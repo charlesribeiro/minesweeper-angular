@@ -33,9 +33,11 @@ export class SaveAndLoadComponent implements OnInit {
       const file = input.files[0];
       const reader = new FileReader();
 
-      reader.onload = (e: any) => {
+      reader.onload = (e: ProgressEvent<FileReader>) => {
         try {
-          this.playerBoardFromDesktop = JSON.parse(e.target.result);
+          this.playerBoardFromDesktop = JSON.parse(
+            e.target?.result as unknown as string,
+          );
         } catch (err) {
           console.error("Error parsing JSON:", err);
           alert("Invalid save file.");

@@ -1,5 +1,37 @@
 <app-page-wrapper>
+  <form>
+    <div>
+      <label>Choose a level</label>
+      <div class="flex">
+        <button
+          class="mx-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
+          type="button"
+          (click)="startPreMadeLevel(Level.Easy)"
+        >
+          Easy
+        </button>
+
+        <button
+          class="mx-2 bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
+          type="button"
+          (click)="startPreMadeLevel(Level.Medium)"
+        >
+          Medium
+        </button>
+
+        <button
+          class="mx-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
+          type="button"
+          (click)="startPreMadeLevel(Level.Hard)"
+        >
+          Hard
+        </button>
+      </div>
+    </div>
+  </form>
+
   <form [formGroup]="form">
+    <label for="">Or create your custom game</label>
     <div class="mb-4">
       <label for="width">Width:</label>
       <input type="number" id="width" formControlName="width" />
@@ -22,7 +54,7 @@
         type="button"
         (click)="saveForm()"
       >
-        Save setings and start game
+        Save settings and start game
       </button>
     </div>
   </form>

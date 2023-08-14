@@ -36,7 +36,7 @@ export class CreateLevelService {
       .subscribe((totalMines: Level) => (this.totalMines = totalMines));
   }
 
-  generateRandomCell(hasMine: boolean = false): Cell {
+  generateRandomCell(hasMine = false): Cell {
     return {
       hasMine: hasMine,
       xPos: 0,
