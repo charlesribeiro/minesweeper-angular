@@ -23,6 +23,7 @@ import { TimerService } from "../services/timer.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Router } from "@angular/router";
 import { mockSettings } from "../utils/mock-settings";
+import { SessionTypes } from "../models/sessionTypes";
 
 describe("AppEffects", () => {
   let actions$: Observable<Action>;
@@ -59,16 +60,30 @@ describe("AppEffects", () => {
   });
 
   describe("startGame$", () => {
-    it("should dispatch createMatrixSuccess when successful", () => {
+    it("should dispatch createMatrixSuccess when successful in the case of a new game", () => {
       jest
         .spyOn(createLevelService, "createMatrix")
         .mockReturnValue(of(mockBoard));
-
+      store.overrideSelector(
+        fromAppSelectors.selectSessionType,
+        SessionTypes.newGame,
+      );
       actions$ = hot("-a", { a: fromAppActions.startGame() });
       const expected = cold("-b", {
-        b: fromAppActions.createMatrixSuccess({
-          entities: mockBoard,
-        }),
+        b: fromAppActions.createMatrixSuccess({ entities: mockBoard }),
+      });
+
+      expect(effects.startGame$).toBeObservable(expected);
+    });
+
+    it("should dispatch use data in case of a save", () => {
+      store.overrideSelector(
+        fromAppSelectors.selectSessionType,
+        SessionTypes.saveState,
+      );
+      actions$ = hot("-a", { a: fromAppActions.startGame() });
+      const expected = cold("-b", {
+        b: fromAppActions.useDataFromLoad(),
       });
 
       expect(effects.startGame$).toBeObservable(expected);
@@ -78,6 +93,10 @@ describe("AppEffects", () => {
       jest
         .spyOn(createLevelService, "createMatrix")
         .mockReturnValue(throwError(new Error("Error")));
+      store.overrideSelector(
+        fromAppSelectors.selectSessionType,
+        SessionTypes.newGame,
+      );
 
       actions$ = hot("-a", { a: fromAppActions.startGame() });
       const expected = cold("-b", {

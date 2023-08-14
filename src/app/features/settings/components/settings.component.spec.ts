@@ -10,6 +10,7 @@ import * as fromAppSelectors from "../../../state/app.selectors";
 
 import { mockSettings } from "../../../utils/mock-settings";
 import { Settings } from "src/app/models/settings.model";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 
 describe("SettingsComponent", () => {
   let component: SettingsComponent;
@@ -21,6 +22,7 @@ describe("SettingsComponent", () => {
       imports: [ReactiveFormsModule],
       declarations: [SettingsComponent],
       providers: [provideMockStore({ initialState })],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
