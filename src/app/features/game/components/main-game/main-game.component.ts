@@ -4,7 +4,6 @@ import { Component, OnInit } from "@angular/core";
 import { IApp } from "src/app/state/app.interface";
 import { Store, select } from "@ngrx/store";
 import { Cell } from "../../../../models/cell.model";
-import { StorageService } from "../../../../services/storage.service";
 import { combineLatest, filter } from "rxjs";
 import { GameStatus } from "../../../../models/gameStatus.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -18,7 +17,7 @@ import { TimerService } from "../../../../services/timer.service";
 })
 export class MainGameComponent implements OnInit {
   cells: Cell[][];
-  timeElapsed: number;
+  timeElapsed: number = 0;
   gameStatus: GameStatus;
   loading = false;
   error = false;
@@ -29,7 +28,6 @@ export class MainGameComponent implements OnInit {
 
   constructor(
     private store: Store<IApp>,
-    private storage: StorageService,
     private timer: TimerService,
   ) {}
 

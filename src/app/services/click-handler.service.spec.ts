@@ -93,7 +93,7 @@ describe("ClickHandlerService", () => {
   describe("getMinesInNeighborhood", () => {
     it("should return 0 when no neighboring cells have mines", () => {
       service.isCellValid = jest.fn().mockReturnValue(true);
-      service.realCells = mock3x3BoardWith0Mines;
+      service.playerCells = mock3x3BoardWith0Mines;
       const result = service.getMinesInNeighborhood([1, 1]);
 
       expect(result).toBe(0);
@@ -101,7 +101,7 @@ describe("ClickHandlerService", () => {
 
     it("should return 8 when all neighboring cells have mines", () => {
       service.isCellValid = jest.fn().mockReturnValue(true);
-      service.realCells = mock3x3BoardWith8Mines;
+      service.playerCells = mock3x3BoardWith8Mines;
       const result = service.getMinesInNeighborhood([1, 1]);
 
       expect(result).toBe(8);
@@ -135,7 +135,7 @@ describe("ClickHandlerService", () => {
 
   describe("deepSearchFirst", () => {
     beforeEach(() => {
-      service.realCells = mock3x3BoardWith0Mines;
+      service.playerCells = mock3x3BoardWith0Mines;
       service.revealedCells = [mockCell];
     });
 

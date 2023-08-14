@@ -22,7 +22,6 @@ import { IApp } from "./app.interface";
 import { TimerService } from "../services/timer.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Router } from "@angular/router";
-import { mockSettings } from "../utils/mock-settings";
 import { SessionTypes } from "../models/sessionTypes";
 
 describe("AppEffects", () => {
@@ -237,17 +236,17 @@ describe("AppEffects", () => {
     });
   });
 
-  describe("setSettings$", () => {
-    it('should navigate to "game" when setSettings action is dispatched', () => {
+  describe("setSettingsOrSetSave$", () => {
+    it('should navigate to "game" when loadStateFromFile action is dispatched', () => {
       jest.spyOn(router, "navigate");
 
       actions$ = hot("-a", {
-        a: fromAppActions.setSettings({
-          settings: mockSettings,
+        a: fromAppActions.loadStateFromFile({
+          playerBoard: initialState.playerBoard,
         }),
       });
 
-      effects.setSettings$.subscribe(() => {
+      effects.setSettingsOrSetSave$.subscribe(() => {
         expect(router.navigate).toHaveBeenCalledWith(["game"]);
       });
     });

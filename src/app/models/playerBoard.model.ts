@@ -1,7 +1,9 @@
+import { Cell } from "./cell.model";
 import { GameStatus } from "./gameStatus.model";
-import { RealBoard } from "./realBoard.model";
 
-export interface PlayerBoard extends RealBoard {
+export interface PlayerBoard {
   gameStatus: GameStatus;
-  flagsLeft: number;
+  entities: Cell[][];
+  loading: boolean;
+  error: boolean;
 }

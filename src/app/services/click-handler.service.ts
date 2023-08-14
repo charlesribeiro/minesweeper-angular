@@ -8,6 +8,7 @@ import { IApp } from "../state/app.interface";
 import { neighborOffsets } from "../utils/neighbor-offsets";
 import { CellPosition } from "../models/cellPosition.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import * as fromSettingsSelectors from "../../app/features/settings/store/settings.selectors";
 
 @UntilDestroy()
 @Injectable({
@@ -19,31 +20,31 @@ export class ClickHandlerService {
   width: number;
   height: number;
 
-  realCells: Cell[][];
+  playerCells: Cell[][];
 
   revealedCells: Cell[];
   private visitedCells = new Set<string>();
 
   constructor(private readonly store: Store<IApp>) {
     this.store
-      .select(fromAppSelectors.selectSettingsLevel)
+      .select(fromSettingsSelectors.selectSettingsLevel)
       .pipe(untilDestroyed(this))
       .subscribe((level: Level) => (this.level = level));
 
     this.store
-      .select(fromAppSelectors.selectGridHeight)
+      .select(fromSettingsSelectors.selectGridHeight)
       .pipe(untilDestroyed(this))
       .subscribe((height: number) => (this.height = height));
 
     this.store
-      .select(fromAppSelectors.selectGridWidth)
+      .select(fromSettingsSelectors.selectGridWidth)
       .pipe(untilDestroyed(this))
       .subscribe((width: number) => (this.width = width));
 
     this.store
-      .select(fromAppSelectors.selectRealBoard)
+      .select(fromAppSelectors.selectPlayerBoardEntities)
       .pipe(untilDestroyed(this))
-      .subscribe((realCells: Cell[][]) => (this.realCells = realCells));
+      .subscribe((playerCells: Cell[][]) => (this.playerCells = playerCells));
   }
 
   handleLeftClick(selectedCell: Cell): Observable<Cell[]> {
@@ -82,7 +83,7 @@ export class ClickHandlerService {
 
         if (
           this.isCellValid(newX, newY) &&
-          this.realCells[newX][newY].hasMine
+          this.playerCells[newX][newY].hasMine
         ) {
           return totalMines + 1;
         }
@@ -119,7 +120,7 @@ export class ClickHandlerService {
         const newY = cell.yPos + yOffset;
 
         if (this.isCellValid(newX, newY)) {
-          this.deepSearchFirst(this.realCells[newX][newY]);
+          this.deepSearchFirst(this.playerCells[newX][newY]);
         }
       }
     }

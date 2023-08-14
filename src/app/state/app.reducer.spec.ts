@@ -1,11 +1,10 @@
 import * as fromAppActions from "../state/app.actions";
 import { Action } from "@ngrx/store";
 import { AppReducer, initialAppState, reducer } from "./app.reducer";
-import { Level } from "../models/level.model";
 import { mockBoard } from "../utils/mock-board";
 import { mockCell } from "../utils/mock-cell";
 import { GameStatus } from "../models/gameStatus.model";
-import { mockSettings } from "../utils/mock-settings";
+import { SessionTypes } from "../models/sessionTypes";
 
 describe("appReducer", () => {
   describe("an unknown action", () => {
@@ -15,16 +14,6 @@ describe("appReducer", () => {
       const result = reducer(initialAppState, action);
 
       expect(result).toBe(initialAppState);
-    });
-  });
-  describe("setGameLevel", () => {
-    it("should set level properly", () => {
-      const action = fromAppActions.setGameLevel({ level: Level.Medium });
-
-      const result = AppReducer(initialAppState, action);
-
-      expect(result.settings.level).toBeTruthy();
-      expect(result.settings.level).toBe(Level.Medium);
     });
   });
 
@@ -39,16 +28,6 @@ describe("appReducer", () => {
     });
   });
 
-  describe("setBoardSize", () => {
-    it("should update the board width and height", () => {
-      const action = fromAppActions.setBoardSize({ width: 10, height: 20 });
-      const newState = AppReducer(initialAppState, action);
-
-      expect(newState.settings.width).toEqual(10);
-      expect(newState.settings.height).toEqual(20);
-    });
-  });
-
   describe("createMatrixSuccess", () => {
     it("should update the realBoard and playerBoard entities", () => {
       const action = fromAppActions.createMatrixSuccess({
@@ -56,8 +35,29 @@ describe("appReducer", () => {
       });
       const newState = AppReducer(initialAppState, action);
 
-      expect(newState.realBoard.entities).toEqual(mockBoard);
       expect(newState.playerBoard.entities).toEqual(mockBoard);
+    });
+  });
+
+  describe("useDataFromLoad", () => {
+    it("should update the realBoard and playerBoard entities", () => {
+      const action = fromAppActions.useDataFromLoad();
+      const newState = AppReducer(initialAppState, action);
+
+      expect(newState.playerBoard.loading).toBeFalsy();
+      expect(newState.playerBoard.error).toBeFalsy();
+    });
+  });
+
+  describe("loadStateFromFile", () => {
+    it("should update the realBoard and playerBoard entities", () => {
+      const action = fromAppActions.loadStateFromFile({
+        playerBoard: initialAppState.playerBoard,
+      });
+      const newState = AppReducer(initialAppState, action);
+
+      expect(newState.playerBoard.loading).toBeFalsy();
+      expect(newState.playerBoard.error).toBeFalsy();
     });
   });
 
@@ -125,15 +125,15 @@ describe("appReducer", () => {
     });
   });
 
-  describe("setSettings", () => {
-    it("should set game settings", () => {
-      const settings = mockSettings;
-      const action = fromAppActions.setSettings({ settings });
+  describe("resetGame", () => {
+    it("should reset game", () => {
+      const action = fromAppActions.resetGame();
 
       const result = AppReducer(initialAppState, action);
 
-      expect(result.settings).toBeTruthy();
-      expect(result.settings).toBe(settings);
+      expect(result.playerSession.type).toBe(SessionTypes.newGame);
+      expect(result.playerBoard.gameStatus).toBe(GameStatus.IN_PROGRESS);
+      expect(result.playerBoard.loading).toBeTruthy();
     });
   });
 });
