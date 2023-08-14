@@ -37,7 +37,7 @@ export class MainGameComponent implements OnInit {
     this.store.dispatch(fromAppActions.startGame());
 
     this.store
-      .select(fromAppSelectors.selectPlayerBoard)
+      .select(fromAppSelectors.selectPlayerBoardEntities)
       .pipe(untilDestroyed(this))
       .subscribe((cells) => (this.cells = cells));
 

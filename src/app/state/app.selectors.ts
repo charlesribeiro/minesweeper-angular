@@ -23,6 +23,10 @@ export const selectRealBoard = createSelector(
 );
 export const selectPlayerBoard = createSelector(
   selectFeature,
+  (appState: IApp) => appState?.playerBoard,
+);
+export const selectPlayerBoardEntities = createSelector(
+  selectFeature,
   (appState: IApp) => appState?.playerBoard.entities,
 );
 export const selectGameStatus = createSelector(

@@ -5,6 +5,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Cell } from "src/app/models/cell.model";
 import { IApp } from "src/app/state/app.interface";
 import { Store } from "@ngrx/store";
+import { PlayerBoard } from "src/app/models/playerBoard.model";
 
 @UntilDestroy()
 @Component({
@@ -13,14 +14,16 @@ import { Store } from "@ngrx/store";
   styleUrls: ["./save-and-load.component.sass"],
 })
 export class SaveAndLoadComponent implements OnInit {
-  cells: Cell[][];
+  playerBoard: PlayerBoard;
 
   constructor(private store: Store<IApp>) {}
   ngOnInit(): void {
     this.store
       .select(fromAppSelectors.selectPlayerBoard)
       .pipe(untilDestroyed(this))
-      .subscribe((cells: Cell[][]) => (this.cells = cells));
+      .subscribe(
+        (playerBoard: PlayerBoard) => (this.playerBoard = playerBoard),
+      );
   }
   jsonData: any;
 
@@ -33,6 +36,8 @@ export class SaveAndLoadComponent implements OnInit {
 
       reader.onload = (e: any) => {
         try {
+          debugger;
+          const uploadedSave: PlayerBoard = e.target.result;
           this.jsonData = JSON.parse(e.target.result);
         } catch (err) {
           console.error("Error parsing JSON:", err);
@@ -45,8 +50,8 @@ export class SaveAndLoadComponent implements OnInit {
   }
 
   savePlayerBoard() {
-    if (this.cells) {
-      const blob = new Blob([JSON.stringify(this.cells)], {
+    if (this.playerBoard) {
+      const blob = new Blob([JSON.stringify(this.playerBoard)], {
         type: "application/json",
       });
       saveAs(blob, "playerBoard.json");
