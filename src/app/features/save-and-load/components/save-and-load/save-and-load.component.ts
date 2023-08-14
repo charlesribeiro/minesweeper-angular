@@ -38,7 +38,7 @@ export class SaveAndLoadComponent implements OnInit {
           this.playerBoardFromDesktop = JSON.parse(e.target.result);
         } catch (err) {
           console.error("Error parsing JSON:", err);
-          alert("Invalid JSON file.");
+          alert("Invalid save file.");
         }
       };
 
