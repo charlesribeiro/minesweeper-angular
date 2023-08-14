@@ -17,6 +17,7 @@ import {
   continueGame,
   setSettings,
   resetGame,
+  loadStateFromFile,
 } from "./app.actions";
 import { GameStatus } from "../models/gameStatus.model";
 
@@ -55,6 +56,10 @@ export const reducer = createReducer(
       error: false,
       loading: false,
     },
+  })),
+  on(loadStateFromFile, (state, { playerBoard }) => ({
+    ...state,
+    playerBoard,
   })),
   on(resetGame, (state) => ({
     ...state,

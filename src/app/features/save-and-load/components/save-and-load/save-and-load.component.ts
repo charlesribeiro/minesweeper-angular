@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import saveAs from "file-saver";
 import * as fromAppSelectors from "../../../../state/app.selectors";
+import * as fromAppActions from "../../../../state/app.actions";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { Cell } from "src/app/models/cell.model";
 import { IApp } from "src/app/state/app.interface";
 import { Store } from "@ngrx/store";
 import { PlayerBoard } from "src/app/models/playerBoard.model";
@@ -36,9 +36,11 @@ export class SaveAndLoadComponent implements OnInit {
 
       reader.onload = (e: any) => {
         try {
-          debugger;
-          const uploadedSave: PlayerBoard = e.target.result;
-          this.jsonData = JSON.parse(e.target.result);
+          const playerBoard: PlayerBoard = JSON.parse(e.target.result);
+
+          this.store.dispatch(
+            fromAppActions.loadStateFromFile({ playerBoard }),
+          );
         } catch (err) {
           console.error("Error parsing JSON:", err);
           alert("Invalid JSON file.");
