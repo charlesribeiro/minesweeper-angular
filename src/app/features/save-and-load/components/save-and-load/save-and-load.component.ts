@@ -13,7 +13,8 @@ import { PlayerBoard } from "src/app/models/playerBoard.model";
   templateUrl: "./save-and-load.component.html",
 })
 export class SaveAndLoadComponent implements OnInit {
-  playerBoard: PlayerBoard;
+  playerBoardFromState: PlayerBoard;
+  playerBoardFromDesktop: PlayerBoard;
 
   constructor(private store: Store<IApp>) {}
   ngOnInit(): void {
@@ -21,10 +22,9 @@ export class SaveAndLoadComponent implements OnInit {
       .select(fromAppSelectors.selectPlayerBoard)
       .pipe(untilDestroyed(this))
       .subscribe(
-        (playerBoard: PlayerBoard) => (this.playerBoard = playerBoard),
+        (playerBoard: PlayerBoard) => (this.playerBoardFromState = playerBoard),
       );
   }
-  jsonData: any;
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -35,11 +35,7 @@ export class SaveAndLoadComponent implements OnInit {
 
       reader.onload = (e: any) => {
         try {
-          const playerBoard: PlayerBoard = JSON.parse(e.target.result);
-
-          this.store.dispatch(
-            fromAppActions.loadStateFromFile({ playerBoard }),
-          );
+          this.playerBoardFromDesktop = JSON.parse(e.target.result);
         } catch (err) {
           console.error("Error parsing JSON:", err);
           alert("Invalid JSON file.");
@@ -50,12 +46,22 @@ export class SaveAndLoadComponent implements OnInit {
     }
   }
 
-  savePlayerBoard() {
-    if (this.playerBoard) {
-      const blob = new Blob([JSON.stringify(this.playerBoard)], {
+  savePlayerBoard(): boolean {
+    if (this.playerBoardFromState) {
+      const blob = new Blob([JSON.stringify(this.playerBoardFromState)], {
         type: "application/json",
       });
       saveAs(blob, "playerBoard.json");
     }
+    return false;
+  }
+
+  proceedWithLoadingState(): boolean {
+    this.store.dispatch(
+      fromAppActions.loadStateFromFile({
+        playerBoard: this.playerBoardFromDesktop,
+      }),
+    );
+    return false;
   }
 }
