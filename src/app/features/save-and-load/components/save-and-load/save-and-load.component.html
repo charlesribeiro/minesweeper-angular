@@ -1,1 +1,24 @@
-<p>save-and-load works!</p>
+<app-page-wrapper>
+  <form>
+    <label>Load your game or</label>
+    <input type="file" (change)="onFileSelected($event)" accept=".json" />
+    <div *ngIf="playerBoardFromDesktop" class="py-8">
+      <label>Game info</label>
+
+      <div>Flags left: {{ playerBoardFromDesktop.flagsLeft }}</div>
+      <div>Game status: {{ playerBoardFromDesktop.gameStatus }}</div>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
+        (click)="proceedWithLoadingState()">Proceed to game</button>
+    </div>
+  </form>
+
+  <form>
+    <div class="py-8">
+      <label>Save your game</label>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline float-right"
+        (click)="savePlayerBoard()">Save Player Board</button>
+    </div>
+  </form>
+</app-page-wrapper>

@@ -2,6 +2,8 @@ import { GameStatus } from "../models/gameStatus.model";
 import { Level } from "../models/level.model";
 import { PlayerBoard } from "../models/playerBoard.model";
 import { RealBoard } from "../models/realBoard.model";
+import { PlayerSession } from "../models/session.model";
+import { SessionTypes } from "../models/sessionTypes";
 import { Settings } from "../models/settings.model";
 
 export const realBoardInitialState: RealBoard = {
@@ -21,4 +23,8 @@ export const settingsInitialState: Settings = {
   width: 9,
   height: 9,
   totalMines: 3,
+};
+
+export const sessionInitialState: PlayerSession = {
+  type: SessionTypes.newGame,
 };

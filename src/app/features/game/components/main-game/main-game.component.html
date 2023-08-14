@@ -1,28 +1,30 @@
-<div *ngIf="gameStatus !== NOT_PLAYING">
-  <app-loader *ngIf="loading"></app-loader>
-  <app-error *ngIf="error"></app-error>
-  <form *ngIf="!error && !loading">
-    <div class="flex justify-between items-center mb-2">
-      <app-seven-segment-display
-        [value]="flagsLeft"
-        class="order-1"
-      ></app-seven-segment-display>
-      <app-reset-button
-        (rightClick)="reset()"
+<app-page-wrapper>
+  <div *ngIf="gameStatus !== NOT_PLAYING">
+    <app-loader *ngIf="loading"></app-loader>
+    <app-error *ngIf="error"></app-error>
+    <form *ngIf="!error && !loading">
+      <div class="flex justify-between items-center mb-2">
+        <app-seven-segment-display
+          [value]="flagsLeft"
+          class="order-1"
+        ></app-seven-segment-display>
+        <app-reset-button
+          (rightClick)="reset()"
+          [gameStatus]="gameStatus"
+          class="order-2"
+        ></app-reset-button>
+        <app-seven-segment-display
+          id="timer"
+          [value]="timeElapsed"
+          class="order-3"
+        ></app-seven-segment-display>
+      </div>
+      <app-board
+        [cells]="cells"
         [gameStatus]="gameStatus"
-        class="order-2"
-      ></app-reset-button>
-      <app-seven-segment-display
-        id="timer"
-        [value]="timeElapsed"
-        class="order-3"
-      ></app-seven-segment-display>
-    </div>
-    <app-board
-      [cells]="cells"
-      [gameStatus]="gameStatus"
-      (rightClick)="rightClick($event)"
-      (leftClick)="leftClick($event)"
-    ></app-board>
-  </form>
-</div>
+        (rightClick)="rightClick($event)"
+        (leftClick)="leftClick($event)"
+      ></app-board>
+    </form>
+  </div>
+</app-page-wrapper>
