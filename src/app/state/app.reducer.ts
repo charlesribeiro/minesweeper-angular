@@ -2,7 +2,6 @@ import { Action, createReducer, on } from "@ngrx/store";
 import { IApp } from "./app.interface";
 import {
   playerBoardInitialState,
-  realBoardInitialState,
   sessionInitialState,
   settingsInitialState,
 } from "../utils/store-utils";

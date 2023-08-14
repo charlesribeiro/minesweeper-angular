@@ -1,19 +1,14 @@
 import { GameStatus } from "../models/gameStatus.model";
 import { Level } from "../models/level.model";
 import { PlayerBoard } from "../models/playerBoard.model";
-import { RealBoard } from "../models/realBoard.model";
 import { PlayerSession } from "../models/session.model";
 import { SessionTypes } from "../models/sessionTypes";
 import { Settings } from "../models/settings.model";
 
-export const realBoardInitialState: RealBoard = {
+export const playerBoardInitialState: PlayerBoard = {
   entities: [],
   loading: false,
   error: false,
-};
-
-export const playerBoardInitialState: PlayerBoard = {
-  ...realBoardInitialState,
   gameStatus: GameStatus.NOT_PLAYING,
   flagsLeft: Infinity,
 };
