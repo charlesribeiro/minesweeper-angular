@@ -43,6 +43,20 @@ export class AppEffects {
       ),
     ),
   );
+  continueSave$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromAppActions.startGame, fromAppActions.resetGame),
+      mergeMap(() =>
+        this.createLevelService.createMatrix().pipe(
+          map((entities) => fromAppActions.createMatrixSuccess({ entities })),
+          tap(() => this.timerService.startTimer(0)),
+          catchError(({ message }) =>
+            of(fromAppActions.createMatrixFail({ message })),
+          ),
+        ),
+      ),
+    ),
+  );
   leftclick$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromAppActions.setLeftClick),

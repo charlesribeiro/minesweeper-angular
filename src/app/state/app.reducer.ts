@@ -3,6 +3,7 @@ import { IApp } from "./app.interface";
 import {
   playerBoardInitialState,
   realBoardInitialState,
+  sessionInitialState,
   settingsInitialState,
 } from "../utils/store-utils";
 import {
@@ -20,6 +21,7 @@ import {
   loadStateFromFile,
 } from "./app.actions";
 import { GameStatus } from "../models/gameStatus.model";
+import { SessionTypes } from "../models/sessionTypes";
 
 export const userFeatureKey = "AppState";
 
@@ -27,6 +29,7 @@ export const initialAppState: IApp = {
   playerBoard: playerBoardInitialState,
   realBoard: realBoardInitialState,
   settings: settingsInitialState,
+  playerSession: sessionInitialState,
 };
 
 export const reducer = createReducer(
@@ -60,6 +63,9 @@ export const reducer = createReducer(
   on(loadStateFromFile, (state, { playerBoard }) => ({
     ...state,
     playerBoard,
+    playerSession: {
+      type: SessionTypes.saveState,
+    },
   })),
   on(resetGame, (state) => ({
     ...state,
@@ -70,6 +76,9 @@ export const reducer = createReducer(
       loading: true,
       error: false,
     },
+    playerSession: {
+      type: SessionTypes.newGame,
+    },
   })),
   on(startGame, (state) => ({
     ...state,
@@ -79,6 +88,9 @@ export const reducer = createReducer(
       flagsLeft: state.settings.totalMines,
       loading: true,
       error: false,
+    },
+    playerSession: {
+      type: SessionTypes.newGame,
     },
   })),
   on(updateCell, (state, { cell }) => {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import saveAs from "file-saver";
+import { saveAs } from "file-saver";
 import * as fromAppSelectors from "../../../../state/app.selectors";
 import * as fromAppActions from "../../../../state/app.actions";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
