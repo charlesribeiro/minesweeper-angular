@@ -65,3 +65,5 @@ export const loadStateFromFile = createAction(
   "[Save and Load] load state from file",
   props<{ playerBoard: PlayerBoard }>(),
 );
+
+export const useDataFromLoad = createAction("[Game] use data from load");

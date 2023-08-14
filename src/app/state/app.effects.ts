@@ -11,6 +11,7 @@ import {
   concatMap,
   withLatestFrom,
   tap,
+  switchMap,
 } from "rxjs/operators";
 import { of } from "rxjs";
 import { Cell } from "../models/cell.model";
@@ -18,6 +19,7 @@ import { Action, Store, select } from "@ngrx/store";
 import { IApp } from "./app.interface";
 import * as fromAppSelectors from "../state/app.selectors";
 import { Router } from "@angular/router";
+import { SessionTypes } from "../models/sessionTypes";
 
 @Injectable()
 export class AppEffects {
@@ -29,34 +31,29 @@ export class AppEffects {
     private timerService: TimerService,
     private router: Router,
   ) {}
-  startGame$ = createEffect(() =>
-    this.actions$.pipe(
+  startGame$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(fromAppActions.startGame, fromAppActions.resetGame),
-      mergeMap(() =>
-        this.createLevelService.createMatrix().pipe(
-          map((entities) => fromAppActions.createMatrixSuccess({ entities })),
-          tap(() => this.timerService.startTimer(0)),
-          catchError(({ message }) =>
-            of(fromAppActions.createMatrixFail({ message })),
-          ),
-        ),
+      withLatestFrom(
+        this.store.pipe(select(fromAppSelectors.selectSessionType)),
       ),
-    ),
-  );
-  continueSave$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(fromAppActions.startGame, fromAppActions.resetGame),
-      mergeMap(() =>
-        this.createLevelService.createMatrix().pipe(
-          map((entities) => fromAppActions.createMatrixSuccess({ entities })),
-          tap(() => this.timerService.startTimer(0)),
-          catchError(({ message }) =>
-            of(fromAppActions.createMatrixFail({ message })),
-          ),
-        ),
-      ),
-    ),
-  );
+      switchMap(([, sessionType]) => {
+        if (sessionType === SessionTypes.newGame) {
+          return this.createLevelService.createMatrix().pipe(
+            map((entities) => fromAppActions.createMatrixSuccess({ entities })),
+            tap(() => this.timerService.startTimer(0)),
+            catchError(({ message }) =>
+              of(fromAppActions.createMatrixFail({ message })),
+            ),
+          );
+        } else {
+          this.timerService.startTimer(0);
+          return of(fromAppActions.useDataFromLoad());
+        }
+      }),
+    );
+  });
+
   leftclick$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromAppActions.setLeftClick),

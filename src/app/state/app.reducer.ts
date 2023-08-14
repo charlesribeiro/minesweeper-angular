@@ -19,6 +19,7 @@ import {
   setSettings,
   resetGame,
   loadStateFromFile,
+  useDataFromLoad,
 } from "./app.actions";
 import { GameStatus } from "../models/gameStatus.model";
 import { SessionTypes } from "../models/sessionTypes";
@@ -60,6 +61,20 @@ export const reducer = createReducer(
       loading: false,
     },
   })),
+
+  on(useDataFromLoad, (state) => ({
+    ...state,
+    realBoard: {
+      ...state.playerBoard,
+      error: false,
+      loading: false,
+    },
+    playerBoard: {
+      ...state.playerBoard,
+      error: false,
+      loading: false,
+    },
+  })),
   on(loadStateFromFile, (state, { playerBoard }) => ({
     ...state,
     playerBoard,
@@ -88,9 +103,6 @@ export const reducer = createReducer(
       flagsLeft: state.settings.totalMines,
       loading: true,
       error: false,
-    },
-    playerSession: {
-      type: SessionTypes.newGame,
     },
   })),
   on(updateCell, (state, { cell }) => {

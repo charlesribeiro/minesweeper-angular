@@ -53,6 +53,10 @@ export const selectGameError = createSelector(
   selectFeature,
   (appState: IApp) => appState?.playerBoard.error,
 );
+export const selectSessionType = createSelector(
+  selectFeature,
+  (appState: IApp) => appState?.playerSession.type,
+);
 
 export const selectPlayerBoardWithoutPristineCells = createSelector(
   selectFeature,
