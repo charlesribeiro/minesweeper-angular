@@ -22,7 +22,6 @@ import { IApp } from "./app.interface";
 import { TimerService } from "../services/timer.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Router } from "@angular/router";
-import { mockSettings } from "../utils/mock-settings";
 import { SessionTypes } from "../models/sessionTypes";
 
 describe("AppEffects", () => {

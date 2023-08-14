@@ -4,7 +4,6 @@ import { PlayerSession } from "../models/session.model";
 
 export interface IApp {
   playerBoard: PlayerBoard;
-  settings: Settings;
   playerSession: PlayerSession;
 }
 

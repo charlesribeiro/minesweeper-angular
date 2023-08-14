@@ -1,11 +1,9 @@
 import * as fromAppActions from "../state/app.actions";
 import { Action } from "@ngrx/store";
 import { AppReducer, initialAppState, reducer } from "./app.reducer";
-import { Level } from "../models/level.model";
 import { mockBoard } from "../utils/mock-board";
 import { mockCell } from "../utils/mock-cell";
 import { GameStatus } from "../models/gameStatus.model";
-import { mockSettings } from "../utils/mock-settings";
 import { SessionTypes } from "../models/sessionTypes";
 
 describe("appReducer", () => {
@@ -27,16 +25,6 @@ describe("appReducer", () => {
 
       expect(result.playerBoard.gameStatus).toBeTruthy();
       expect(result.playerBoard.gameStatus).toBe(GameStatus.IN_PROGRESS);
-    });
-  });
-
-  describe("setBoardSize", () => {
-    it("should update the board width and height", () => {
-      const action = fromAppActions.setBoardSize({ width: 10, height: 20 });
-      const newState = AppReducer(initialAppState, action);
-
-      expect(newState.settings.width).toEqual(10);
-      expect(newState.settings.height).toEqual(20);
     });
   });
 

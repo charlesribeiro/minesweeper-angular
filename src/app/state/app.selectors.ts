@@ -17,10 +17,10 @@ export const selectGameStatus = createSelector(
   selectFeature,
   (appState: IApp) => appState?.playerBoard.gameStatus,
 );
-export const selectFlagsLeft = createSelector(
-  selectFeature,
-  (appState: IApp) => appState?.playerBoard.flagsLeft,
-);
+// export const selectFlagsLeft = createSelector(
+//   selectFeature,
+//   (appState: IApp) => appState?.playerBoard.flagsLeft,
+// );
 export const selectGameLoading = createSelector(
   selectFeature,
   (appState: IApp) => appState?.playerBoard.loading,

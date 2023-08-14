@@ -24,11 +24,6 @@ export const setLeftClick = createAction(
   props<{ cell: Cell }>(),
 );
 
-export const setBoardSize = createAction(
-  "[Game] set board size action",
-  props<{ width: number; height: number }>(),
-);
-
 export const updateCell = createAction(
   "[Game] update cell",
   props<{ cell: Cell }>(),

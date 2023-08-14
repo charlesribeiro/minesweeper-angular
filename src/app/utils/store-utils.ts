@@ -10,7 +10,7 @@ export const playerBoardInitialState: PlayerBoard = {
   loading: false,
   error: false,
   gameStatus: GameStatus.NOT_PLAYING,
-  flagsLeft: Infinity,
+  // flagsLeft: Infinity,
 };
 
 export const settingsInitialState: Settings = {

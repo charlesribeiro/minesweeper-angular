@@ -15,8 +15,6 @@ describe("AppSelectors", () => {
   const initialState: IAppState = {
     AppState: {
       ...initialAppState,
-      settings: mockSettings,
-      playerBoard: { ...initialAppState.playerBoard, flagsLeft: 8 },
     },
     Settings: mockSettings,
   };
@@ -61,15 +59,7 @@ describe("AppSelectors", () => {
       getAppState(initialState),
     );
 
-    expect(result).toEqual({ ...initialAppState.playerBoard, flagsLeft: 8 });
-  });
-
-  it("should select total mines", () => {
-    const result = fromAppSelectors.selectFlagsLeft.projector(
-      getAppState(initialState),
-    );
-
-    expect(result).toEqual(8);
+    expect(result).toEqual({ ...initialAppState.playerBoard });
   });
 
   it("should select player board without any pristine cells", () => {

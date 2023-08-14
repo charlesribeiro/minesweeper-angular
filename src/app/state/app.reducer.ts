@@ -9,7 +9,6 @@ import {
   clickCellFail,
   gameOver,
   createMatrixSuccess,
-  setBoardSize,
   updateCell,
   startGame,
   wonGame,
@@ -25,16 +24,12 @@ export const userFeatureKey = "AppState";
 
 export const initialAppState: IApp = {
   playerBoard: playerBoardInitialState,
-  settings: settingsInitialState,
   playerSession: sessionInitialState,
 };
 
 export const reducer = createReducer(
   initialAppState as IApp,
-  on(setBoardSize, (state, { width, height }) => ({
-    ...state,
-    settings: { ...state.settings, width, height },
-  })),
+
   on(createMatrixSuccess, (state, { entities }) => ({
     ...state,
     playerBoard: {
@@ -64,7 +59,7 @@ export const reducer = createReducer(
     playerBoard: {
       ...state.playerBoard,
       gameStatus: GameStatus.IN_PROGRESS,
-      flagsLeft: state.settings.totalMines,
+      flagsLeft: 3,
       loading: true,
       error: false,
     },
@@ -77,7 +72,7 @@ export const reducer = createReducer(
     playerBoard: {
       ...state.playerBoard,
       gameStatus: GameStatus.IN_PROGRESS,
-      flagsLeft: state.settings.totalMines,
+      flagsLeft: 3,
       loading: true,
       error: false,
     },
