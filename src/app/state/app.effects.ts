@@ -122,10 +122,10 @@ export class AppEffects {
     ),
   );
 
-  setSettings$ = createEffect(
+  setSettingsOrSetSave$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(fromAppActions.setSettings),
+        ofType(fromAppActions.setSettings, fromAppActions.loadStateFromFile),
         tap(() => this.router.navigate(["game"])),
       ),
     { dispatch: false },
