@@ -247,7 +247,7 @@ describe("AppEffects", () => {
         }),
       });
 
-      effects.setSettings$.subscribe(() => {
+      effects.setSettingsOrSetSave$.subscribe(() => {
         expect(router.navigate).toHaveBeenCalledWith(["game"]);
       });
     });
@@ -261,7 +261,7 @@ describe("AppEffects", () => {
         }),
       });
 
-      effects.setSettings$.subscribe(() => {
+      effects.setSettingsOrSetSave$.subscribe(() => {
         expect(router.navigate).toHaveBeenCalledWith(["game"]);
       });
     });

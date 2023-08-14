@@ -61,7 +61,6 @@ export const reducer = createReducer(
       loading: false,
     },
   })),
-
   on(useDataFromLoad, (state) => ({
     ...state,
     realBoard: {
