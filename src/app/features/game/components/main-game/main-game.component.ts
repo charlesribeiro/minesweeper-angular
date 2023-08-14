@@ -18,7 +18,7 @@ import { TimerService } from "../../../../services/timer.service";
 })
 export class MainGameComponent implements OnInit {
   cells: Cell[][];
-  timeElapsed: number;
+  timeElapsed: number = 0;
   gameStatus: GameStatus;
   loading = false;
   error = false;
