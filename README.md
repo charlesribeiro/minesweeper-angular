@@ -2,6 +2,8 @@
 
 This is a browser implementation of the classic game Minesweeper using Angular 16.
 
+![Minesweeper](screenshots/Screenshot.png)
+
 
 ## TL;DR
 
