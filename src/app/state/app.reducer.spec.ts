@@ -6,6 +6,7 @@ import { mockBoard } from "../utils/mock-board";
 import { mockCell } from "../utils/mock-cell";
 import { GameStatus } from "../models/gameStatus.model";
 import { mockSettings } from "../utils/mock-settings";
+import { SessionTypes } from "../models/sessionTypes";
 
 describe("appReducer", () => {
   describe("an unknown action", () => {
@@ -56,8 +57,29 @@ describe("appReducer", () => {
       });
       const newState = AppReducer(initialAppState, action);
 
-      expect(newState.realBoard.entities).toEqual(mockBoard);
       expect(newState.playerBoard.entities).toEqual(mockBoard);
+    });
+  });
+
+  describe("useDataFromLoad", () => {
+    it("should update the realBoard and playerBoard entities", () => {
+      const action = fromAppActions.useDataFromLoad();
+      const newState = AppReducer(initialAppState, action);
+
+      expect(newState.playerBoard.loading).toBeFalsy();
+      expect(newState.playerBoard.error).toBeFalsy();
+    });
+  });
+
+  describe("loadStateFromFile", () => {
+    it("should update the realBoard and playerBoard entities", () => {
+      const action = fromAppActions.loadStateFromFile({
+        playerBoard: initialAppState.playerBoard,
+      });
+      const newState = AppReducer(initialAppState, action);
+
+      expect(newState.playerBoard.loading).toBeFalsy();
+      expect(newState.playerBoard.error).toBeFalsy();
     });
   });
 
@@ -134,6 +156,18 @@ describe("appReducer", () => {
 
       expect(result.settings).toBeTruthy();
       expect(result.settings).toBe(settings);
+    });
+  });
+
+  describe("resetGame", () => {
+    it("should reset game", () => {
+      const action = fromAppActions.resetGame();
+
+      const result = AppReducer(initialAppState, action);
+
+      expect(result.playerSession.type).toBe(SessionTypes.newGame);
+      expect(result.playerBoard.gameStatus).toBe(GameStatus.IN_PROGRESS);
+      expect(result.playerBoard.loading).toBeTruthy();
     });
   });
 });

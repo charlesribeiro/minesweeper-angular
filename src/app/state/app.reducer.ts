@@ -28,7 +28,6 @@ export const userFeatureKey = "AppState";
 
 export const initialAppState: IApp = {
   playerBoard: playerBoardInitialState,
-  realBoard: realBoardInitialState,
   settings: settingsInitialState,
   playerSession: sessionInitialState,
 };
@@ -48,12 +47,6 @@ export const reducer = createReducer(
   })),
   on(createMatrixSuccess, (state, { entities }) => ({
     ...state,
-    realBoard: {
-      ...state.realBoard,
-      entities,
-      error: false,
-      loading: false,
-    },
     playerBoard: {
       ...state.playerBoard,
       entities,
@@ -63,11 +56,6 @@ export const reducer = createReducer(
   })),
   on(useDataFromLoad, (state) => ({
     ...state,
-    realBoard: {
-      ...state.playerBoard,
-      error: false,
-      loading: false,
-    },
     playerBoard: {
       ...state.playerBoard,
       error: false,

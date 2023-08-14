@@ -19,7 +19,7 @@ export class ClickHandlerService {
   width: number;
   height: number;
 
-  realCells: Cell[][];
+  playerCells: Cell[][];
 
   revealedCells: Cell[];
   private visitedCells = new Set<string>();
@@ -41,9 +41,9 @@ export class ClickHandlerService {
       .subscribe((width: number) => (this.width = width));
 
     this.store
-      .select(fromAppSelectors.selectRealBoard)
+      .select(fromAppSelectors.selectPlayerBoardEntities)
       .pipe(untilDestroyed(this))
-      .subscribe((realCells: Cell[][]) => (this.realCells = realCells));
+      .subscribe((playerCells: Cell[][]) => (this.playerCells = playerCells));
   }
 
   handleLeftClick(selectedCell: Cell): Observable<Cell[]> {
@@ -82,7 +82,7 @@ export class ClickHandlerService {
 
         if (
           this.isCellValid(newX, newY) &&
-          this.realCells[newX][newY].hasMine
+          this.playerCells[newX][newY].hasMine
         ) {
           return totalMines + 1;
         }
@@ -119,7 +119,7 @@ export class ClickHandlerService {
         const newY = cell.yPos + yOffset;
 
         if (this.isCellValid(newX, newY)) {
-          this.deepSearchFirst(this.realCells[newX][newY]);
+          this.deepSearchFirst(this.playerCells[newX][newY]);
         }
       }
     }

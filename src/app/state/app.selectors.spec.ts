@@ -1,5 +1,6 @@
 import { GameStatus } from "../models/gameStatus.model";
 import { Level } from "../models/level.model";
+import { SessionTypes } from "../models/sessionTypes";
 import {
   mock3x3BoardGameInProgress,
   mock3x3BoardGameWon,
@@ -27,6 +28,7 @@ describe("AppSelectors", () => {
 
     expect(result).toEqual(mockSettings);
   });
+
   it("should select current game level", () => {
     const result = fromAppSelectors.selectSettingsLevel.projector(
       getAppState(initialState),
@@ -34,6 +36,7 @@ describe("AppSelectors", () => {
 
     expect(result).toEqual(Level.Easy);
   });
+
   it("should select current game status", () => {
     const result = fromAppSelectors.selectGameStatus.projector(
       getAppState(initialState),
@@ -50,8 +53,8 @@ describe("AppSelectors", () => {
         loading: true,
       },
     };
-
     const result = fromAppSelectors.selectGameLoading.projector(mockState);
+
     expect(result).toEqual(true);
   });
 
@@ -63,17 +66,27 @@ describe("AppSelectors", () => {
         error: true,
       },
     };
-
     const result = fromAppSelectors.selectGameError.projector(mockState);
+
     expect(result).toEqual(true);
+  });
+
+  it("should select player board", () => {
+    const result = fromAppSelectors.selectPlayerBoard.projector(
+      getAppState(initialState),
+    );
+
+    expect(result).toEqual({ ...initialAppState.playerBoard, flagsLeft: 8 });
   });
 
   it("should select total mines", () => {
     const result = fromAppSelectors.selectFlagsLeft.projector(
       getAppState(initialState),
     );
+
     expect(result).toEqual(8);
   });
+
   it("should select player board without any pristine cells", () => {
     const mockState: IApp = {
       ...initialAppState,
@@ -82,11 +95,11 @@ describe("AppSelectors", () => {
         entities: mock3x3BoardGameWon,
       },
     };
-
     const result =
       fromAppSelectors.selectPlayerBoardWithoutPristineCells.projector(
         mockState,
       );
+
     expect(result).toEqual(true);
   });
 
@@ -103,8 +116,10 @@ describe("AppSelectors", () => {
       fromAppSelectors.selectPlayerBoardWithoutPristineCells.projector(
         mockState,
       );
+
     expect(result).toEqual(false);
   });
+
   it("should return the count of flagged cells", () => {
     const mockState: IApp = {
       ...initialAppState,
@@ -115,6 +130,7 @@ describe("AppSelectors", () => {
     };
     const result =
       fromAppSelectors.selectCountOfFlaggedCells.projector(mockState);
+
     expect(result).toEqual(1);
   });
 
@@ -128,6 +144,15 @@ describe("AppSelectors", () => {
     };
     const result =
       fromAppSelectors.selectCountOfCellsWithMines.projector(mockState);
+
     expect(result).toEqual(8);
+  });
+
+  it("should select session type", () => {
+    const result = fromAppSelectors.selectSessionType.projector(
+      getAppState(initialState),
+    );
+
+    expect(result).toEqual(SessionTypes.newGame);
   });
 });
