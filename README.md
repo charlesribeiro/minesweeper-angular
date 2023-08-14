@@ -21,6 +21,7 @@ Make sure you have NPM and Yarn installed on your machine, install dependencies 
 * The application can be tested using `yarn test`
 * The project auto-lints the files, also, `yarn lint:fix` will try to fix linting problems with Prettier
 * A coverage report is available with jest `yarn test-coverage`
+* This projects includes load and save features. You can navigate to 'save-and-load' and upload the `saves/savewith35mines.json` file.
 
 ## Algorithms employed
 
@@ -43,8 +44,7 @@ It ensures the creation of truly randomized grids, so each game you generate in 
 
 ## Code coverage
 
-This project aims to have a high unit test coverage. Current coverage rate: 
-![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/charlesribeiro/9169b7259628312bb9cfea005756286c/raw/27977c3f199991c9c8c371e357188256e058e0b8/jest-coverage-comment__main.json)
+This project aims to have a high unit test coverage for statements.
 
 ## Credits
 
