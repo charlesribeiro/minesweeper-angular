@@ -3,7 +3,6 @@ import { IApp } from "./app.interface";
 import {
   playerBoardInitialState,
   sessionInitialState,
-  settingsInitialState,
 } from "../utils/store-utils";
 import {
   clickCellFail,

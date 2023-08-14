@@ -11,6 +11,8 @@ import * as fromSettingsSelectors from "../../settings/store/settings.selectors"
 import { mockSettings } from "../../../utils/mock-settings";
 import { Settings } from "src/app/models/settings.model";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { Level } from "../../../models/level.model";
+import { predefinedLevels } from "../../../utils/predefinedLevels";
 
 describe("SettingsComponent", () => {
   let component: SettingsComponent;
@@ -53,17 +55,32 @@ describe("SettingsComponent", () => {
     jest.spyOn(store, "dispatch");
     const newSettings: Settings = {
       ...mockSettings,
-      width: 80,
+      level: Level.Custom,
     };
 
-    component.form.controls["width"].setValue(newSettings.width);
-    component.form.controls["height"].setValue(newSettings.height);
-    component.form.controls["totalMines"].setValue(newSettings.totalMines);
+    component.form.controls["width"].setValue(mockSettings.width);
+    component.form.controls["height"].setValue(mockSettings.height);
+    component.form.controls["totalMines"].setValue(mockSettings.totalMines);
 
     component.saveForm();
 
     expect(store.dispatch).toHaveBeenCalledWith(
       fromSettingsActions.setSettings({ settings: newSettings }),
     );
+  });
+
+  it("should dispatch the correct setSettings for each level", () => {
+    jest.spyOn(store, "dispatch");
+    Object.values(Level).forEach((level) => {
+      if (typeof level === "number") {
+        component.startPreMadeLevel(level);
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          fromSettingsActions.setSettings({
+            settings: predefinedLevels[level],
+          }),
+        );
+      }
+    });
   });
 });
