@@ -1,13 +1,6 @@
 import { createAction, props } from "@ngrx/store";
-import { Level } from "../models/level.model";
 import { Cell } from "../models/cell.model";
-import { Settings } from "../models/settings.model";
 import { PlayerBoard } from "../models/playerBoard.model";
-
-export const setGameLevel = createAction(
-  "[Settings] set game level",
-  props<{ level: Level }>(),
-);
 
 export const startGame = createAction("[Game] start game");
 
@@ -55,11 +48,6 @@ export const wonGame = createAction("[Game] won game");
 export const continueGame = createAction("[Game] continue game");
 
 export const resetGame = createAction("[Game] reset game");
-
-export const setSettings = createAction(
-  "[Settings] set settings",
-  props<{ settings: Settings }>(),
-);
 
 export const loadStateFromFile = createAction(
   "[Save and Load] load state from file",

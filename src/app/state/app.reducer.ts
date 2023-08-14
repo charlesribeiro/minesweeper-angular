@@ -10,12 +10,10 @@ import {
   gameOver,
   createMatrixSuccess,
   setBoardSize,
-  setGameLevel,
   updateCell,
   startGame,
   wonGame,
   continueGame,
-  setSettings,
   resetGame,
   loadStateFromFile,
   useDataFromLoad,
@@ -33,13 +31,6 @@ export const initialAppState: IApp = {
 
 export const reducer = createReducer(
   initialAppState as IApp,
-  on(setGameLevel, (state, { level }) => ({
-    ...state,
-    settings: {
-      ...state.settings,
-      level,
-    },
-  })),
   on(setBoardSize, (state, { width, height }) => ({
     ...state,
     settings: { ...state.settings, width, height },
@@ -130,10 +121,6 @@ export const reducer = createReducer(
       ...state.playerBoard,
       gameStatus: GameStatus.WON,
     },
-  })),
-  on(setSettings, (state, { settings }) => ({
-    ...state,
-    settings,
   })),
 );
 

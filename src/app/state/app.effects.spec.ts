@@ -238,20 +238,6 @@ describe("AppEffects", () => {
   });
 
   describe("setSettingsOrSetSave$", () => {
-    it('should navigate to "game" when setSettings action is dispatched', () => {
-      jest.spyOn(router, "navigate");
-
-      actions$ = hot("-a", {
-        a: fromAppActions.setSettings({
-          settings: mockSettings,
-        }),
-      });
-
-      effects.setSettingsOrSetSave$.subscribe(() => {
-        expect(router.navigate).toHaveBeenCalledWith(["game"]);
-      });
-    });
-
     it('should navigate to "game" when loadStateFromFile action is dispatched', () => {
       jest.spyOn(router, "navigate");
 

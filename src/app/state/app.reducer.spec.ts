@@ -18,16 +18,6 @@ describe("appReducer", () => {
       expect(result).toBe(initialAppState);
     });
   });
-  describe("setGameLevel", () => {
-    it("should set level properly", () => {
-      const action = fromAppActions.setGameLevel({ level: Level.Medium });
-
-      const result = AppReducer(initialAppState, action);
-
-      expect(result.settings.level).toBeTruthy();
-      expect(result.settings.level).toBe(Level.Medium);
-    });
-  });
 
   describe("startGame", () => {
     it("should set game in progress flag", () => {
@@ -144,18 +134,6 @@ describe("appReducer", () => {
 
       expect(result.playerBoard.gameStatus).toBeTruthy();
       expect(result.playerBoard.gameStatus).toBe(GameStatus.WON);
-    });
-  });
-
-  describe("setSettings", () => {
-    it("should set game settings", () => {
-      const settings = mockSettings;
-      const action = fromAppActions.setSettings({ settings });
-
-      const result = AppReducer(initialAppState, action);
-
-      expect(result.settings).toBeTruthy();
-      expect(result.settings).toBe(settings);
     });
   });
 

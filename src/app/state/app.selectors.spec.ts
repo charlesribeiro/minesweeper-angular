@@ -18,24 +18,9 @@ describe("AppSelectors", () => {
       settings: mockSettings,
       playerBoard: { ...initialAppState.playerBoard, flagsLeft: 8 },
     },
+    Settings: mockSettings,
   };
   const getAppState = (state: IAppState): IApp => state.AppState;
-
-  it("should select current settings", () => {
-    const result = fromAppSelectors.selectSettings.projector(
-      getAppState(initialState),
-    );
-
-    expect(result).toEqual(mockSettings);
-  });
-
-  it("should select current game level", () => {
-    const result = fromAppSelectors.selectSettingsLevel.projector(
-      getAppState(initialState),
-    );
-
-    expect(result).toEqual(Level.Easy);
-  });
 
   it("should select current game status", () => {
     const result = fromAppSelectors.selectGameStatus.projector(

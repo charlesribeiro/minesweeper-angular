@@ -8,6 +8,7 @@ import { IApp } from "../state/app.interface";
 import { neighborOffsets } from "../utils/neighbor-offsets";
 import { CellPosition } from "../models/cellPosition.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import * as fromSettingsSelectors from "../../app/features/settings/store/settings.selectors";
 
 @UntilDestroy()
 @Injectable({
@@ -26,17 +27,17 @@ export class ClickHandlerService {
 
   constructor(private readonly store: Store<IApp>) {
     this.store
-      .select(fromAppSelectors.selectSettingsLevel)
+      .select(fromSettingsSelectors.selectSettingsLevel)
       .pipe(untilDestroyed(this))
       .subscribe((level: Level) => (this.level = level));
 
     this.store
-      .select(fromAppSelectors.selectGridHeight)
+      .select(fromSettingsSelectors.selectGridHeight)
       .pipe(untilDestroyed(this))
       .subscribe((height: number) => (this.height = height));
 
     this.store
-      .select(fromAppSelectors.selectGridWidth)
+      .select(fromSettingsSelectors.selectGridWidth)
       .pipe(untilDestroyed(this))
       .subscribe((width: number) => (this.width = width));
 

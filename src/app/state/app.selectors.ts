@@ -5,18 +5,6 @@ import { Cell, MineStatus } from "../models/cell.model";
 
 export const selectFeature = createFeatureSelector<IApp>(userFeatureKey);
 
-export const selectSettings = createSelector(
-  selectFeature,
-  (appState: IApp) => appState.settings,
-);
-export const selectSettingsLevel = createSelector(
-  selectFeature,
-  (appState: IApp) => appState.settings.level,
-);
-export const selectSettingsTotalMines = createSelector(
-  selectFeature,
-  (appState: IApp) => appState.settings.totalMines,
-);
 export const selectPlayerBoard = createSelector(
   selectFeature,
   (appState: IApp) => appState?.playerBoard,
@@ -28,14 +16,6 @@ export const selectPlayerBoardEntities = createSelector(
 export const selectGameStatus = createSelector(
   selectFeature,
   (appState: IApp) => appState?.playerBoard.gameStatus,
-);
-export const selectGridHeight = createSelector(
-  selectFeature,
-  (appState: IApp) => appState.settings.height,
-);
-export const selectGridWidth = createSelector(
-  selectFeature,
-  (appState: IApp) => appState.settings.width,
 );
 export const selectFlagsLeft = createSelector(
   selectFeature,

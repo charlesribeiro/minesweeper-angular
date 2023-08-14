@@ -121,11 +121,10 @@ export class AppEffects {
       }),
     ),
   );
-
   setSettingsOrSetSave$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(fromAppActions.setSettings, fromAppActions.loadStateFromFile),
+        ofType(fromAppActions.loadStateFromFile),
         tap(() => this.router.navigate(["game"])),
       ),
     { dispatch: false },

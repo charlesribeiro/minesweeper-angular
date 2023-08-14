@@ -5,8 +5,8 @@ import { SettingsComponent } from "./settings.component";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { IApp } from "../../../state/app.interface";
-import * as fromAppActions from "../../../state/app.actions";
-import * as fromAppSelectors from "../../../state/app.selectors";
+import * as fromSettingsActions from "../../settings/store/settings.actions";
+import * as fromSettingsSelectors from "../../settings/store/settings.selectors";
 
 import { mockSettings } from "../../../utils/mock-settings";
 import { Settings } from "src/app/models/settings.model";
@@ -30,7 +30,7 @@ describe("SettingsComponent", () => {
     fixture = TestBed.createComponent(SettingsComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-    store.overrideSelector(fromAppSelectors.selectSettings, mockSettings);
+    store.overrideSelector(fromSettingsSelectors.selectSettings, mockSettings);
 
     fixture.detectChanges();
   });
@@ -63,7 +63,7 @@ describe("SettingsComponent", () => {
     component.saveForm();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      fromAppActions.setSettings({ settings: newSettings }),
+      fromSettingsActions.setSettings({ settings: newSettings }),
     );
   });
 });

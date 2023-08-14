@@ -10,4 +10,5 @@ export interface IApp {
 
 export interface IAppState {
   AppState: IApp;
+  Settings: Settings;
 }

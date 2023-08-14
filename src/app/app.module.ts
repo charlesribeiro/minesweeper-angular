@@ -16,6 +16,7 @@ import { TimerService } from "./services/timer.service";
 import { SaveAndLoadComponent } from "./features/save-and-load/components/save-and-load/save-and-load.component";
 import { GameModule } from "./features/game/game.module";
 import { SharedModule } from "./features/shared/shared.module";
+import { SettingsEffects } from "./features/settings/store/settings.effects";
 
 @NgModule({
   declarations: [AppComponent, SettingsComponent, SaveAndLoadComponent],
@@ -24,7 +25,7 @@ import { SharedModule } from "./features/shared/shared.module";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([SettingsEffects, AppEffects]),
     HttpClientModule,
     ReactiveFormsModule,
     GameModule,

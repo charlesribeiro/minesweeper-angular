@@ -1,7 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { Injectable } from "@angular/core";
 import { Cell, MineStatus } from "../models/cell.model";
-import * as fromAppSelectors from "../state/app.selectors";
+import * as fromSettingsSelectors from "../../app/features/settings/store/settings.selectors";
+
 import { Level } from "../models/level.model";
 import { Observable, of } from "rxjs";
 import { IApp } from "../state/app.interface";
@@ -20,19 +20,19 @@ export class CreateLevelService {
 
   constructor(private readonly store: Store<IApp>) {
     this.store
-      .select(fromAppSelectors.selectSettingsLevel)
+      .select(fromSettingsSelectors.selectSettingsLevel)
       .subscribe((level: Level) => (this.level = level));
 
     this.store
-      .select(fromAppSelectors.selectGridHeight)
+      .select(fromSettingsSelectors.selectGridHeight)
       .subscribe((height: number) => (this.height = height));
 
     this.store
-      .select(fromAppSelectors.selectGridWidth)
+      .select(fromSettingsSelectors.selectGridWidth)
       .subscribe((width: number) => (this.width = width));
 
     this.store
-      .select(fromAppSelectors.selectSettingsTotalMines)
+      .select(fromSettingsSelectors.selectSettingsTotalMines)
       .subscribe((totalMines: Level) => (this.totalMines = totalMines));
   }
 

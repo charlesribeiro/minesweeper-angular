@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { IApp } from "../../../state/app.interface";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Observable, filter } from "rxjs";
 import { Settings } from "src/app/models/settings.model";
-import * as fromAppSelectors from "../../../state/app.selectors";
-import * as fromAppActions from "../../../state/app.actions";
+import * as fromSettingsSelectors from "../store/settings.selectors";
+import * as fromSettingsActions from "../store/settings.actions";
 import { Level } from "../../../models/level.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store
-      .select(fromAppSelectors.selectSettings)
+      .select(fromSettingsSelectors.selectSettings)
       .pipe(untilDestroyed(this))
       .subscribe((settings) => this.initForm(settings));
   }
@@ -42,7 +42,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  saveForm(): void {
+  saveForm(): boolean {
     const settings: Settings = {
       level: Level.Easy,
       width: this.form.controls["width"].value,
@@ -50,6 +50,7 @@ export class SettingsComponent implements OnInit {
       totalMines: this.form.controls["totalMines"].value,
     };
 
-    this.store.dispatch(fromAppActions.setSettings({ settings }));
+    this.store.dispatch(fromSettingsActions.setSettings({ settings }));
+    return false;
   }
 }
